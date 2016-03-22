@@ -1,0 +1,18 @@
+﻿<h3>Cloud</h3>
+<p class="Contributor">
+	nBrane, llc <br />
+	<a href="mailto:support@nbrane.com">support@nbrane.com</a><br />
+	<a href=http://www.nbrane.com>http://www.nbrane.com</a><br />
+</p>
+<hr/>
+<div class="License">
+	<h3>About the nBrane: Cloud-UI Project</h3>
+
+	<p class="Owner">
+		<b>Version v0.0.8</b><br /><br />
+	</p>
+	<h4>Bug Fixes</h4>
+	<ul>
+		<li>loading dialog updates</li>
+	</ul>
+</div>

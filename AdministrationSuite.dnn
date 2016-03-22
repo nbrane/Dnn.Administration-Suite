@@ -1,0 +1,64 @@
+﻿<dotnetnuke type="Package" version="5.0">
+  <packages>
+    <package name="nBrane.AdministrationSuite" type="Provider" version="00.00.01">
+      <friendlyName>nBrane: Administration Suite</friendlyName>
+      <description>The AdministrationSuite for DotNetNuke 7 by nBrane!</description>
+      <owner>
+        <name>nBrane, LLC</name>
+        <organization>nBrane, LLC</organization>
+        <url>http://www.nBrane.com/</url>
+        <email>support@nbrane.com</email>
+      </owner>
+      <license src="license.txt" />
+      <releaseNotes src="releasenotes.txt" />
+      <dependencies>
+        <dependency type="CoreVersion">07.04.00</dependency>
+      </dependencies>
+      <components>
+        <component type="Script">
+          <scripts>
+            <basePath>DesktopModules/nBrane/AdministrationSuite</basePath>
+            <script type="Install">
+              <path>Sql</path>
+              <name>00.00.01.sqldataprovider</name>
+              <version>00.00.01</version>
+            </script>
+            <script type="UnInstall">
+              <path>Sql</path>
+              <name>uninstall.sqldataprovider</name>
+              <version>00.00.01</version>
+            </script>
+          </scripts>
+        </component>
+        <component type="Assembly">
+          <assemblies>
+            <assembly>
+              <path>bin</path>
+              <name>nBrane.AdministrationSuite.dll</name>
+			        <version>00.00.01</version>
+            </assembly>
+          </assemblies>
+        </component>
+        <component type="ResourceFile">
+          <resourceFiles>
+            <basePath>DesktopModules/nBrane/AdministrationSuite</basePath>
+            <resourceFile>
+              <name>Resources.zip</name>
+            </resourceFile>
+          </resourceFiles>
+        </component>
+        <component type="File">
+          <files>
+            <basePath>DesktopModules/nBrane/AdministrationSuite</basePath>
+            <file>
+              <name>license.txt</name>
+            </file>
+            <file>
+              <name>releasenotes.txt</name>
+            </file>
+          </files>
+        </component>
+      </components>
+    </package>
+  </packages>
+</dotnetnuke>

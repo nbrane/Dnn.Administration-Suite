@@ -1,0 +1,52 @@
+﻿
+/* add new control panel into Dnn */
+IF NOT EXISTS(SELECT * FROM {databaseOwner}{objectQualifier}ModuleControls WHERE [ControlKey] = 'CONTROLPANEL:nBrane Administration Suite')
+	INSERT INTO {databaseOwner}{objectQualifier}ModuleControls
+			   ([ControlKey],[ControlSrc],[ControlType],[SupportsPartialRendering])
+		 VALUES
+			   ('CONTROLPANEL:nBrane Administration Suite','DesktopModules/nBrane/AdministrationSuite/ControlPanel.ascx',-3,0)
+	GO
+
+/* auto-enable the control panel */
+IF EXISTS(SELECT * FROM {databaseOwner}{objectQualifier}ModuleControls WHERE [ControlKey] = 'CONTROLPANEL:nBrane Administration Suite')
+    UPDATE {databaseOwner}{objectQualifier}HostSettings SET [SettingValue] = 'DesktopModules/nBrane/AdministrationSuite/ControlPanel.ascx' WHERE [SettingName] = 'ControlPanel'
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}{objectQualifier}nBrane_AdminSuite_SearchForUsers') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+    drop procedure {databaseOwner}{objectQualifier}nBrane_AdminSuite_SearchForUsers
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}nBrane_AdminSuite_SearchForUsers
+	-- Add the parameters for the stored procedure here
+	@portalId int, 
+	@SearchTerm nvarchar(128),
+	@PageNum int = 1,
+	@PageSize int = 10
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	WITH UserListCTE AS
+	(
+		select 
+			ROW_NUMBER() OVER(ORDER BY DisplayName, UserId) AS RowNum, 
+			UserID, 
+			DisplayName, FirstName, LastName
+		from {databaseOwner}{objectQualifier}vw_Users
+		where PortalId = @portalId
+		and (DisplayName like COALESCE('%' + @SearchTerm + '%', DisplayName)
+		or FirstName like COALESCE('%' + @SearchTerm + '%', FirstName)
+		or LastName like COALESCE('%' + @SearchTerm + '%', LastName))
+	)
+
+	SELECT UserID, IsNull(DisplayName, FirstName + ' ' + LastName) as [DisplayName], (SELECT MAX(RowNum) FROM UserListCTE) as 'TotalRecords'
+	  FROM UserListCTE
+	 WHERE RowNum BETWEEN (@PageNum - 1) * @PageSize + 1 
+					  AND @PageNum * @PageSize
+ 		Order By DisplayName, UserId
+
+END
+GO

@@ -1,0 +1,43 @@
+﻿<div id="nbr-admin-suite-modules" class="nbr-sub-menu">
+	<ul class="actions">
+		<li data-bind="click: CloseSubMenu">
+			<i class="fa fa-close"></i>
+			<span>Close</span>
+		</li>
+	</ul>
+	<ul class="module-list" data-bind="foreach: Modules">
+		<li data-bind="click: $parent.ShowAddNewModuleDialog, css: {selected: $parent.SelectedModule() === $data}"><span data-bind="text: Name">Loading...</span></li>
+	</ul>
+	<div class="nbr-dialog">
+		<h2>Add a New Module</h2>
+		<ul>
+			<li>
+				<label>Title:</label>
+				<input data-bind="value: ModuleTitle" />
+			</li>
+			<li>
+				<label>Visibility:</label>
+				<input data-bind="value: ModuleVisibility" />
+			</li>
+			<li>
+				<label>Location:</label>
+				<input data-bind="value: ModuleLocation" />
+			</li>
+			<li>
+				<label>Position:</label>
+				<select data-bind="value:ModulePosition">
+					<option value="TOP">Top</option>
+					<option value="ABOVE">Above</option>
+					<option value="BELOW">Below</option>
+					<option value="BOTTOM">Bottom</option>
+				</select>
+			</li>
+			<li>
+				<label>Container:</label>
+				<input data-bind="value: ModuleContainer" />
+			</li>
+		</ul>
+		<button><i class="fa fa-plus"/> Add Module</button>
+	</div>
+</div>
+
