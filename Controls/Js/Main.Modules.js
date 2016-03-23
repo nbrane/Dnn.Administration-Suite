@@ -22,10 +22,20 @@ var nBraneAdminSuiteModulesViewModel = function () {
 				self.ParentNode().ToggleConfirmScreen('Sorry, We ran into a problem.', 'Please try again');
 			}
 		});
+		
+		
+	};
+	self.AddModule = function(module) {
+		console.log(module);
+	};
+	
+	self.CloseDialog = function(module) {
+		$('.nbr-dialog').fadeOut();
 	};
 	
 	self.ShowAddNewModuleDialog = function(module) {
 		self.SelectedModule(module);
+		
 		$('.nbr-dialog').fadeIn();
 	};
 
