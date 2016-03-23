@@ -76,8 +76,20 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="AdministrationSuite.dnn" />
+    <None Include="Data\Sql\00.00.01.sqldataprovider" />
+    <None Include="Data\Sql\uninstall.sqldataprovider" />
     <None Include="packages.config" />
     <Content Include="Controls\Js\Main.js" />
+    <Content Include="Controls\Js\Main.Modules.js" />
+    <Content Include="Controls\Main.Modules.html" />
+    <Content Include="Images\logo.png" />
+    <Content Include="Images\robot_green.png" />
+    <Content Include="Images\robot_loop.gif" />
+    <Content Include="Images\robot_red.png" />
+    <Content Include="Images\robot_yellow.png" />
+    <Content Include="License.txt" />
+    <Content Include="ReleaseNotes.txt" />
     <Content Include="StyleSheet.css" />
   </ItemGroup>
   <ItemGroup>
@@ -95,9 +107,7 @@
     <Content Include="Controls\Main.Users.html" />
     <Content Include="Controls\Main.Pages.html" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data\Sql\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <Extension>zip</Extension>
