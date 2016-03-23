@@ -82,6 +82,31 @@ namespace nBrane.Modules.AdministrationSuite.Components
 
         [HttpGet]
         [DnnPageEditor]
+        public HttpResponseMessage LoadPageDetails(int id)
+        {
+            var apiResponse = new DTO.ApiResponse<DTO.PageDetails>();
+
+            try
+            {
+                var tc = new DotNetNuke.Entities.Tabs.TabController();
+                apiResponse.CustomObject = new DTO.PageDetails(tc.GetTab(id, PortalSettings.PortalId));
+                apiResponse.CustomObject.LoadAllPages();
+
+                apiResponse.Success = true;
+            }
+            catch (Exception err)
+            {
+                apiResponse.Success = false;
+                apiResponse.Message = err.Message;
+
+                Exceptions.LogException(err);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
+        }
+
+        [HttpGet]
+        [DnnPageEditor]
         public HttpResponseMessage ListPages(string parent)
         {
             System.Threading.Thread.Sleep(800);

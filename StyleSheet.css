@@ -131,16 +131,39 @@
 	display:none;
 	position: fixed;
 	top:0;
-	left:299px;
+	left:159px;
 	height:100%;
 	width: 450px;
 	background-color: #1d1d1d;
 	padding-top: 25px;
 	padding-left:5px;
 	text-align:left;
+	opacity: 0.9;
+	color:#000;
 }
 
 .nbr-admin-suite .nbr-dialog label {
 	display:block;
+	color: #fff;
 }
 
+.nbr-admin-suite .nbr-dialog input, .nbr-admin-suite .nbr-dialog select {
+	width: 95%;
+	margin-left: 10px;
+	color: #000;
+}
+
+.nbr-admin-suite .nbr-dialog button {
+	margin-top:20px;
+}
+
+.nbr-admin-suite .nbr-dialog h2 {
+	font-size: 30px;
+	font-family:'Montserrat';
+	color: #fff;
+}
+
+.nbr-admin-suite .nbr-dialog li:hover {
+	background-color:#1d1d1d;
+	cursor: default;
+}

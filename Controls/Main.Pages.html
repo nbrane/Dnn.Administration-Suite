@@ -1,15 +1,59 @@
-﻿<ul id="nbr-admin-suite-pages" class="nbr-sub-menu" data-default="LoadPageSettings">
-    <li>
-        <ul class="actions">
-            <li data-action="AddPage">
-                <i class="fa fa-file"></i>
-                <span>Add</span>
-            </li>
-            <li data-bind="click: CloseSubMenu">
-                <i class="fa fa-close"></i>
-                <span>Close</span>
-            </li>
-        </ul>
-    </li>
-    <li><span>Loading...</span></li>
-</ul>
+﻿<div id="nbr-admin-suite-pages" class="nbr-sub-menu">
+	<ul class="actions">
+		<li data-bind="click: ShowAddNewPageDialog" data-action="AddPage">
+			<i class="fa fa-file"></i>
+			<span>Add</span>
+		</li>
+		<li data-bind="click: CloseSubMenu">
+			<i class="fa fa-close"></i>
+			<span>Close</span>
+		</li>
+	</ul>
+	<ul data-bind="foreach: Pages" data-default="LoadPageSettings">
+		<li data-bind="click: $parent.ShowEditPageDialog, css: {selected: $parent.SelectedPage() === $data}"><span data-bind="text: Name">Loading...</span></li>
+	</ul>
+	
+	<div class="nbr-dialog">
+		<h2 data-bind="visible: SelectedPage() === null">Create a New Page</h2>
+		<h2 data-bind="visible: SelectedPage() !== null">Edit Page</h2>
+		<ul>
+			<li>
+				<label>Page Name:</label>
+				<input data-bind="value: PageName" />
+			</li>
+			<li>
+				<label>Description:</label>
+				<input data-bind="value: PageDescription" />
+			</li>
+			<li>
+				<label>Position:</label>
+				<select data-bind="value:PagePosition" style="width: 25%">
+					<option value=""></option>
+					<option value="1">After</option>
+					<option value="2">Before</option>
+					<option value="3">Child of</option>
+				</select>
+				<select style="width: 50%" data-bind="options:PageList, optionsText: 'Name', optionsValue: 'Value', value: PagePositionTarget"></select>
+			</li>
+			<li data-bind="visible: SelectedPage() === null">
+				<label>Visibility:</label>
+				<select data-bind="value:PageVisibility" style="width: 50%">
+					<option value="0">Same as Page</option>
+					<option value="1">Page Editors Only</option>
+					<option value="2">All Users</option>
+					<option value="3">Administrators</option>
+					<option value="4">Host Accounts</option>
+				</select>
+			</li>
+			<li>
+				<label>Theme:</label>
+				<input data-bind="value: PageTheme" />
+			</li>
+			<li>
+				<label>Container:</label>
+				<input data-bind="value: PageContainer" />
+			</li>
+		</ul>
+		<button data-bind="click: AddPage"><i class="fa fa-plus"/> <span data-bind="visible: SelectedPage() === null">Add Page</span><span data-bind="visible: SelectedPage() !== null">Edit Page</span></button> <button data-bind="click: CloseDialog"><i class="fa fa-close"/> Cancel</button>
+	</div>
+</div>
