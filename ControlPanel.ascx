@@ -1,9 +1,10 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ControlPanel.ascx.cs" Inherits="nBrane.Modules.AdministrationSuite.ControlPanel" %>
 <div id="nbr-admin-suite" class="nbr-admin-suite">
     <ul class="nbr-upper-control-panel">
+        <li><i class="fa fa-sign-in"></i><span>Revert User Impersonation</span></li>
         <li><i class="fa fa-sign-out"></i><span>Logout</span></li>
 
-        <li><span>Switch to Edit</span></li>
+        <li><i class="fa fa-edit"></i><span>Switch to Edit</span></li>
         <li><span>Switch to View</span></li>
         <li><span>Switch to Layout</span></li>
     </ul>

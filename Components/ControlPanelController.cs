@@ -1,6 +1,7 @@
 ﻿using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Web.Api;
 using DotNetNuke.Web.Api.Internal;
+using DotNetNuke.Entities;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -8,6 +9,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using System.Web.Http;
+using DotNetNuke.Common.Utilities;
 
 namespace nBrane.Modules.AdministrationSuite.Components
 {
@@ -82,6 +84,113 @@ namespace nBrane.Modules.AdministrationSuite.Components
 
         [HttpGet]
         [DnnPageEditor]
+        public HttpResponseMessage SetUserMode(string mode)
+        {
+            var apiResponse = new DTO.ApiResponse<bool>();
+            try
+            {
+                switch (mode.ToLower())
+                {
+                    case "edit":
+                    case "layout":
+                        SetUserMode(mode);
+                        break;
+                    default:
+                        SetUserMode("VIEW");
+                        break;
+                }
+            }
+            catch (Exception err)
+            {
+                apiResponse.Success = false;
+                apiResponse.Message = err.Message;
+
+                Exceptions.LogException(err);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
+        }
+
+
+        [HttpPost]
+        [DnnPageEditor]
+        public HttpResponseMessage SavePage(DTO.PageDetails page)
+        {
+            var apiResponse = new DTO.ApiResponse<bool>();
+
+            try
+            {
+                var tc = new DotNetNuke.Entities.Tabs.TabController();
+                var dnnTab = page.Id == -1 ? new DotNetNuke.Entities.Tabs.TabInfo() : tc.GetTab(page.Id, PortalSettings.PortalId);
+
+                if (dnnTab != null)
+                {
+                    dnnTab.TabName = page.Name.Trim();
+                    dnnTab.Title = page.Title.Trim();
+                    dnnTab.Description = page.Description.Trim();
+                    dnnTab.IsVisible = page.Visible;
+                    dnnTab.DisableLink = page.Disabled;
+                    dnnTab.SkinSrc = page.Theme;
+                    dnnTab.ContainerSrc = page.Container;
+
+                    if (page.Id == -1) {
+                        dnnTab.PortalID = PortalSettings.PortalId;
+                        switch (page.PositionMode)
+                        {
+                            case "1":
+                                tc.AddTabAfter(dnnTab, int.Parse(page.Position));
+                                break;
+                            case "2":
+                                tc.AddTabBefore(dnnTab, int.Parse(page.Position));
+                                break;
+                            default:
+                                tc.AddTab(dnnTab);
+                                break;
+                        }
+                    }
+                    else {
+                        tc.UpdateTab(dnnTab);
+                        if (!string.IsNullOrWhiteSpace(page.Position) && !string.IsNullOrWhiteSpace(page.PositionMode))
+                        {
+                            var positionTabID = int.Parse(page.Position);
+                            var positionModeInt = int.Parse(page.PositionMode);
+
+                            var relativeTab = tc.GetTab(positionTabID, PortalSettings.PortalId);
+
+                            // var parentTab = GetParentTab(relativeTab, (PagePositionMode)positionModeInt);
+
+                            if (relativeTab != null)
+                            {
+                                switch (page.PositionMode)
+                                {
+                                    case "1":
+                                        tc.MoveTabAfter(dnnTab, relativeTab.TabID);
+                                        break;
+                                    case "2":
+                                        tc.MoveTabBefore(dnnTab, relativeTab.TabID);
+                                        break;
+                                }
+                            }
+                        }
+                    }
+
+                    apiResponse.Success = true;
+                }
+                
+            }
+            catch (Exception err)
+            {
+                apiResponse.Success = false;
+                apiResponse.Message = err.Message;
+
+                Exceptions.LogException(err);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
+        }
+
+        [HttpGet]
+        [DnnPageEditor]
         public HttpResponseMessage LoadPageDetails(int id)
         {
             var apiResponse = new DTO.ApiResponse<DTO.PageDetails>();
@@ -109,8 +218,6 @@ namespace nBrane.Modules.AdministrationSuite.Components
         [DnnPageEditor]
         public HttpResponseMessage ListPages(string parent)
         {
-            System.Threading.Thread.Sleep(800);
-
             var apiResponse = new DTO.ApiResponse<List<DTO.GenericListItem>>();
 
             try
@@ -203,6 +310,8 @@ namespace nBrane.Modules.AdministrationSuite.Components
 
                 apiResponse.CustomObject = new List<DTO.GenericListItem>();
 
+                apiResponse.CustomObject.Add(new DTO.GenericListItem() { Value = "0", Name = "Anonymous User" });
+
                 foreach (var user in listOfUsers)
                 {
                     apiResponse.CustomObject.Add(new DTO.GenericListItem() { Value = user.UserId.ToString(), Name = user.DisplayName });
@@ -221,5 +330,29 @@ namespace nBrane.Modules.AdministrationSuite.Components
 
             return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
         }
+
+
+        private DotNetNuke.Entities.Tabs.TabInfo GetParentTab(DotNetNuke.Entities.Tabs.TabInfo relativeToTab, DTO.PagePositionMode location)
+        {
+            if (relativeToTab == null)
+            {
+                return null;
+            }
+
+            var tabCtrl = new DotNetNuke.Entities.Tabs.TabController();
+            DotNetNuke.Entities.Tabs.TabInfo parentTab = null;
+
+            if (location == DTO.PagePositionMode.ChildOf)
+            {
+                parentTab = relativeToTab;
+            }
+            else if ((relativeToTab != null) && relativeToTab.ParentId != Null.NullInteger)
+            {
+                parentTab = tabCtrl.GetTab(relativeToTab.ParentId, relativeToTab.PortalID, false);
+            }
+
+            return parentTab;
+        }
+        
     }
 }

@@ -21,6 +21,12 @@ namespace nBrane.Modules.AdministrationSuite.Components.DTO
         public T CustomObject { get; set; }
     }
 
+    public enum PagePositionMode : int
+    {
+        After = 1,
+        Before = 2,
+        ChildOf = 3
+    }
 
     public class GenericListItem
     {
@@ -46,6 +52,7 @@ namespace nBrane.Modules.AdministrationSuite.Components.DTO
             this.Container = dnnTab.ContainerSrc;
             this.Visible = dnnTab.IsVisible;
             this.Disabled = dnnTab.DisableLink;
+            
 
             this.Urls = new List<GenericListItem>();
             foreach (var tabUrl in dnnTab.TabUrls)
@@ -70,6 +77,9 @@ namespace nBrane.Modules.AdministrationSuite.Components.DTO
 
         public List<GenericListItem> AllPages { get; set; }
         public List<GenericListItem> Urls { get; set; }
+
+        public string Position { get; set; }
+        public string PositionMode { get; set; }
 
         public void LoadAllPages()
         {

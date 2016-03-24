@@ -6,13 +6,13 @@
 </p>
 <hr/>
 <div class="License">
-	<h3>About the nBrane: Cloud-UI Project</h3>
+	<h3>About the nBrane: Administration Suite</h3>
 
 	<p class="Owner">
-		<b>Version v0.0.8</b><br /><br />
+		<b>Version v0.0.1</b> - 3/23/2016<br /><br />
 	</p>
-	<h4>Bug Fixes</h4>
+	<h4>Initial Prototype</h4>
 	<ul>
-		<li>loading dialog updates</li>
+		<li>basic module, page and user management functionality</li>
 	</ul>
 </div>
