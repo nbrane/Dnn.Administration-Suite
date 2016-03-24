@@ -1,16 +1,18 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ControlPanel.ascx.cs" Inherits="nBrane.Modules.AdministrationSuite.ControlPanel" %>
 <div id="nbr-admin-suite" class="nbr-admin-suite">
     <ul class="nbr-upper-control-panel">
-        <li><i class="fa fa-sign-in"></i><span>Revert User Impersonation</span></li>
-        <li><i class="fa fa-sign-out"></i><span>Logout</span></li>
-
-        <li><i class="fa fa-edit"></i><span>Switch to Edit</span></li>
-        <li><span>Switch to View</span></li>
-        <li><span>Switch to Layout</span></li>
+        <li><i class="fa fa-sign-in"></i> <span>Revert User Impersonation</span></li>
+        <li data-bind="click:Logoff"><i class="fa fa-sign-out"></i> <span>Logout</span></li>
+<% if (PortalSettings.UserMode.ToString() != "View") { %>
+        <li data-bind="click:SwitchInto" data-action="VIEW"><i class="fa fa-eye"></i> <span>Switch to View</span></li>
+<% } if (PortalSettings.UserMode.ToString() != "Edit") { %>
+        <li data-bind="click:SwitchInto" data-action="EDIT"><i class="fa fa-edit"></i> <span>Switch to Edit</span></li>
+<% } if (PortalSettings.UserMode.ToString() != "LAYOUT") { %>
+        <li data-bind="click:SwitchInto" data-action="LAYOUT"><i class="fa fa-wrench"></i> <span>Switch to Layout</span></li>
+<% } %>
     </ul>
 
     <ul class="nbr-control-panel" data-bind="click:Load">
-        
         <li data-action="Modules">
             <i class="fa fa-image"></i>
             <span>Modules</span>

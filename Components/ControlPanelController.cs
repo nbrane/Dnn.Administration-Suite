@@ -84,6 +84,29 @@ namespace nBrane.Modules.AdministrationSuite.Components
 
         [HttpGet]
         [DnnPageEditor]
+        public HttpResponseMessage Logoff()
+        {
+            var apiResponse = new DTO.ApiResponse<bool>();
+            try
+            {
+                var ps = new DotNetNuke.Security.PortalSecurity();
+                ps.SignOut();
+
+                apiResponse.Success = true;
+            }
+            catch (Exception err)
+            {
+                apiResponse.Success = false;
+                apiResponse.Message = err.Message;
+
+                Exceptions.LogException(err);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
+        }
+
+        [HttpGet]
+        [DnnPageEditor]
         public HttpResponseMessage SetUserMode(string mode)
         {
             var apiResponse = new DTO.ApiResponse<bool>();
@@ -91,12 +114,16 @@ namespace nBrane.Modules.AdministrationSuite.Components
             {
                 switch (mode.ToLower())
                 {
+                    case "view":
                     case "edit":
                     case "layout":
-                        SetUserMode(mode);
-                        break;
-                    default:
-                        SetUserMode("VIEW");
+                        var personalizationController = new DotNetNuke.Services.Personalization.PersonalizationController();
+                        var personalization = personalizationController.LoadProfile(UserInfo.UserID, PortalSettings.PortalId);
+                        personalization.Profile["Usability:UserMode" + PortalSettings.PortalId] = mode.ToUpper();
+                        personalization.IsModified = true;
+                        personalizationController.SaveProfile(personalization);
+
+                        apiResponse.Success = true;
                         break;
                 }
             }

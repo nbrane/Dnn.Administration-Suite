@@ -29,6 +29,33 @@
 			}
 		);
     };
+	
+	self.Logoff = function (){
+		self.ToggleLoadingScreen(true);
+		
+		self.ServerCallback('Logoff', null, function (serverData) {
+				location.reload();
+			}, function(xhr, status, thrown){
+				self.ToggleConfirmScreen('Sorry, We ran into a problem.', status + ': ' + thrown);
+			}
+		);
+	};
+	
+	self.SwitchInto = function (){
+		self.ToggleLoadingScreen(true);
+		
+		var listItem = event.target;
+        if (listItem.nodeName != "li" && listItem.nodeName != "LI") {
+            listItem = event.target.parentNode;
+        }
+
+		self.ServerCallback('SetUserMode', 'mode=' + $(listItem).data('action'), function (serverData) {
+				location.reload();
+			}, function(xhr, status, thrown){
+				self.ToggleConfirmScreen('Sorry, We ran into a problem.', status + ': ' + thrown);
+			}
+		);
+	};
 
     self.CloseSubMenu = function () {
         $('.nbr-sub-menu').remove();
