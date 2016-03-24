@@ -11,7 +11,7 @@
 	padding: 0;
 }
 
-.nbr-admin-suite .nbr-upper-control-panel li, .nbr-admin-suite ul ul.actions li {
+.nbr-admin-suite .nbr-upper-control-panel li, .nbr-admin-suite ul.actions li {
 	display: inline;
 }
 
@@ -75,7 +75,25 @@
     height: 25px;
     width: 100%;
     z-index: 1000;
+	text-align:right;
 }
+
+.nbr-admin-suite .nbr-upper-control-panel li {
+	padding:3px;
+	font-family:'Montserrat';
+	margin-left: 20px;
+}
+
+.nbr-admin-suite .nbr-upper-control-panel li:hover {
+	background-color: #F4754A;
+	cursor:pointer;
+}
+
+.nbr-admin-suite .nbr-upper-control-panel li span {
+	font-family:'Montserrat';
+	line-height: 25px
+}
+
 
 .nbr-admin-suite .nbr-sub-menu {
     position: fixed;

@@ -1,15 +1,41 @@
-﻿<ul id="nbr-admin-suite-users" class="nbr-sub-menu">
-    <li>
-        <ul class="actions">
-			<li data-action="AddUser">
-                <i class="fa fa-user"></i>
-                <span>Add</span>
-            </li>
-            <li data-bind="click: CloseSubMenu">
-                <i class="fa fa-close"></i>
-                <span>Close</span>
-            </li>
-        </ul>
-    </li>
-    <li><span>Loading...</span></li>
-</ul>
+﻿<div id="nbr-admin-suite-users" class="nbr-sub-menu">
+	<ul class="actions">
+		<li data-bind="click: ShowAddNewUserDialog">
+			<i class="fa fa-user"></i>
+			<span>Add</span>
+		</li>
+		<li data-bind="click: CloseSubMenu">
+			<i class="fa fa-close"></i>
+			<span>Close</span>
+		</li>
+	</ul>
+	<ul data-bind="foreach: Users">
+		<li data-bind="click: $parent.ShowUserDetailsDialog, css: {selected: $parent.SelectedUser() === $data}"><span data-bind="text: Name">Loading...</span></li>
+	</ul>
+	
+	<div class="nbr-dialog">
+		<h2 data-bind="visible: SelectedUser() === null">Create a New User</h2>
+		<h2 data-bind="visible: SelectedUser() !== null">Edit User</h2>
+		<ul>
+			<li>
+				<label>User Name:</label>
+				<input data-bind="value: UserName" />
+			</li>
+			<li>
+				<label>Display Name:</label>
+				<input data-bind="value: DisplayName" />
+			</li>
+			
+			<li>
+				<label>Email Address:</label>
+				<input data-bind="value: EmailAddress" />
+			</li>
+			<li>
+				<label>Password:</label>
+				<input data-bind="value: Password" />
+			</li>
+		</ul>
+		<button data-bind="click: AddUser"><i class="fa fa-plus"/> <span data-bind="visible: SelectedUser() === null">Add User</span><span data-bind="visible: SelectedUser() !== null">Edit User</span></button> <button data-bind="click: CloseDialog"><i class="fa fa-close"/> Cancel</button>
+	</div>
+</div>
+

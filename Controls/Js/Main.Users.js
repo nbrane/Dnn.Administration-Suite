@@ -1,17 +1,21 @@
 ﻿
 var nBraneAdminSuiteUsersViewModel = function () {
     var self = this;
-
+	self.Users = ko.observableArray();
+	self.SelectedUser = ko.observable();
+	
+	self.UserName = ko.observable('');
+	self.DisplayName = ko.observable('');
+	self.EmailAddress = ko.observable('');
+	self.Password = ko.observable('');
+	
 	self.LoadInitialView = function() {
 		self.ParentNode().ToggleLoadingScreen(true);
 		
 		self.ParentNode().ServerCallback('ListUsers', 'filter=', function(serverData) {
 			if (serverData.Success){
-				$('#nbr-admin-suite-users > li:not(:first)').remove();
-		
-				for (i = 0; i < serverData.CustomObject.length; i++) { 
-					$('#nbr-admin-suite-users').append('<li data-id="' + serverData.CustomObject[i].Value + '"><span>' + serverData.CustomObject[i].Name + '</span></li>');
-				}
+				self.Users(serverData.CustomObject);
+
 				self.ParentNode().ToggleLoadingScreen(false);
 			}
 			else{
@@ -20,6 +24,27 @@ var nBraneAdminSuiteUsersViewModel = function () {
 		});
 	};
 
+	self.ShowUserDetailsDialog = function(user){
+		self.SelectedUser(user);
+		self.DisplayName(user.Name);
+		$('.nbr-dialog').fadeIn();
+	};
+	
+	self.ShowAddNewUserDialog = function() {
+		self.SelectedUser(null);
+		
+		$('.nbr-dialog').fadeIn();
+	};
+	
+	self.AddUser = function(){
+		
+	};
+	
+	self.CloseDialog = function(module) {
+		$('.nbr-dialog').fadeOut();
+	};
+
+	
     self.CloseSubMenu = function () {
         self.ParentNode().CloseSubMenu();
     };
