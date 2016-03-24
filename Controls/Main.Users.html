@@ -13,6 +13,15 @@
 		<li data-bind="click: $parent.ShowUserDetailsDialog, css: {selected: $parent.SelectedUser() === $data}"><span data-bind="text: Name">Loading...</span></li>
 	</ul>
 	
+	<div class="default-action">
+		<span>Default Action:</span>
+		<ul class="actions">
+			<li data-bind="click: CloseSubMenu" class="selected"><i class="fa fa-edit"></i> <span>Edit</span></li>
+			<li data-bind="click: CloseSubMenu"><i class="fa fa-sign-in"></i> <span>Login</span></li>
+			<li data-bind="click: CloseSubMenu"><i class="fa fa-trash"></i> <span>Delete</span></li>
+		</ul>
+	</div>
+	
 	<div class="nbr-dialog">
 		<h2 data-bind="visible: SelectedUser() === null">Create a New User</h2>
 		<h2 data-bind="visible: SelectedUser() !== null">Edit User</h2>
