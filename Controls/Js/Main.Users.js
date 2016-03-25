@@ -3,6 +3,7 @@ var nBraneAdminSuiteUsersViewModel = function () {
     var self = this;
 	self.Users = ko.observableArray();
 	self.SelectedUser = ko.observable();
+	self.DefaultAction = ko.observable('edit');
 	
 	self.UserName = ko.observable('');
 	self.DisplayName = ko.observable('');
@@ -38,6 +39,14 @@ var nBraneAdminSuiteUsersViewModel = function () {
 	
 	self.AddUser = function(){
 		
+	};
+	
+	self.SetDefaultAction = function(){
+		var listItem = event.target;
+        if (listItem.nodeName != "li" && listItem.nodeName != "LI") {
+            listItem = event.target.parentNode;
+        }
+		self.DefaultAction($(listItem).data('action'));
 	};
 	
 	self.CloseDialog = function(module) {

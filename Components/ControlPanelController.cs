@@ -147,18 +147,46 @@ namespace nBrane.Modules.AdministrationSuite.Components
 
             try
             {
+                //Validation:
+                //Tab name is required
+                //Tab name is invalid
+                string invalidType;
+                if (!DotNetNuke.Entities.Tabs.TabController.IsValidTabName(page.Name, out invalidType))
+                {
+                    switch (invalidType)
+                    {
+                        case "EmptyTabName":
+                            apiResponse.Message = "Page name is required.";
+                            break;
+                        case "InvalidTabName":
+                            apiResponse.Message = "Page name is invalid.";
+                            break;
+                    }
+
+                    return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
+                }
+
                 var tc = new DotNetNuke.Entities.Tabs.TabController();
                 var dnnTab = page.Id == -1 ? new DotNetNuke.Entities.Tabs.TabInfo() : tc.GetTab(page.Id, PortalSettings.PortalId);
 
                 if (dnnTab != null)
                 {
                     dnnTab.TabName = page.Name.Trim();
-                    dnnTab.Title = page.Title.Trim();
-                    dnnTab.Description = page.Description.Trim();
+
+                    if (!string.IsNullOrWhiteSpace(page.Title))
+                        dnnTab.Title = page.Title.Trim();
+
+                    if (!string.IsNullOrWhiteSpace(page.Description))
+                        dnnTab.Description = page.Description.Trim();
+
                     dnnTab.IsVisible = page.Visible;
                     dnnTab.DisableLink = page.Disabled;
-                    dnnTab.SkinSrc = page.Theme;
-                    dnnTab.ContainerSrc = page.Container;
+
+                    if (!string.IsNullOrWhiteSpace(page.Theme))
+                        dnnTab.SkinSrc = page.Theme;
+
+                    if (!string.IsNullOrWhiteSpace(page.Container))
+                        dnnTab.ContainerSrc = page.Container;
 
                     if (page.Id == -1) {
                         dnnTab.PortalID = PortalSettings.PortalId;

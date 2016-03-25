@@ -10,9 +10,9 @@
 	<div class="default-action">
 		<span>Default Action:</span>
 		<ul class="actions">
-			<li data-bind="click: CloseSubMenu"><i class="fa fa-eye"></i> <span>View</span></li>
-			<li data-bind="click: CloseSubMenu" class="selected"><i class="fa fa-edit"></i> <span>Edit</span></li>
-			<li data-bind="click: CloseSubMenu"><i class="fa fa-trash"></i> <span>Delete</span></li>
+			<li data-bind="click: SetDefaultAction, css: {selected: DefaultAction() == 'view'}" data-action="view" ><i class="fa fa-eye"></i> <span>View</span></li>
+			<li data-bind="click: SetDefaultAction, css: {selected: DefaultAction() == 'edit'}" data-action="edit" ><i class="fa fa-edit"></i> <span>Edit</span></li>
+			<li data-bind="click: SetDefaultAction, css: {selected: DefaultAction() == 'layout'}" data-action="layout" ><i class="fa fa-trash"></i> <span>Delete</span></li>
 		</ul>
 	</div>
 	<div class="nbr-dialog">
@@ -22,6 +22,18 @@
 			<li>
 				<label>Page Name:</label>
 				<input data-bind="value: PageName" />
+			</li>
+			<li>
+				<label>Description:</label>
+				<input data-bind="value: PageDescription" />
+			</li>
+			<li>
+				<label>Visible:</label>
+				<input type="checkbox" data-bind="checked: PageVisible" />
+			</li>
+			<li>
+				<label>Disabled:</label>
+				<input type="checkbox" data-bind="checked: PageDisabled" />
 			</li>
 			<li>
 				<label>Description:</label>
