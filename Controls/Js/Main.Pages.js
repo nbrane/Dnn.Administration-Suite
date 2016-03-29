@@ -115,13 +115,16 @@ var nBraneAdminSuitePagesViewModel = function () {
 		pageObject.Description = self.PageDescription();
 		pageObject.Visible = self.PageVisible();
 		pageObject.Disabled = self.PageDisabled();
-		
+		pageObject.Position = self.PagePositionTarget();
+		pageObject.PositionMode = self.PagePosition();
 		
 		self.ParentNode().ServerCallback('SavePage', JSON.stringify(pageObject), function(serverData) {
 			if (serverData.Success){
 
 				self.ParentNode().ToggleLoadingScreen(false);
-				$('.nbr-dialog').fadeIn();
+				$('.nbr-dialog').fadeOut();
+				
+				self.LoadInitialView();
 			}
 			else{
 				self.ParentNode().ToggleConfirmScreen('Sorry, We ran into a problem.', 'Please try again');
