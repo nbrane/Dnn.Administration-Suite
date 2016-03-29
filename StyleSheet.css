@@ -186,4 +186,13 @@
 	cursor: default;
 }
 
-.nbr-admin-suite .default-action {position: fixed;bottom:0;)
+.nbr-admin-suite .default-action {position: fixed;bottom:0;}
+
+
+.nbr-admin-suite .nbr-dialog li.single-line label {
+	display:inline;
+}
+
+.nbr-admin-suite .nbr-dialog li.single-line input, .nbr-admin-suite .nbr-dialog li.single-line select {
+	width:auto;
+}

@@ -11,19 +11,18 @@
         <li data-bind="click:SwitchInto" data-action="LAYOUT"><i class="fa fa-wrench"></i> <span>Switch to Layout</span></li>
 <% } %>
     </ul>
+	
+	<script type="text/javascript">
+	   var controlPanelTabId = <%= PortalSettings.Current.ActiveTab.TabID %>;
+	   var controlPanelPanes = <%= PortalSettings.Current.ActiveTab.Panes.ToJson() %>;
+	</script>
 
     <ul class="nbr-control-panel" data-bind="click:Load">
-        <li data-action="Modules">
-            <i class="fa fa-image"></i>
-            <span>Modules</span>
-        </li>
-        <li data-action="Pages">
-            <i class="fa fa-file-text"></i>
-            <span>Pages</span>
-        </li>
+        <li data-action="Modules"><i class="fa fa-image"></i> <span>Modules</span></li>
+        <li data-action="Pages" data-subaction="all"><i class="fa fa-file-text"></i> <span>Pages</span></li>
         <li data-action="Users"><i class="fa fa-users"></i><span>Users</span></li>
-        <li data-action="Site"><i class="fa fa-cog"></i><span>Site</span></li>
-        <li data-action="Host"><i class="fa fa-fort-awesome"></i><span>Host</span></li>
+        <li data-action="Pages" data-subaction="admin"><i class="fa fa-cog"></i><span>Site</span></li>
+        <li data-action="Pages" data-subaction="host"><i class="fa fa-fort-awesome"></i><span>Host</span></li>
     </ul>
 
     <div class="nbr-admin-suite-loading">

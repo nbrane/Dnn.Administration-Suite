@@ -10,6 +10,7 @@ using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using System.Web.Http;
 using DotNetNuke.Common.Utilities;
+using System.Linq;
 
 namespace nBrane.Modules.AdministrationSuite.Components
 {
@@ -255,6 +256,7 @@ namespace nBrane.Modules.AdministrationSuite.Components
                 var tc = new DotNetNuke.Entities.Tabs.TabController();
                 apiResponse.CustomObject = new DTO.PageDetails(tc.GetTab(id, PortalSettings.PortalId));
                 apiResponse.CustomObject.LoadAllPages();
+                apiResponse.CustomObject.LoadThemesAndContainers();
 
                 apiResponse.Success = true;
             }
@@ -273,7 +275,7 @@ namespace nBrane.Modules.AdministrationSuite.Components
         [DnnPageEditor]
         public HttpResponseMessage ListPages(string parent)
         {
-            var apiResponse = new DTO.ApiResponse<List<DTO.GenericListItem>>();
+            var apiResponse = new DTO.ApiResponse<List<DTO.GenericListImageItem>>();
 
             try
             {
@@ -299,11 +301,21 @@ namespace nBrane.Modules.AdministrationSuite.Components
                 if (pageId > -2)
                 {
                     var listOfPages = DotNetNuke.Entities.Tabs.TabController.GetTabsByParent(pageId, portalId);
-                    apiResponse.CustomObject = new List<DTO.GenericListItem>();
+                    apiResponse.CustomObject = new List<DTO.GenericListImageItem>();
 
-                    foreach (var page in listOfPages)
+                    foreach (var page in listOfPages.OrderBy(i => i.TabOrder))
                     {
-                        apiResponse.CustomObject.Add(new DTO.GenericListItem() { Value = page.TabID.ToString(), Name = page.TabName });
+                        var newItem = new DTO.GenericListImageItem() { Value = page.TabID.ToString(), Name = page.TabName };
+
+                        if (string.IsNullOrWhiteSpace(page.IconFileLarge) == false)
+                        {
+                            newItem.Image = System.Web.VirtualPathUtility.ToAbsolute(page.IconFileLarge);
+                        } else
+                        {
+                            newItem.Image = string.Empty;
+                        }
+
+                        apiResponse.CustomObject.Add(newItem);
                     }
 
                     apiResponse.Success = true;
@@ -326,18 +338,25 @@ namespace nBrane.Modules.AdministrationSuite.Components
         [DnnPageEditor]
         public HttpResponseMessage ListModules(string category)
         {
-            var apiResponse = new DTO.ApiResponse<List<DTO.GenericListItem>>();
+            var apiResponse = new DTO.ApiModuleResponse();
 
             try
             {
-                var listOfModules = DotNetNuke.Entities.Modules.DesktopModuleController.GetPortalDesktopModules(PortalSettings.PortalId).Values;
+                var listOfModules = DotNetNuke.Entities.Modules.DesktopModuleController.GetPortalDesktopModules(DotNetNuke.Entities.Portals.PortalSettings.Current.PortalId).Values;
 
-                apiResponse.CustomObject = new List<DTO.GenericListItem>();
+                apiResponse.Modules = new List<DTO.GenericListItem>();
 
                 foreach (var module in listOfModules)
                 {
-                    apiResponse.CustomObject.Add(new DTO.GenericListItem() { Value = module.DesktopModuleID.ToString(), Name = module.FriendlyName });
+                    apiResponse.Modules.Add(new DTO.GenericListItem() { Value = module.DesktopModuleID.ToString(), Name = module.FriendlyName });
                 }
+
+                apiResponse.Panes = new List<DTO.GenericListItem>();
+
+                apiResponse.DefaultModuleLocation = DotNetNuke.Common.Globals.glbDefaultPane;
+
+                apiResponse.Containers = ListContainers("host", "containers");
+
                 apiResponse.Success = true;
 
                 return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
@@ -409,5 +428,148 @@ namespace nBrane.Modules.AdministrationSuite.Components
             return parentTab;
         }
         
+        internal static List<DTO.GenericSelectableListItem> ListContainers(string HostOrSite, string SkinOrContainer)
+        {
+            var apiResponse = new List<DTO.GenericSelectableListItem>();
+
+            try
+            {
+                string strRoot = string.Empty;
+                string strFolder = null;
+                string[] arrFolders = null;
+                string strFile = null;
+                string[] arrFiles = null;
+                string strLastFolder = string.Empty;
+                string strSeparator = "----------------------------------------";
+
+                string dbPrefix = string.Empty;
+                string currentSetting = string.Empty;
+
+                switch (HostOrSite.ToLower())
+                {
+                    case "host":
+                        if (SkinOrContainer.ToLower() == "skin")
+                        {
+                            strRoot = DotNetNuke.Common.Globals.HostMapPath + DotNetNuke.UI.Skins.SkinController.RootSkin;
+                            dbPrefix = "[G]" + DotNetNuke.UI.Skins.SkinController.RootSkin;
+                        }
+                        else {
+                            strRoot = DotNetNuke.Common.Globals.HostMapPath + DotNetNuke.UI.Skins.SkinController.RootContainer;
+                            dbPrefix = "[G]" + DotNetNuke.UI.Skins.SkinController.RootContainer;
+                        }
+                        break;
+                    case "site":
+                        if (SkinOrContainer.ToLower() == "skin")
+                        {
+                            strRoot = DotNetNuke.Entities.Portals.PortalSettings.Current.HomeDirectoryMapPath + DotNetNuke.UI.Skins.SkinController.RootSkin;
+                            dbPrefix = "[L]" + DotNetNuke.UI.Skins.SkinController.RootSkin;
+                        }
+                        else {
+                            strRoot = DotNetNuke.Entities.Portals.PortalSettings.Current.HomeDirectoryMapPath + DotNetNuke.UI.Skins.SkinController.RootContainer;
+                            dbPrefix = "[L]" + DotNetNuke.UI.Skins.SkinController.RootContainer;
+                        }
+                        break;
+                }
+
+                if (SkinOrContainer.ToLower() == "skin")
+                {
+                    var currentDefault = DotNetNuke.Entities.Portals.PortalSettings.Current.ActiveTab.SkinSrc;
+                    if (string.IsNullOrWhiteSpace(currentDefault))
+                    {
+                        currentDefault = DotNetNuke.Entities.Portals.PortalSettings.Current.DefaultPortalSkin;
+                    }
+
+                    currentSetting = GetFriendySkinName(currentDefault);
+                }
+                else {
+                    var currentDefault = DotNetNuke.Entities.Portals.PortalSettings.Current.ActiveTab.ContainerSrc;
+                    if (string.IsNullOrWhiteSpace(currentDefault))
+                    {
+                        currentDefault = DotNetNuke.Entities.Portals.PortalSettings.Current.DefaultPortalContainer;
+                    }
+
+                    currentSetting = GetFriendySkinName(currentDefault);
+                }
+
+                if (string.IsNullOrEmpty(strRoot) == false && System.IO.Directory.Exists(strRoot))
+                {
+                    apiResponse = new List<DTO.GenericSelectableListItem>();
+                    arrFolders = System.IO.Directory.GetDirectories(strRoot);
+                    foreach (string strFolder_loopVariable in arrFolders)
+                    {
+                        strFolder = strFolder_loopVariable;
+                        arrFiles = System.IO.Directory.GetFiles(strFolder, "*.ascx");
+                        foreach (string strFile_loopVariable in arrFiles)
+                        {
+                            strFile = strFile_loopVariable;
+                            strFolder = strFolder.Substring(strFolder.LastIndexOf("\\") + 1);
+
+                            //if (strLastFolder != strFolder)
+                            //{
+                            //    if (string.IsNullOrEmpty(strLastFolder) == false)
+                            //    {
+                            //        apiResponse.Add(new DTO.GenericSelectableListItem(strSeparator, "", false));
+                            //    }
+                            //    strLastFolder = strFolder;
+                            //}
+                            string skinName = FormatSkinName(strFolder, System.IO.Path.GetFileNameWithoutExtension(strFile)).Replace("_", " ");
+                            bool isSelected = (bool)(skinName == currentSetting ? true : false);
+
+                            apiResponse.Add(new DTO.GenericSelectableListItem(skinName, dbPrefix + "/" + strFolder + "/" + System.IO.Path.GetFileName(strFile), isSelected));
+                        }
+                    }
+                }
+
+
+                if (apiResponse.Count > 0)
+                {
+                    apiResponse.Insert(0, new DTO.GenericSelectableListItem(strSeparator, "", false));
+                    apiResponse.Insert(0, new DTO.GenericSelectableListItem("Default - " + currentSetting, "-1", false));
+                }
+                else {
+                    apiResponse.Insert(0, new DTO.GenericSelectableListItem("ContainerNoneAvailable", "-1", false));
+                }
+            }
+            catch (Exception err)
+            {
+                Exceptions.LogException(err);
+            }
+
+            return apiResponse;
+        }
+
+        internal static string GetFriendySkinName(string param)
+        {
+            if (!string.IsNullOrWhiteSpace(param))
+            {
+                param = DotNetNuke.UI.Skins.SkinController.FormatSkinSrc(param, DotNetNuke.Entities.Portals.PortalSettings.Current);
+
+                return System.IO.Path.GetDirectoryName(param).Split(System.IO.Path.DirectorySeparatorChar).Last() + " - " + System.IO.Path.GetFileNameWithoutExtension(param).Replace("_", " ");
+            }
+
+            return null;
+        }
+
+        private static string FormatSkinName(string strSkinFolder, string strSkinFile)
+        {
+            if (strSkinFolder.ToLower() == "_default")
+            {
+                // host folder
+                return strSkinFile;
+                // portal folder
+            }
+            else {
+                switch (strSkinFile.ToLower())
+                {
+                    case "skin":
+                    case "container":
+                    case "default":
+                        return strSkinFolder;
+                    default:
+                        return strSkinFolder + " - " + strSkinFile;
+                }
+            }
+        }
+
     }
 }

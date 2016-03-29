@@ -17,24 +17,25 @@
 			</li>
 			<li>
 				<label>Visibility:</label>
-				<input data-bind="value: ModuleVisibility" />
-			</li>
-			<li>
-				<label>Location:</label>
-				<input data-bind="value: ModuleLocation" />
-			</li>
-			<li>
-				<label>Position:</label>
-				<select data-bind="value:ModulePosition">
-					<option value="TOP">Top</option>
-					<option value="ABOVE">Above</option>
-					<option value="BELOW">Below</option>
-					<option value="BOTTOM">Bottom</option>
+				<select data-bind="value:ModuleVisibility">
+					<option value="0">Same as Page</option>
+					<option value="1">Page Editors Only</option>
+					<option value="2">All Users</option>
+					<option value="3">Administrators</option>
+					<option value="4">Host Accounts</option>
 				</select>
 			</li>
 			<li>
+				<label>Position / Location:</label>
+				<select style="width: 45%" data-bind="value:ModulePosition">
+					<option value="TOP">Top</option>
+					<option value="BOTTOM">Bottom</option>
+				</select>
+				<select style="width: 46%" data-bind="options:Panes, value: ModuleLocation"></select>
+			</li>
+			<li>
 				<label>Container:</label>
-				<input data-bind="value: ModuleContainer" />
+				<select data-bind="options:Containers, optionsText: 'Name', optionsValue: 'Value', value: ModuleContainer"></select>
 			</li>
 		</ul>
 		<button data-bind="click: AddModule"><i class="fa fa-plus"/> Add Module</button> <button data-bind="click: CloseDialog"><i class="fa fa-close"/> Cancel</button>

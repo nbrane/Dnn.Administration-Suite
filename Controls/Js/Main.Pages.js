@@ -18,11 +18,20 @@ var nBraneAdminSuitePagesViewModel = function () {
 	self.PageContainer = ko.observable('');
 	self.PageUrls = ko.observableArray();
 	self.PageList = ko.observableArray();
-	
+	self.ThemeList = ko.observableArray();
+	self.ContainerList = ko.observableArray();
+	self.ShowManagementLinks =  ko.observable(false);
+
 	self.LoadInitialView = function() {
 		self.ParentNode().ToggleLoadingScreen(true);
+
+		if (self.ParentNode().CurrentSubaction() == 'all') {
+			self.ShowManagementLinks(true);
+		} else {
+			self.DefaultAction('view');
+		}
 		
-		self.ParentNode().ServerCallback('ListPages', 'parent=all', function(serverData) {
+		self.ParentNode().ServerCallback('ListPages', 'parent=' + self.ParentNode().CurrentSubaction(), function(serverData) {
 			if (serverData.Success){
 				self.Pages(serverData.CustomObject);
 
@@ -37,6 +46,7 @@ var nBraneAdminSuitePagesViewModel = function () {
 	self.ShowEditPageDialog = function(page) {
 		self.SelectedPage(page);
 		self.ParentNode().ToggleLoadingScreen(true);
+
 		self.ParentNode().ServerCallback('LoadPageDetails', 'id=' + page.Value, function(serverData) {
 			if (serverData.Success){
 				self.PageId(serverData.CustomObject.Id);
@@ -49,9 +59,16 @@ var nBraneAdminSuitePagesViewModel = function () {
 				
 				self.PageUrls(serverData.CustomObject.Urls);
 				self.PageList(serverData.CustomObject.AllPages);
+				self.ThemeList(serverData.CustomObject.Themes);
+				self.ContainerList(serverData.CustomObject.Containers);
 
-				self.ParentNode().ToggleLoadingScreen(false);
-				$('.nbr-dialog').fadeIn();
+				if (self.DefaultAction() == 'edit') {
+					self.ParentNode().ToggleLoadingScreen(false);
+					$('.nbr-dialog').fadeIn();
+				}
+				else if (self.DefaultAction() == 'view'){
+					location.href = serverData.CustomObject.Urls[0].Value;
+				}
 			}
 			else{
 				self.ParentNode().ToggleConfirmScreen('Sorry, We ran into a problem.', 'Please try again');
@@ -61,7 +78,31 @@ var nBraneAdminSuitePagesViewModel = function () {
 	
 	self.ShowAddNewPageDialog = function() {
 		self.SelectedPage(null);
+		self.ParentNode().ToggleLoadingScreen(true);
 		
+		self.ParentNode().ServerCallback('LoadPageDetails', 'id=-1', function(serverData) {
+			if (serverData.Success){
+				self.PageId(serverData.CustomObject.Id);
+				self.PageName('');
+				self.PageDescription('');
+				self.PageVisible(true);
+				self.PageDisabled(false);
+				self.PageTheme();
+				self.PageContainer();
+				
+				self.PageUrls(null);
+				self.PageList(serverData.CustomObject.AllPages);
+				self.ThemeList(serverData.CustomObject.Themes);
+				self.ContainerList(serverData.CustomObject.Containers);
+
+				self.ParentNode().ToggleLoadingScreen(false);
+				$('.nbr-dialog').fadeIn();
+			}
+			else{
+				self.ParentNode().ToggleConfirmScreen('Sorry, We ran into a problem.', 'Please try again');
+			}
+		});
+
 		$('.nbr-dialog').fadeIn();
 	};
 	
@@ -107,7 +148,7 @@ var nBraneAdminSuitePagesViewModel = function () {
 	self.ParentNode = function() {
 		return ko.contextFor(nBraneAdminSuiteNode).$data;
 	};
-	
+
 	self.LoadInitialView();
 };
 

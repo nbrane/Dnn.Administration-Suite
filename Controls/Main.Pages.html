@@ -1,18 +1,22 @@
 ﻿<div id="nbr-admin-suite-pages" class="nbr-sub-menu">
 	<ul class="actions">
-		<li data-bind="click: ShowAddNewPageDialog" data-action="AddPage"><i class="fa fa-file"></i> <span>Add</span></li>
+		<li data-bind="click: ShowAddNewPageDialog, visible: ShowManagementLinks" data-action="AddPage"><i class="fa fa-file"></i> <span>Add</span></li>
 		<li data-bind="click: CloseSubMenu"><i class="fa fa-close"></i> <span>Close</span></li>
 	</ul>
 	<ul data-bind="foreach: Pages" data-default="LoadPageSettings">
-		<li data-bind="click: $parent.ShowEditPageDialog, css: {selected: $parent.SelectedPage() === $data}"><span data-bind="text: Name">Loading...</span></li>
+		<li data-bind="click: $parent.ShowEditPageDialog, css: {selected: $parent.SelectedPage() === $data}">
+			<img data-bind="visible: Image.length > 0, attr:{src: Image}"/>
+			<span data-bind="text: Name">Loading...</span>
+		</li>
 	</ul>
 	
 	<div class="default-action">
+	    
 		<span>Default Action:</span>
 		<ul class="actions">
 			<li data-bind="click: SetDefaultAction, css: {selected: DefaultAction() == 'view'}" data-action="view" ><i class="fa fa-eye"></i> <span>View</span></li>
 			<li data-bind="click: SetDefaultAction, css: {selected: DefaultAction() == 'edit'}" data-action="edit" ><i class="fa fa-edit"></i> <span>Edit</span></li>
-			<li data-bind="click: SetDefaultAction, css: {selected: DefaultAction() == 'layout'}" data-action="layout" ><i class="fa fa-trash"></i> <span>Delete</span></li>
+			<li data-bind="click: SetDefaultAction, visible: ShowManagementLinks, css: {selected: DefaultAction() == 'delete'}" data-action="delete" ><i class="fa fa-trash"></i> <span>Delete</span></li>
 		</ul>
 	</div>
 	<div class="nbr-dialog">
@@ -27,17 +31,13 @@
 				<label>Description:</label>
 				<input data-bind="value: PageDescription" />
 			</li>
-			<li>
+			<li class="single-line">
 				<label>Visible:</label>
 				<input type="checkbox" data-bind="checked: PageVisible" />
 			</li>
-			<li>
+			<li class="single-line">
 				<label>Disabled:</label>
 				<input type="checkbox" data-bind="checked: PageDisabled" />
-			</li>
-			<li>
-				<label>Description:</label>
-				<input data-bind="value: PageDescription" />
 			</li>
 			<li>
 				<label>Position:</label>
@@ -61,11 +61,11 @@
 			</li>
 			<li>
 				<label>Theme:</label>
-				<input data-bind="value: PageTheme" />
+				<select data-bind="options:ThemeList, optionsText: 'Name', optionsValue: 'Value', value: PageTheme"></select>
 			</li>
 			<li>
 				<label>Container:</label>
-				<input data-bind="value: PageContainer" />
+				<select data-bind="options:ContainerList, optionsText: 'Name', optionsValue: 'Value', value: PageContainer"></select>
 			</li>
 		</ul>
 		<button data-bind="click: AddPage"><i class="fa fa-plus"/> <span data-bind="visible: SelectedPage() === null">Add Page</span><span data-bind="visible: SelectedPage() !== null">Edit Page</span></button> <button data-bind="click: CloseDialog"><i class="fa fa-close"/> Cancel</button>

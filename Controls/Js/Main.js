@@ -1,9 +1,11 @@
 ﻿var nBraneAdminSuiteMainViewModel = function () {
     var self = this;
-
+	self.CurrentAction = ko.observable('none');
+	self.CurrentSubaction = ko.observable('none');
+	
     self.Load = function (item, event) {
         self.ToggleLoadingScreen(true);
-
+		
         var listItem = event.target;
         if (listItem.nodeName != "li" && listItem.nodeName != "LI") {
             listItem = event.target.parentNode;
@@ -11,8 +13,10 @@
 
         self.CloseSubMenu();
         $(listItem).addClass('selected');
+		self.CurrentAction($(listItem).data('action'));
+		self.CurrentSubaction($(listItem).data('subaction'));
 
-        self.ServerCallback('load', 'Name=' + $(listItem).data('action'), function (serverData) {
+        self.ServerCallback('load', 'Name=' + self.CurrentAction(), function (serverData) {
 				var decoded = $('<div/>').html(serverData.HTML).text();
 				$('.nbr-admin-suite').append(decoded);
 				
