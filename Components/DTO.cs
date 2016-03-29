@@ -64,7 +64,18 @@ namespace nBrane.Modules.AdministrationSuite.Components.DTO
         public bool Selected { get; set; }
     }
 
-        public class PageDetails
+    public class ModuleDetails
+    {
+        public string Container { get; set; }
+        public string Location { get; set; }
+        public string Position { get; set; }
+        public string Title { get; set; }
+        public int Module { get; set; }
+        public int Visibility { get; set; }
+        public string ModuleInstance { get; internal set; }
+    }
+
+    public class PageDetails
     {
         public PageDetails()
         {

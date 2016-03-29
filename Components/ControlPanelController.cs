@@ -139,6 +139,188 @@ namespace nBrane.Modules.AdministrationSuite.Components
             return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
         }
 
+        [HttpPost]
+        [DnnPageEditor]
+        public HttpResponseMessage SaveModule(DTO.ModuleDetails module)
+        {
+            var apiResponse = new DTO.ApiResponse<int>();
+
+            try
+            {
+                List<int> lstNewModules = new List<int>();
+
+                var objTabPermissions = PortalSettings.ActiveTab.TabPermissions;
+                var objPermissionController = new DotNetNuke.Security.Permissions.PermissionController();
+                var objModules = new DotNetNuke.Entities.Modules.ModuleController();
+
+                var objEventLog = new DotNetNuke.Services.Log.EventLog.EventLogController();
+                int j = 0;
+
+                try
+                {
+                    DotNetNuke.Entities.Modules.DesktopModuleInfo desktopModule = null;
+                    if (!DotNetNuke.Entities.Modules.DesktopModuleController.GetDesktopModules(PortalSettings.PortalId).TryGetValue(module.Module, out desktopModule))
+                    {
+                        apiResponse.Message = "desktopModuleId";
+                        return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //LogException(ex);
+                }
+
+                int UserId = UserInfo.UserID;
+
+                foreach (var objModuleDefinition in DotNetNuke.Entities.Modules.Definitions.ModuleDefinitionController.GetModuleDefinitionsByDesktopModuleID(module.Module).Values)
+                {
+                    var objModule = new DotNetNuke.Entities.Modules.ModuleInfo();
+                    objModule.Initialize(PortalSettings.PortalId);
+
+                    objModule.PortalID = PortalSettings.PortalId;
+                    objModule.TabID = PortalSettings.ActiveTab.TabID;
+
+                    int iPosition = -1;
+                    switch (module.Position.ToUpper())
+                    {
+                        case "TOP":
+                            iPosition = 0;
+                            break;
+                        case "ABOVE":
+                            if (string.IsNullOrEmpty(module.ModuleInstance) == false)
+                            {
+                                iPosition = int.Parse(module.ModuleInstance) - 1;
+                            }
+                            break;
+                        case "BELOW":
+                            if (string.IsNullOrEmpty(module.ModuleInstance) == false)
+                            {
+                                iPosition = int.Parse(module.ModuleInstance) + 1;
+                            }
+                            break;
+                        case "BOTTOM":
+                            iPosition = -1;
+                            break;
+                    }
+
+                    objModule.ModuleOrder = iPosition;
+                    if (string.IsNullOrEmpty(module.Title) == true)
+                    {
+                        objModule.ModuleTitle = objModuleDefinition.FriendlyName;
+                    }
+                    else {
+                        objModule.ModuleTitle = module.Title;
+                    }
+
+                    if (!string.IsNullOrEmpty(module.Container) && module.Container != "-1")
+                    {
+                        objModule.ContainerSrc = module.Container;
+                    }
+
+                    objModule.PaneName = module.Location;
+                    objModule.ModuleDefID = objModuleDefinition.ModuleDefID;
+                    if (objModuleDefinition.DefaultCacheTime > 0)
+                    {
+                        objModule.CacheTime = objModuleDefinition.DefaultCacheTime;
+                        if (PortalSettings.DefaultModuleId > Null.NullInteger && PortalSettings.DefaultTabId > Null.NullInteger)
+                        {
+                            var defaultModule = objModules.GetModule(PortalSettings.DefaultModuleId, PortalSettings.DefaultTabId, true);
+                            if ((defaultModule != null))
+                            {
+                                objModule.CacheTime = defaultModule.CacheTime;
+                            }
+                        }
+                    }
+
+                    switch (module.Visibility)
+                    {
+                        case 0:
+                            objModule.InheritViewPermissions = true;
+                            break;
+                        case 1:
+                            objModule.InheritViewPermissions = false;
+                            break;
+                        case 2:
+                            objModule.InheritViewPermissions = false;
+                            break;
+                        case 3:
+                            objModule.InheritViewPermissions = false;
+                            break;
+                        case 4:
+                            objModule.InheritViewPermissions = false;
+                            break;
+                    }
+
+                    // get the default module view permissions
+                    var arrSystemModuleViewPermissions = objPermissionController.GetPermissionByCodeAndKey("SYSTEM_MODULE_DEFINITION", "VIEW");
+
+                    // get the permissions from the page
+                    foreach (DotNetNuke.Security.Permissions.TabPermissionInfo objTabPermission in objTabPermissions)
+                    {
+                        if (objTabPermission.PermissionKey == "VIEW" && module.Visibility == 0)
+                        {
+                            //Don't need to explicitly add View permisisons if "Same As Page"
+                            continue;
+                        }
+
+                        // get the system module permissions for the permissionkey
+                        var arrSystemModulePermissions = objPermissionController.GetPermissionByCodeAndKey("SYSTEM_MODULE_DEFINITION", objTabPermission.PermissionKey);
+                        // loop through the system module permissions
+                        for (j = 0; j <= arrSystemModulePermissions.Count - 1; j++)
+                        {
+                            // create the module permission
+                            DotNetNuke.Security.Permissions.PermissionInfo objSystemModulePermission = null;
+                            objSystemModulePermission = (DotNetNuke.Security.Permissions.PermissionInfo)arrSystemModulePermissions[j];
+                            if (objSystemModulePermission.PermissionKey == "VIEW" && module.Visibility == 1 && objTabPermission.PermissionKey != "EDIT")
+                            {
+                                //Only Page Editors get View permissions if "Page Editors Only"
+                                continue;
+                            }
+
+                            var objModulePermission = AddModulePermission(objModule, objSystemModulePermission, objTabPermission.RoleID, objTabPermission.UserID, objTabPermission.AllowAccess);
+
+                            // ensure that every EDIT permission which allows access also provides VIEW permission
+                            if (objModulePermission.PermissionKey == "EDIT" & objModulePermission.AllowAccess)
+                            {
+                                var objModuleViewperm = AddModulePermission(objModule, (DotNetNuke.Security.Permissions.PermissionInfo)arrSystemModuleViewPermissions[0], objModulePermission.RoleID, objModulePermission.UserID, true);
+                            }
+                        }
+
+                        //Get the custom Module Permissions,  Assume that roles with Edit Tab Permissions
+                        //are automatically assigned to the Custom Module Permissions
+                        if (objTabPermission.PermissionKey == "EDIT")
+                        {
+                            var arrCustomModulePermissions = objPermissionController.GetPermissionsByModuleDefID(objModule.ModuleDefID);
+
+                            // loop through the custom module permissions
+                            for (j = 0; j <= arrCustomModulePermissions.Count - 1; j++)
+                            {
+                                // create the module permission
+                                DotNetNuke.Security.Permissions.PermissionInfo objCustomModulePermission = null;
+                                objCustomModulePermission = (DotNetNuke.Security.Permissions.PermissionInfo)arrCustomModulePermissions[j];
+
+                                AddModulePermission(objModule, objCustomModulePermission, objTabPermission.RoleID, objTabPermission.UserID, objTabPermission.AllowAccess);
+                            }
+                        }
+                    }
+
+                    objModule.AllTabs = false;
+                    //objModule.Alignment = align;
+
+                    apiResponse.CustomObject = objModules.AddModule(objModule);
+                    apiResponse.Success = true;
+                }
+            }
+            catch (Exception err)
+            {
+                apiResponse.Success = false;
+                apiResponse.Message = err.Message;
+
+                Exceptions.LogException(err);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
+        }
 
         [HttpPost]
         [DnnPageEditor]
@@ -569,6 +751,25 @@ namespace nBrane.Modules.AdministrationSuite.Components
                         return strSkinFolder + " - " + strSkinFile;
                 }
             }
+        }
+
+        private static DotNetNuke.Security.Permissions.ModulePermissionInfo AddModulePermission(DotNetNuke.Entities.Modules.ModuleInfo objModule, DotNetNuke.Security.Permissions.PermissionInfo permission, int roleId, int userId, bool allowAccess)
+        {
+            var objModulePermission = new DotNetNuke.Security.Permissions.ModulePermissionInfo();
+            objModulePermission.ModuleID = objModule.ModuleID;
+            objModulePermission.PermissionID = permission.PermissionID;
+            objModulePermission.RoleID = roleId;
+            objModulePermission.UserID = userId;
+            objModulePermission.PermissionKey = permission.PermissionKey;
+            objModulePermission.AllowAccess = allowAccess;
+
+            // add the permission to the collection
+            if (!objModule.ModulePermissions.Contains(objModulePermission))
+            {
+                objModule.ModulePermissions.Add(objModulePermission);
+            }
+
+            return objModulePermission;
         }
 
     }
