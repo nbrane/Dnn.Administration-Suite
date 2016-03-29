@@ -11,10 +11,10 @@ var nBraneAdminSuiteModulesViewModel = function () {
 	self.ModuleContainer = ko.observable('');
 
 	self.SelectedModule = ko.observable();
+	self.DialogVisible = ko.observable(false);
 	
 	self.LoadInitialView = function() {
 		self.ParentNode().ToggleLoadingScreen(true);
-		console.log(controlPanelTabId);
 		self.ParentNode().ServerCallback('ListModules', 'category=all', function(serverData) {
 			if (serverData.Success){
 				self.Modules(serverData.Modules);
@@ -40,9 +40,13 @@ var nBraneAdminSuiteModulesViewModel = function () {
 		
 		self.ParentNode().ServerCallback('SaveModule', JSON.stringify(moduleObject), function(serverData) {
 			if (serverData.Success){
-
-				self.ParentNode().ToggleLoadingScreen(false);
-				$('.nbr-dialog').fadeIn();
+				self.ParentNode().ToggleConfirmScreen('Success!', 'moduleId: ' + serverData.CustomObject + '. refresh the page to show the new module?', function(){
+					location.reload();
+					}
+					);
+				
+				self.CloseDialog();
+				self.CloseSubMenu();
 			}
 			else{
 				self.ParentNode().ToggleConfirmScreen('Sorry, We ran into a problem.', 'Please try again');
@@ -57,7 +61,7 @@ var nBraneAdminSuiteModulesViewModel = function () {
 	
 	self.ShowAddNewModuleDialog = function(module) {
 		self.SelectedModule(module);
-		
+		self.DialogVisible(true);
 		$('.nbr-dialog').fadeIn();
 	};
 

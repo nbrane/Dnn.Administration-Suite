@@ -12,11 +12,13 @@
         }
 
         self.CloseSubMenu();
+		
         $(listItem).addClass('selected');
 		self.CurrentAction($(listItem).data('action'));
 		self.CurrentSubaction($(listItem).data('subaction'));
 
-        self.ServerCallback('load', 'Name=' + self.CurrentAction(), function (serverData) {
+		if (self.CurrentAction() != undefined){
+			self.ServerCallback('load', 'Name=' + self.CurrentAction(), function (serverData) {
 				var decoded = $('<div/>').html(serverData.HTML).text();
 				$('.nbr-admin-suite').append(decoded);
 				
@@ -31,7 +33,11 @@
 				self.ToggleConfirmScreen('Sorry, We ran into a problem.', status + ': ' + thrown);
 				self.CloseSubMenu();
 			}
-		);
+			);
+		} else {
+			self.ToggleLoadingScreen(false);
+		}
+        
     };
 	
 	self.Logoff = function (){
