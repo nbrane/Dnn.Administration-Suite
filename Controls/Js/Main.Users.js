@@ -10,6 +10,16 @@ var nBraneAdminSuiteUsersViewModel = function () {
 	self.EmailAddress = ko.observable('');
 	self.Password = ko.observable('');
 	
+	self.filteredUsers = ko.computed(function() {
+        if(self.DefaultAction() == 'login') {
+            return self.Users(); 
+        } else {
+            return ko.utils.arrayFilter(self.Users(), function(usr) {
+                return usr.Value != 0;
+            });
+        }
+    });
+	
 	self.LoadInitialView = function() {
 		self.ParentNode().ToggleLoadingScreen(true);
 		
@@ -27,8 +37,34 @@ var nBraneAdminSuiteUsersViewModel = function () {
 
 	self.ShowUserDetailsDialog = function(user){
 		self.SelectedUser(user);
-		self.DisplayName(user.Name);
-		$('.nbr-dialog').fadeIn();
+		
+		var userObject = {};
+		userObject.Id = self.SelectedUser().Value;
+		
+		if (self.DefaultAction() == 'edit') {
+			self.DisplayName(user.Name);
+			$('.nbr-dialog').fadeIn();
+			
+		} else if (self.DefaultAction() == 'login') {
+			self.ParentNode().ServerCallback('Impersonate', 'Id=' + self.SelectedUser().Value, function(serverData) {
+				if (serverData.Success){
+					location.reload();
+				}
+				else{
+					self.ParentNode().ToggleConfirmScreen('Sorry, We ran into a problem.', 'Please try again');
+				}
+			});
+		}
+		 else if (self.DefaultAction() == 'delete') {
+			self.ParentNode().ServerCallback('DeleteUser', JSON.stringify(userObject), function(serverData) {
+				if (serverData.Success){
+					location.reload();
+				}
+				else{
+					self.ParentNode().ToggleConfirmScreen('Sorry, We ran into a problem.', 'Please try again');
+				}
+			}, null,null, 'POST');
+		}
 	};
 	
 	self.ShowAddNewUserDialog = function() {
@@ -38,7 +74,24 @@ var nBraneAdminSuiteUsersViewModel = function () {
 	};
 	
 	self.AddUser = function(){
+		self.ParentNode().ToggleLoadingScreen(true);
 		
+		if (self.DefaultAction() == 'edit') {
+			var userObject = {};
+			userObject.Id = self.SelectedUser().Value;
+			
+			self.ParentNode().ServerCallback('SaveUser', JSON.stringify(userObject), function(serverData) {
+				if (serverData.Success){
+
+					self.ParentNode().ToggleLoadingScreen(false);
+					self.LoadInitialView();
+				}
+				else{
+					self.ParentNode().ToggleConfirmScreen('Sorry, We ran into a problem.', 'Please try again');
+				}
+			}, null,null, 'POST');
+			
+		}
 	};
 	
 	self.SetDefaultAction = function(){
@@ -50,10 +103,9 @@ var nBraneAdminSuiteUsersViewModel = function () {
 	};
 	
 	self.CloseDialog = function(module) {
-		$('.nbr-dialog').fadeOut();
+		$('.nbr-dialog').fadeOut(400, function() {self.SelectedUser(null);});
 	};
 
-	
     self.CloseSubMenu = function () {
         self.ParentNode().CloseSubMenu();
     };

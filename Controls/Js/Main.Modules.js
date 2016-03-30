@@ -12,6 +12,7 @@ var nBraneAdminSuiteModulesViewModel = function () {
 
 	self.SelectedModule = ko.observable();
 	self.DialogVisible = ko.observable(false);
+	self.FocusOnTitle = ko.observable(false);
 	
 	self.LoadInitialView = function() {
 		self.ParentNode().ToggleLoadingScreen(true);
@@ -41,8 +42,8 @@ var nBraneAdminSuiteModulesViewModel = function () {
 		self.ParentNode().ServerCallback('SaveModule', JSON.stringify(moduleObject), function(serverData) {
 			if (serverData.Success){
 				self.ParentNode().ToggleConfirmScreen('Success!', 'moduleId: ' + serverData.CustomObject + '. refresh the page to show the new module?', function(){
-					location.reload();
-					}
+							location.reload();
+						}
 					);
 				
 				self.CloseDialog();
@@ -52,17 +53,19 @@ var nBraneAdminSuiteModulesViewModel = function () {
 				self.ParentNode().ToggleConfirmScreen('Sorry, We ran into a problem.', 'Please try again');
 			}
 		}, null,null, 'POST');
-		
 	};
 	
 	self.CloseDialog = function(module) {
 		$('.nbr-dialog').fadeOut();
+		self.SelectedModule(null);
 	};
 	
 	self.ShowAddNewModuleDialog = function(module) {
 		self.SelectedModule(module);
 		self.DialogVisible(true);
 		$('.nbr-dialog').fadeIn();
+		
+		self.FocusOnTitle(true);
 	};
 
     self.CloseSubMenu = function () {

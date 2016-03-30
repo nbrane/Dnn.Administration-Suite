@@ -3,7 +3,7 @@
 		<li data-bind="click: ShowAddNewPageDialog, visible: ShowManagementLinks" data-action="AddPage"><i class="fa fa-file"></i> <span>Add</span></li>
 		<li data-bind="click: CloseSubMenu"><i class="fa fa-close"></i> <span>Close</span></li>
 	</ul>
-	<ul data-bind="foreach: Pages" data-default="LoadPageSettings">
+	<ul data-bind="foreach: Pages">
 		<li data-bind="click: $parent.ShowEditPageDialog, css: {selected: $parent.SelectedPage() === $data}">
 			<img data-bind="visible: Image.length > 0, attr:{src: Image}"/>
 			<span data-bind="text: Name">Loading...</span>
@@ -25,7 +25,7 @@
 		<ul>
 			<li>
 				<label>Page Name:</label>
-				<input data-bind="value: PageName" />
+				<input data-bind="hasFocus: FocusOn, value: PageName" />
 			</li>
 			<li>
 				<label>Description:</label>
@@ -68,6 +68,6 @@
 				<select data-bind="options:ContainerList, optionsText: 'Name', optionsValue: 'Value', value: PageContainer"></select>
 			</li>
 		</ul>
-		<button data-bind="click: AddPage"><i class="fa fa-plus"/> <span data-bind="visible: SelectedPage() === null">Add Page</span><span data-bind="visible: SelectedPage() !== null">Edit Page</span></button> <button data-bind="click: CloseDialog"><i class="fa fa-close"/> Cancel</button>
+		<button data-bind="click: AddPage"><i class="fa fa-save"/> <span data-bind="visible: SelectedPage() === null">Add Page</span><span data-bind="visible: SelectedPage() !== null">Update Page</span></button> <button data-bind="click: CloseDialog"><i class="fa fa-close"/> Cancel</button>
 	</div>
 </div>

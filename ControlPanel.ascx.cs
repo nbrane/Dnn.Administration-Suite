@@ -27,7 +27,7 @@ namespace nBrane.Modules.AdministrationSuite
         {
             get
             {
-                return base.IncludeInControlHierarchy && (IsPageAdmin() || IsModuleAdmin());
+                return IsUserImpersonated() || (base.IncludeInControlHierarchy && (IsPageAdmin() || IsModuleAdmin()));
             }
         }
 
@@ -57,7 +57,7 @@ namespace nBrane.Modules.AdministrationSuite
 
         private bool IsUserImpersonated()
         {
-            return false;
+            return Components.Common.IsUserImpersonated();
         }
 
     }

@@ -3,7 +3,7 @@
 		<li data-bind="click: ShowAddNewUserDialog"><i class="fa fa-user"></i> <span>Add</span></li>
 		<li data-bind="click: CloseSubMenu"><i class="fa fa-close"></i> <span>Close</span></li>
 	</ul>
-	<ul data-bind="foreach: Users">
+	<ul data-bind="foreach: filteredUsers">
 		<li data-bind="click: $parent.ShowUserDetailsDialog, css: {selected: $parent.SelectedUser() === $data}"><span data-bind="text: Name">Loading...</span></li>
 	</ul>
 	
@@ -38,7 +38,7 @@
 				<input data-bind="value: Password" />
 			</li>
 		</ul>
-		<button data-bind="click: AddUser"><i class="fa fa-plus"/> <span data-bind="visible: SelectedUser() === null">Add User</span><span data-bind="visible: SelectedUser() !== null">Edit User</span></button> <button data-bind="click: CloseDialog"><i class="fa fa-close"/> Cancel</button>
+		<button data-bind="click: AddUser"><i class="fa fa-save"/> <span data-bind="visible: SelectedUser() === null">Add User</span><span data-bind="visible: SelectedUser() !== null">Update User</span></button> <button data-bind="click: CloseDialog"><i class="fa fa-close"/> Cancel</button>
 	</div>
 </div>
 

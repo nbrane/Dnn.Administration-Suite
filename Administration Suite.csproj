@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\Common.cs" />
     <Compile Include="Components\ControlPanelController.cs" />
     <Compile Include="Components\Data.cs" />
     <Compile Include="Components\DTO.cs" />

@@ -75,6 +75,12 @@ namespace nBrane.Modules.AdministrationSuite.Components.DTO
         public string ModuleInstance { get; internal set; }
     }
 
+    public class SavePageResponse
+    {
+        public bool Redirect { get; set; }
+        public string Url { get; set; }
+    }
+
     public class PageDetails
     {
         public PageDetails()
@@ -148,24 +154,24 @@ namespace nBrane.Modules.AdministrationSuite.Components.DTO
             // this.Containers = new ControlPanelController().ListContainers("all", "container");
             if (string.IsNullOrWhiteSpace(DotNetNuke.Entities.Portals.PortalSettings.Current.ActiveTab.SkinSrc))
             {
-                this.Theme = ControlPanelController.GetFriendySkinName(DotNetNuke.Entities.Portals.PortalSettings.Current.DefaultPortalSkin);
+                this.Theme = Common.GetFriendySkinName(DotNetNuke.Entities.Portals.PortalSettings.Current.DefaultPortalSkin);
             } else
             {
-                this.Theme = ControlPanelController.GetFriendySkinName(DotNetNuke.Entities.Portals.PortalSettings.Current.ActiveTab.SkinSrc);
+                this.Theme = Common.GetFriendySkinName(DotNetNuke.Entities.Portals.PortalSettings.Current.ActiveTab.SkinSrc);
             }
 
-            this.Themes = ControlPanelController.ListContainers("host", "skin");
+            this.Themes = Common.ListContainers("host", "skin");
 
             if (string.IsNullOrWhiteSpace(DotNetNuke.Entities.Portals.PortalSettings.Current.ActiveTab.ContainerSrc))
             {
-                this.Container = ControlPanelController.GetFriendySkinName(DotNetNuke.Entities.Portals.PortalSettings.Current.DefaultPortalContainer);
+                this.Container = Common.GetFriendySkinName(DotNetNuke.Entities.Portals.PortalSettings.Current.DefaultPortalContainer);
             }
             else
             {
-                this.Container = ControlPanelController.GetFriendySkinName(DotNetNuke.Entities.Portals.PortalSettings.Current.ActiveTab.ContainerSrc);
+                this.Container = Common.GetFriendySkinName(DotNetNuke.Entities.Portals.PortalSettings.Current.ActiveTab.ContainerSrc);
             }
 
-            this.Containers = ControlPanelController.ListContainers("host", "containers");
+            this.Containers = Common.ListContainers("host", "containers");
 
         }
     }
