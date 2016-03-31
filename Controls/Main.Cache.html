@@ -1,0 +1,22 @@
+﻿<div id="nbr-admin-suite-cache">
+	<div class="nbr-right-dialog">
+		<button style="float:right; padding:0 margin:5px;" data-bind="click: CloseDialog"><i style="padding:5px;" class="fa fa-close"/></button>
+		<h2>Cache Management</h2>
+		<ul>
+			<li>
+				<label>Page Variations:</label>
+				<span data-bind="text: PageOuputCacheVariations"></span>
+			</li>
+			<li>
+				<label>Total Cache Items:</label>
+				<span data-bind="text: TotalCacheItems"></span>
+			</li>
+			<li class="single-line">
+				<label>Cache Size Limit:</label>
+				<span data-bind="text: TotalCacheSizeLimit"></span>
+			</li>
+		</ul>
+		
+		<button data-bind="click: ClearOutputCacheThisPage"><i class="fa fa-file-text"/> This Page</button> <button data-bind="click: ClearOutputCacheAllPages"><i class="fa fa-database"/> All Pages</button> <button data-bind="click: ClearOutputCacheAllSites"><i class="fa fa-fort-awesome"/> All Sites</button>
+	</div>
+</div>

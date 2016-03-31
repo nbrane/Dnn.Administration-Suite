@@ -68,6 +68,8 @@
 				<select data-bind="options:ContainerList, optionsText: 'Name', optionsValue: 'Value', value: PageContainer"></select>
 			</li>
 		</ul>
-		<button data-bind="click: AddPage"><i class="fa fa-save"/> <span data-bind="visible: SelectedPage() === null">Add Page</span><span data-bind="visible: SelectedPage() !== null">Update Page</span></button> <button data-bind="click: CloseDialog"><i class="fa fa-close"/> Cancel</button>
+		<button data-bind="click: AddPage"><i class="fa fa-save"/> <span data-bind="visible: SelectedPage() === null">Add Page</span><span data-bind="visible: SelectedPage() !== null">Update Page</span></button> 
+		<button data-bind="click: ShowAdvancedSettings"><i class="fa fa-cogs"/> <span>Advanced Settings</span></button> 
+		<button style="float:right;" data-bind="click: CloseDialog"><i class="fa fa-close"/> Cancel</button>
 	</div>
 </div>

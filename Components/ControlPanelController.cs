@@ -45,11 +45,14 @@ namespace nBrane.Modules.AdministrationSuite.Components
                 case "modules":
                     controlName = "Main.Modules";
                     break;
-                case "Site":
+                case "site":
                     controlName = "Main.Site";
                     break;
-                case "Host":
+                case "host":
                     controlName = "Main.Host";
+                    break;
+                case "cache":
+                    controlName = "Main.Cache";
                     break;
                 default:
 
@@ -587,6 +590,91 @@ namespace nBrane.Modules.AdministrationSuite.Components
 
                     return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
                 }
+            }
+            catch (Exception err)
+            {
+                apiResponse.Success = false;
+                apiResponse.Message = err.Message;
+
+                Exceptions.LogException(err);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
+        }
+
+        [HttpGet]
+        [DnnPageEditor]
+        public HttpResponseMessage LoadCacheDetails(int PageId)
+        {
+            var apiResponse = new DTO.CacheResponse();
+
+            try
+            {
+                apiResponse.PageOuputCacheVariations = 0;
+                apiResponse.SiteOuputCacheVariations = 0;
+                
+                foreach (var item in DotNetNuke.Services.OutputCache.OutputCachingProvider.GetProviderList())
+                {
+                    apiResponse.PageOuputCacheVariations += DotNetNuke.Services.OutputCache.OutputCachingProvider.Instance(item.Key).GetItemCount(PageId);
+                }
+
+                apiResponse.TotalCacheItems = HttpContext.Current.Cache.Count;
+
+                if (HttpContext.Current.Cache.EffectivePrivateBytesLimit > 1024 * 1024 * 1024)
+                {
+                    apiResponse.TotalCacheSizeLimit = (HttpContext.Current.Cache.EffectivePrivateBytesLimit / (1024.0 * 1024.0 * 1024.0)).ToString("N2") + " GB";
+                }
+                else if (HttpContext.Current.Cache.EffectivePrivateBytesLimit > 1024 * 1024)
+                {
+                    apiResponse.TotalCacheSizeLimit = (HttpContext.Current.Cache.EffectivePrivateBytesLimit / (1024.0 * 1024.0)).ToString("N2") + " MB";
+                }
+                else
+                {
+                    apiResponse.TotalCacheSizeLimit = (HttpContext.Current.Cache.EffectivePrivateBytesLimit / 1024.0).ToString("N2") + " KB";
+                }
+
+                apiResponse.Success = true;
+            }
+            catch (Exception err)
+            {
+                apiResponse.Success = false;
+                apiResponse.Message = err.Message;
+
+                Exceptions.LogException(err);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
+
+        }
+
+        [HttpGet]
+        [DnnPageEditor]
+        public HttpResponseMessage ClearOutputCache(int PageId)
+        {
+            var apiResponse = new DTO.ApiResponse<bool>();
+
+            try
+            { 
+                foreach (var item in DotNetNuke.Services.OutputCache.OutputCachingProvider.GetProviderList())
+                {
+                    if (PageId == -1)
+                    {
+                        DotNetNuke.Services.OutputCache.OutputCachingProvider.Instance(item.Key).PurgeCache(PortalSettings.PortalId);
+                    }
+                    else if (PageId == -2)
+                    {
+                        foreach (DotNetNuke.Entities.Portals.PortalInfo portal in new DotNetNuke.Entities.Portals.PortalController().GetPortals())
+                        {
+                            DotNetNuke.Services.OutputCache.OutputCachingProvider.Instance(item.Key).PurgeCache(portal.PortalID);
+                        }
+                    }
+                    else if (PageId > 0)
+                    {
+                        DotNetNuke.Services.OutputCache.OutputCachingProvider.Instance(item.Key).Remove(PageId);
+                    }
+                }
+
+                apiResponse.Success = true;
             }
             catch (Exception err)
             {

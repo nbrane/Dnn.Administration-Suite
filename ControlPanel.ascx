@@ -13,7 +13,7 @@
         <li data-bind="click:SwitchInto" data-action="LAYOUT"><i class="fa fa-wrench"></i> <span>Switch to Layout</span></li>
 <% } %>
 <% if (ShowCachePanel()) { %>
-		<li><i class="fa fa-info-circle"></i> <span>Cache Management</span></li>
+		<li data-action="Cache" data-bind="click:Load"><i class="fa fa-info-circle"></i> <span>Cache Management</span></li>
 <% } %>
     </ul>
 	

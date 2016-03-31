@@ -175,11 +175,11 @@ $(document).ready(function () {
     }
 	
 	$(".nbr-upper-control-panel li").hover(
-	function() {
-		var targetWidth = $(this).children('span').outerWidth() +30;
-		console.log(targetWidth)
-		$(this).animate({width:targetWidth}, 350);
-	},function() {
+		function() {
+			var targetWidth = $(this).children('span').outerWidth() +30;
+			$(this).animate({width:targetWidth}, 350);
+		},
+		function() {
 		$(this).animate({width:'20px'}, 50);
-	});
+		});
 });

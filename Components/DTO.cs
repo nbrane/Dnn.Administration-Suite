@@ -75,6 +75,18 @@ namespace nBrane.Modules.AdministrationSuite.Components.DTO
         public string ModuleInstance { get; internal set; }
     }
 
+    public class CacheResponse
+    {
+        public bool Success { get; set; }
+        public string Message { get; set; }
+
+        public int PageOuputCacheVariations { get; set; }
+        public int SiteOuputCacheVariations { get; set; }
+
+        public int TotalCacheItems { get; set; }
+        public string TotalCacheSizeLimit { get; set; }
+    }
+
     public class SavePageResponse
     {
         public bool Redirect { get; set; }

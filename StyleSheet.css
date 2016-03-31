@@ -93,15 +93,17 @@
     top: 0;
     left: 0;
     background-color: #e8501c;
+	color: #000;
     display: block;
     height: 25px;
     width: 100%;
     z-index: 10000;
 	text-align:right;
+	font-size:12px;
 }
 
 .nbr-admin-suite .nbr-upper-control-panel li {
-	padding:3px;
+	margin-right: 3px;
 	font-family:'Montserrat';
 	margin-left: 20px;
 }
@@ -180,6 +182,30 @@
 	text-align:left;
 	opacity: 0.9;
 	color:#000;
+}
+
+.nbr-admin-suite .nbr-right-dialog {
+	
+	position: fixed;
+	top:25px;
+	right:0;
+	height:auto;
+	width: 350px;
+	background-color: #505050;
+	padding: 5px;
+	text-align:left;
+
+	color:#000;
+	z-index:9999;
+}
+
+.nbr-admin-suite .nbr-right-dialog label, .nbr-admin-suite .nbr-right-dialog span,  .nbr-admin-suite .nbr-right-dialog h2{
+	color: #fff
+}
+
+.nbr-admin-suite h2 {
+	font-weight: 600;
+	font-size: 20px;
 }
 
 .nbr-admin-suite .nbr-dialog label {

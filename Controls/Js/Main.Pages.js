@@ -44,6 +44,11 @@ var nBraneAdminSuitePagesViewModel = function () {
 		});
 	};
 	
+	self.ShowAdvancedSettings = function() {
+		self.ParentNode().ToggleLoadingScreen(true);
+		location.href = self.PageUrls()[0].Value + "?ctl=tab&action=edit&returntabid=" + controlPanelTabId;
+	};
+	
 	self.ShowEditPageDialog = function(page) {
 		self.SelectedPage(page);
 
@@ -87,7 +92,7 @@ var nBraneAdminSuitePagesViewModel = function () {
 					self.PageList(serverData.CustomObject.AllPages);
 					self.ThemeList(serverData.CustomObject.Themes);
 					self.ContainerList(serverData.CustomObject.Containers);
-
+					
 					if (self.DefaultAction() == 'edit') {
 						self.ParentNode().ToggleLoadingScreen(false);
 						$('.nbr-dialog').fadeIn();
