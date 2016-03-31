@@ -5,7 +5,7 @@
 .nbr-admin-suite {
 	font-family:'Montserrat';
 }
-.nbr-admin-suite ul, .nbr-admin-suite .nbr-sub-menu li {
+.nbr-admin-suite ul, .nbr-admin-suite ul li, .nbr-admin-suite .nbr-sub-menu li {
     list-style-type: none;
 	margin: 0;
 	padding: 0;
@@ -58,7 +58,7 @@
 	-moz-box-shadow: 8px 0 6px -6px black;
     box-shadow: 8px 0 6px -6px black;
 	padding-top: 25px;
-	z-index: 999;
+	z-index: 9999;
 	line-height: 20px;
 	text-align:center;
 	text-transform: uppercase;
@@ -96,7 +96,7 @@
     display: block;
     height: 25px;
     width: 100%;
-    z-index: 1000;
+    z-index: 10000;
 	text-align:right;
 }
 
@@ -131,7 +131,7 @@
     box-shadow: 8px 0 6px -6px black;
 	
 	padding-top: 25px;
-	z-index: 999;
+	z-index: 9999;
 	line-height: 20px;
 	text-align:left;
 	text-transform: uppercase;
@@ -218,3 +218,5 @@
 .nbr-admin-suite .nbr-dialog li.single-line input, .nbr-admin-suite .nbr-dialog li.single-line select {
 	width:auto;
 }
+
+.nbr-upper-control-panel li {width: 20px; height: 25px; overflow: hidden;display:inline-block !important;white-space: nowrap;}

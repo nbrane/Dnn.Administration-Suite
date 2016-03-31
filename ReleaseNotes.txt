@@ -9,6 +9,15 @@
 	<h3>About the nBrane: Administration Suite</h3>
 
 	<p class="Owner">
+		<b>Version v0.0.2</b> - 3/30/2016<br /><br />
+	</p>
+	<h4>Second Prototype</h4>
+	<ul>
+		<li>enhanced basic module, page and user management functionality</li>
+	</ul>
+
+
+	<p class="Owner">
 		<b>Version v0.0.1</b> - 3/23/2016<br /><br />
 	</p>
 	<h4>Initial Prototype</h4>

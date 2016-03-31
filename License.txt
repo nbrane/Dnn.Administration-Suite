@@ -1,8 +1,8 @@
 ﻿<div class="License">
 	<h3>License</h3>
 	<p class="Owner">
-		Oliver Hine - nBrane, llc  <a href=http://www.nbrane.com>http://www.nbrane.com</a></br>
-		Copyright (c) 2015</br>	
+		nBrane, llc  <a href="http://www.nbrane.com">http://www.nbrane.com</a></br>
+		Copyright (c) 2016</br>	
 		by nbrane.com</br>
 	</p>
     <p>

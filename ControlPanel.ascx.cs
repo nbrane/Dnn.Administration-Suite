@@ -42,6 +42,9 @@ namespace nBrane.Modules.AdministrationSuite
                     JavaScript.RequestRegistration(CommonJs.jQuery);
                     JavaScript.RequestRegistration(CommonJs.Knockout);
 
+                    if (PortalSettings.UserMode != DotNetNuke.Entities.Portals.PortalSettings.Mode.View)
+                        JavaScript.RequestRegistration(CommonJs.DnnPlugins);
+
                     ClientResourceManager.RegisterStyleSheet(Page, "//fonts.googleapis.com/css?family=Montserrat", FileOrder.Css.ModuleCss);
                     ClientResourceManager.RegisterStyleSheet(Page, "//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css", FileOrder.Css.ModuleCss);
                     ClientResourceManager.RegisterStyleSheet(Page, "~/desktopmodules/nbrane/administrationsuite/stylesheet.css", FileOrder.Css.ModuleCss);
@@ -55,12 +58,33 @@ namespace nBrane.Modules.AdministrationSuite
             }
         }
 
-        private bool IsUserImpersonated()
+        public bool IsUserImpersonated()
         {
             return Components.Common.IsUserImpersonated();
         }
 
-    }
+        public bool ShowCachePanel()
+        {
+            var tabConfigCount = 0;
+            var globalConfigCount = 0;
 
-   
+            var currentOutputCacheSetting = PortalSettings.ActiveTab.TabSettings["CacheProvider"] == null ? string.Empty : PortalSettings.ActiveTab.TabSettings["CacheProvider"].ToString();
+            if (!string.IsNullOrWhiteSpace(currentOutputCacheSetting))
+            {
+                tabConfigCount = DotNetNuke.Services.OutputCache.OutputCachingProvider.Instance(currentOutputCacheSetting).GetItemCount(PortalSettings.ActiveTab.TabID);
+            }
+
+            if (DotNetNuke.Entities.Host.Host.PageCachingMethod != currentOutputCacheSetting)
+            {
+                globalConfigCount = DotNetNuke.Services.OutputCache.OutputCachingProvider.Instance(DotNetNuke.Entities.Host.Host.PageCachingMethod).GetItemCount(PortalSettings.ActiveTab.TabID);
+            }
+
+            if (globalConfigCount > 0 || tabConfigCount > 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+    }
 }

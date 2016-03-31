@@ -1,14 +1,19 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ControlPanel.ascx.cs" Inherits="nBrane.Modules.AdministrationSuite.ControlPanel" %>
 <div id="nbr-admin-suite" class="nbr-admin-suite">
     <ul class="nbr-upper-control-panel">
+<% if (IsUserImpersonated()) { %>
         <li><i class="fa fa-sign-in"></i> <span>Revert User Impersonation</span></li>
+<% } %>
         <li data-bind="click:Logoff"><i class="fa fa-sign-out"></i> <span>Logout</span></li>
-<% if (PortalSettings.UserMode.ToString() != "View") { %>
+<% if (PortalSettings.UserMode.ToString().ToLower() != "view") { %>
         <li data-bind="click:SwitchInto" data-action="VIEW"><i class="fa fa-eye"></i> <span>Switch to View</span></li>
-<% } if (PortalSettings.UserMode.ToString() != "Edit") { %>
+<% } if (PortalSettings.UserMode.ToString().ToLower() != "edit") { %>
         <li data-bind="click:SwitchInto" data-action="EDIT"><i class="fa fa-edit"></i> <span>Switch to Edit</span></li>
-<% } if (PortalSettings.UserMode.ToString() != "LAYOUT") { %>
+<% } if (PortalSettings.UserMode.ToString().ToLower() != "layout") { %>
         <li data-bind="click:SwitchInto" data-action="LAYOUT"><i class="fa fa-wrench"></i> <span>Switch to Layout</span></li>
+<% } %>
+<% if (ShowCachePanel()) { %>
+		<li><i class="fa fa-info-circle"></i> <span>Cache Management</span></li>
 <% } %>
     </ul>
 	
