@@ -36,6 +36,7 @@ var nBraneAdminSuiteCacheViewModel = function () {
 	};
 
 	self.ClearOutputCache = function(pageId) {
+		self.CloseDialog();
 		self.ParentNode().ToggleLoadingScreen(true);
 		
 		self.ParentNode().ServerCallback('ClearOutputCache', 'PageId=' + pageId, function(serverData) {
@@ -48,8 +49,37 @@ var nBraneAdminSuiteCacheViewModel = function () {
 		});
 	};
 	
-	self.CloseDialog = function(module) {
-		$('.nbr-right-dialog').fadeOut(400, function() {self.CloseDialog(null);});
+	self.RecycleApp = function() {
+		self.CloseDialog();
+		self.ParentNode().ToggleLoadingScreen(true);
+		
+		self.ParentNode().ServerCallback('RecycleApplication', null, function(serverData) {
+			if (serverData.Success){
+				location.reload();
+			}
+			else{
+				self.ParentNode().ToggleConfirmScreen('Sorry, We ran into a problem.', 'Please try again');
+			}
+		});
+	};
+	
+	self.InstallExtension = function() {
+		self.CloseDialog();
+		self.ParentNode().ToggleLoadingScreen(true);
+		
+		self.ParentNode().ServerCallback('InstallExtensionUrl', 'PageId=' + controlPanelTabId, function(serverData) {
+			if (serverData.Success){
+				location.href = serverData.Message;
+			}
+			else{
+				self.ParentNode().ToggleConfirmScreen('Sorry, We ran into a problem.', 'Please try again');
+			}
+		});
+	};
+	
+	self.CloseDialog = function() {
+		$('.nbr-upper-control-panel li.selected').removeClass('selected');
+		$('.nbr-right-dialog').fadeOut(400);
 	};
 
 	self.ParentNode = function() {

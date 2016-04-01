@@ -407,6 +407,70 @@ namespace nBrane.Modules.AdministrationSuite.Components
 
         [HttpPost]
         [DnnPageEditor]
+        public HttpResponseMessage SaveUser(DTO.UserDetails user)
+        {
+            var apiResponse = new DTO.ApiResponse<bool>();
+            try
+            {
+                var userController = new DotNetNuke.Entities.Users.UserController();
+
+                if (user.Id == -1)
+                {
+                    if (!DotNetNuke.Entities.Users.UserController.ValidatePassword(user.Password))
+                    {
+                        apiResponse.Success = false;
+                        apiResponse.Message = "Invalid Password";
+
+                        return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
+                    }
+
+                    //new user
+                    var dnnUser = new DotNetNuke.Entities.Users.UserInfo();
+                    dnnUser.Username = user.UserName;
+                    dnnUser.FirstName = user.FirstName;
+                    dnnUser.LastName = user.LastName;
+                    dnnUser.DisplayName = user.DisplayName;
+                    dnnUser.Email = user.EmailAddress;
+                    
+                    dnnUser.PortalID = PortalSettings.PortalId;
+
+                    dnnUser.Membership.Password = user.Password;
+                    dnnUser.Membership.Approved = true;
+
+                    DotNetNuke.Entities.Users.UserController.CreateUser(ref dnnUser);
+                    apiResponse.Success = true;
+                }
+                else
+                {
+                    //existing user
+                    var dnnUser = DotNetNuke.Entities.Users.UserController.GetUserById(PortalSettings.PortalId, user.Id);
+                    if (dnnUser != null)
+                    {
+                        //dnnUser.Username = user.UserName;
+                        dnnUser.FirstName = user.FirstName;
+                        dnnUser.LastName = user.LastName;
+                        dnnUser.DisplayName = user.DisplayName;
+                        dnnUser.Email = user.EmailAddress;
+                        //dnnUser.Membership.Password = user.Password;
+
+                        DotNetNuke.Entities.Users.UserController.UpdateUser(PortalSettings.PortalId, dnnUser);
+                        apiResponse.Success = true;
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                apiResponse.Success = false;
+                apiResponse.Message = err.Message;
+
+                Exceptions.LogException(err);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
+        }
+
+        [HttpPost]
+        [DnnPageEditor]
         public HttpResponseMessage SavePage(DTO.PageDetails page)
         {
             var apiResponse = new DTO.ApiResponse<DTO.SavePageResponse>();
@@ -541,6 +605,42 @@ namespace nBrane.Modules.AdministrationSuite.Components
 
         [HttpGet]
         [DnnPageEditor]
+        public HttpResponseMessage LoadUserDetails(int Id)
+        {
+            var apiResponse = new DTO.ApiResponse<DTO.UserDetails>();
+
+            try
+            {
+                var userInfo = DotNetNuke.Entities.Users.UserController.GetUserById(PortalSettings.PortalId, Id);
+                if (userInfo != null)
+                {
+                    apiResponse.CustomObject = new DTO.UserDetails();
+                    apiResponse.CustomObject.Id = userInfo.UserID;
+                    apiResponse.CustomObject.UserName = userInfo.Username;
+                    apiResponse.CustomObject.DisplayName = userInfo.DisplayName;
+                    apiResponse.CustomObject.FirstName = userInfo.FirstName;
+                    apiResponse.CustomObject.LastName = userInfo.LastName;
+                    apiResponse.CustomObject.EmailAddress = userInfo.Email;
+                    apiResponse.CustomObject.LastLogin = userInfo.LastModifiedOnDate;
+                    apiResponse.CustomObject.Authorized = userInfo.Membership.Approved;
+                    apiResponse.CustomObject.Locked = userInfo.Membership.LockedOut;
+
+                    apiResponse.Success = true;
+                }
+            }
+            catch (Exception err)
+            {
+                apiResponse.Success = false;
+                apiResponse.Message = err.Message;
+
+                Exceptions.LogException(err);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
+        }
+
+        [HttpGet]
+        [DnnPageEditor]
         public HttpResponseMessage ListPages(string parent)
         {
             var apiResponse = new DTO.ApiResponse<List<DTO.GenericListImageItem>>();
@@ -660,21 +760,90 @@ namespace nBrane.Modules.AdministrationSuite.Components
                     if (PageId == -1)
                     {
                         DotNetNuke.Services.OutputCache.OutputCachingProvider.Instance(item.Key).PurgeCache(PortalSettings.PortalId);
+                        DataCache.ClearPortalCache(PortalSettings.PortalId, true);
+                        DataCache.ClearCache();
+                        DotNetNuke.Web.Client.ClientResourceManagement.ClientResourceManager.ClearCache();
+
                     }
                     else if (PageId == -2)
                     {
                         foreach (DotNetNuke.Entities.Portals.PortalInfo portal in new DotNetNuke.Entities.Portals.PortalController().GetPortals())
                         {
                             DotNetNuke.Services.OutputCache.OutputCachingProvider.Instance(item.Key).PurgeCache(portal.PortalID);
+                            DataCache.ClearPortalCache(portal.PortalID, true);
                         }
+
+                        DataCache.ClearCache();
+                        DotNetNuke.Web.Client.ClientResourceManagement.ClientResourceManager.ClearCache();
                     }
                     else if (PageId > 0)
                     {
+                        DataCache.ClearCache();
                         DotNetNuke.Services.OutputCache.OutputCachingProvider.Instance(item.Key).Remove(PageId);
                     }
                 }
 
                 apiResponse.Success = true;
+            }
+            catch (Exception err)
+            {
+                apiResponse.Success = false;
+                apiResponse.Message = err.Message;
+
+                Exceptions.LogException(err);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
+        }
+
+        [HttpGet]
+        [DnnPageEditor]
+        public HttpResponseMessage InstallExtensionUrl(int PageId)
+        {
+            var apiResponse = new DTO.ApiResponse<string>();
+
+            try
+            {
+                if (DotNetNuke.Entities.Users.UserController.Instance.GetCurrentUserInfo().IsSuperUser)
+                {
+                    var objModules = new DotNetNuke.Entities.Modules.ModuleController();
+                    var objModule = objModules.GetModuleByDefinition(-1, "Extensions");
+                    if (objModule != null) { 
+                        apiResponse.Message = DotNetNuke.Common.Globals.NavigateURL(objModule.TabID, true, PortalSettings, "Install", new string[] { "rtab=" + PageId.ToString() });
+                    }
+
+                    apiResponse.Success = true;
+                }
+            }
+            catch (Exception err)
+            {
+                apiResponse.Success = false;
+                apiResponse.Message = err.Message;
+
+                Exceptions.LogException(err);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
+        }
+
+        [HttpGet]
+        [DnnPageEditor]
+        public HttpResponseMessage RecycleApplication()
+        {
+            var apiResponse = new DTO.ApiResponse<bool>();
+
+            try
+            {
+                if (DotNetNuke.Entities.Users.UserController.Instance.GetCurrentUserInfo().IsSuperUser)
+                {
+                    var log = new DotNetNuke.Services.Log.EventLog.LogInfo { BypassBuffering = true, LogTypeKey = DotNetNuke.Services.Log.EventLog.EventLogController.EventLogType.HOST_ALERT.ToString() };
+                    log.AddProperty("Message", "Application Recycle triggered from the Control Panel");
+                    DotNetNuke.Services.Log.EventLog.LogController.Instance.AddLog(log);
+
+                    Config.Touch();
+
+                    apiResponse.Success = true;
+                }
             }
             catch (Exception err)
             {

@@ -1,6 +1,6 @@
 ﻿<dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="nBrane.AdministrationSuite" type="Provider" version="00.00.02">
+    <package name="nBrane.AdministrationSuite" type="Provider" version="00.00.03">
       <friendlyName>nBrane: Administration Suite</friendlyName>
       <description>The AdministrationSuite for DotNetNuke 7 by nBrane!</description>
       <owner>
@@ -35,7 +35,7 @@
             <assembly>
               <path>bin</path>
               <name>nBrane.AdministrationSuite.dll</name>
-			        <version>00.00.02</version>
+			        <version>00.00.03</version>
             </assembly>
           </assemblies>
         </component>

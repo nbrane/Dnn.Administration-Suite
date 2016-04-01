@@ -22,7 +22,7 @@
 		<ul>
 			<li>
 				<label>User Name:</label>
-				<input data-bind="value: UserName" />
+				<input data-bind="value: UserName, enable: Id() == -1" />
 			</li>
 			<li>
 				<label>Display Name:</label>
@@ -33,7 +33,7 @@
 				<label>Email Address:</label>
 				<input data-bind="value: EmailAddress" />
 			</li>
-			<li>
+			<li data-bind="visible: Id() == -1">
 				<label>Password:</label>
 				<input data-bind="value: Password" />
 			</li>

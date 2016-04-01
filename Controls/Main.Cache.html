@@ -15,8 +15,18 @@
 				<label>Cache Size Limit:</label>
 				<span data-bind="text: TotalCacheSizeLimit"></span>
 			</li>
+			<li>&nbsp;</li>
+			<li>
+				<label style="display:block;">Clear Cache For...</label>
+				<button data-bind="click: ClearOutputCacheThisPage"><i class="fa fa-file-text"/> This Page</button>
+				<button data-bind="click: ClearOutputCacheAllPages"><i class="fa fa-database"/> All Pages</button>
+				<button data-bind="click: ClearOutputCacheAllSites"><i class="fa fa-fort-awesome"/> All Sites</button>
+			</li>
+			<li>
+				<label style="display:block;">Host Tools...</label>
+				<button data-bind="click: RecycleApp"><i class="fa fa-recycle"/> Recycle App</button>
+				<button data-bind="click: InstallExtension"><i class="fa fa-rocket"/> Install Extension</button>
+			</li>
 		</ul>
-		
-		<button data-bind="click: ClearOutputCacheThisPage"><i class="fa fa-file-text"/> This Page</button> <button data-bind="click: ClearOutputCacheAllPages"><i class="fa fa-database"/> All Pages</button> <button data-bind="click: ClearOutputCacheAllSites"><i class="fa fa-fort-awesome"/> All Sites</button>
 	</div>
 </div>
