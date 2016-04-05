@@ -1,4 +1,4 @@
-﻿<h3>Cloud</h3>
+﻿<h3>nBrane: Administration Suite</h3>
 <p class="Contributor">
 	nBrane, llc <br />
 	<a href="mailto:support@nbrane.com">support@nbrane.com</a><br />
@@ -6,7 +6,7 @@
 </p>
 <hr/>
 <div class="License">
-	<h3>About the nBrane: Administration Suite</h3>
+	<h3>Changelog:</h3>
 
 	<ul>
 		<li>v0.0.3 - 3/31/2016: Third Prototype. added tools/cache mgmt, add/edit user improvements, and bug fixes.</li>
