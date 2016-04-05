@@ -130,7 +130,7 @@ var nBraneAdminSuiteUsersViewModel = function () {
 		}
 	};
 	
-	self.SetDefaultAction = function(){
+	self.SetDefaultAction = function(data, event){
 		var listItem = event.target;
         if (listItem.nodeName != "li" && listItem.nodeName != "LI") {
             listItem = event.target.parentNode;
