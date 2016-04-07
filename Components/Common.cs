@@ -292,5 +292,65 @@ namespace nBrane.Modules.AdministrationSuite.Components
 
             return cookie;
         }
+
+        internal static int AddExistingModule(int moduleId, int tabId, string paneName, int position, string align, string container)
+        {
+
+            var objModules = new DotNetNuke.Entities.Modules.ModuleController();
+            var objEventLog = new DotNetNuke.Services.Log.EventLog.EventLogController();
+
+            int UserId = PortalSettings.Current.UserId;
+
+            var objModule = objModules.GetModule(moduleId, tabId, false);
+            if (objModule != null)
+            {
+                // clone the module object ( to avoid creating an object reference to the data cache )
+                var objClone = objModule.Clone();
+                objClone.TabID = PortalSettings.Current.ActiveTab.TabID;
+                objClone.ModuleOrder = position;
+                objClone.PaneName = paneName;
+                objClone.Alignment = align;
+                objClone.ContainerSrc = container;
+
+                int iNewModuleId = objModules.AddModule(objClone);
+                //objEventLog.AddLog(objClone, PortalSettings.Current, UserId, "", DotNetNuke.Services.Log.EventLog.EventLogController.EventLogType.MODULE_CREATED);
+
+                return iNewModuleId;
+            }
+
+            return -1;
+        }
+
+        internal static void AddModuleCopy(int iModuleId, int iTabId, int iOrderPosition, string sPaneName, string container)
+        {
+            var objModules = new DotNetNuke.Entities.Modules.ModuleController();
+            var objModule = objModules.GetModule(iModuleId, iTabId, false);
+            if (objModule != null)
+            {
+                //Clone module as it exists in the cache and changes we make will update the cached object
+                var newModule = objModule.Clone();
+
+                newModule.ModuleID = Null.NullInteger;
+                newModule.TabID = PortalSettings.Current.ActiveTab.TabID;
+                newModule.ModuleTitle = "Copy of " + objModule.ModuleTitle;
+                newModule.ModuleOrder = iOrderPosition;
+                newModule.PaneName = sPaneName;
+                newModule.ContainerSrc = container;
+                newModule.ModuleID = objModules.AddModule(newModule);
+
+                if (string.IsNullOrEmpty(newModule.DesktopModule.BusinessControllerClass) == false)
+                {
+                    object objObject = DotNetNuke.Framework.Reflection.CreateObject(newModule.DesktopModule.BusinessControllerClass, newModule.DesktopModule.BusinessControllerClass);
+                    if (objObject is DotNetNuke.Entities.Modules.IPortable)
+                    {
+                        string Content = Convert.ToString(((DotNetNuke.Entities.Modules.IPortable)objObject).ExportModule(iModuleId));
+                        if (string.IsNullOrEmpty(Content) == false)
+                        {
+                            ((DotNetNuke.Entities.Modules.IPortable)objObject).ImportModule(newModule.ModuleID, Content, newModule.DesktopModule.Version, PortalSettings.Current.UserId);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

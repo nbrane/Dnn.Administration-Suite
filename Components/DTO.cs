@@ -89,6 +89,10 @@ namespace nBrane.Modules.AdministrationSuite.Components.DTO
         public int Module { get; set; }
         public int Visibility { get; set; }
         public string ModuleInstance { get; internal set; }
+
+        public int PageId { get; set; }
+        public int ModuleId { get; set; }
+        public string CreateAs { get; set; }
     }
 
     public class CacheResponse

@@ -1,7 +1,9 @@
 ﻿
 var nBraneAdminSuiteModulesViewModel = function () {
     var self = this;
-	self.Modules = ko.observableArray();
+    self.Modules = ko.observableArray();
+	self.PageModules = ko.observableArray();
+	self.Pages = ko.observableArray();
 	self.Containers = ko.observableArray();
 	self.Panes = ko.observableArray();
 	self.ModuleTitle = ko.observable('');
@@ -9,10 +11,27 @@ var nBraneAdminSuiteModulesViewModel = function () {
 	self.ModuleLocation = ko.observable('');
 	self.ModulePosition = ko.observable('');
 	self.ModuleContainer = ko.observable('');
+	self.CopyModulePage = ko.observable(-1);
+	self.CopyModuleId = ko.observable(-1);
 
 	self.SelectedModule = ko.observable();
 	self.DialogVisible = ko.observable(false);
 	self.FocusOnTitle = ko.observable(false);
+	
+	self.CopyModulePage.subscribe(function(newValue) {
+		if (newValue && newValue != -1) {
+			self.ParentNode().ToggleLoadingScreen(true);
+			self.ParentNode().ServerCallback('ListModulesOnPage', 'portalid=' + controlPanelPortalId + '&tabid=' + newValue, function(serverData) {
+				if (serverData.Success){
+					self.PageModules(serverData.CustomObject);
+					self.ParentNode().ToggleLoadingScreen(false);
+				}
+				else{
+					self.ParentNode().ToggleConfirmScreen('Sorry, We ran into a problem.', 'Please try again');
+				}
+			});
+		}
+    });
 	
 	self.LoadInitialView = function() {
 		self.ParentNode().ToggleLoadingScreen(true);
@@ -38,6 +57,42 @@ var nBraneAdminSuiteModulesViewModel = function () {
 		moduleObject.Visibility = self.ModuleVisibility();
 		moduleObject.Location = self.ModuleLocation();
 		moduleObject.Position = self.ModulePosition();
+		
+		self.SaveModule(moduleObject);
+	};
+	
+	self.CopyModule = function(module) {
+		if(self.CopyModulePage() != -1) {
+			var moduleObject = {};
+			moduleObject.PageId = self.CopyModulePage();
+			moduleObject.ModuleId = self.CopyModuleId();
+			moduleObject.Container = self.ModuleContainer();
+			moduleObject.Visibility = self.ModuleVisibility();
+			moduleObject.Location = self.ModuleLocation();
+			moduleObject.Position = self.ModulePosition();
+			moduleObject.CreateAs = 'copy';
+			
+			self.SaveModule(moduleObject);
+		}
+	};
+	
+	self.ShareModule = function(module) {
+		if(self.CopyModulePage() != -1) {
+			var moduleObject = {};
+			moduleObject.PageId = self.CopyModulePage();
+			moduleObject.ModuleId = self.CopyModuleId();
+			moduleObject.Container = self.ModuleContainer();
+			moduleObject.Visibility = self.ModuleVisibility();
+			moduleObject.Location = self.ModuleLocation();
+			moduleObject.Position = self.ModulePosition();
+			moduleObject.CreateAs = 'link';
+			
+			self.SaveModule(moduleObject);
+		}
+	};
+	
+	self.SaveModule = function(moduleObject){
+		self.ParentNode().ToggleLoadingScreen(true);
 		
 		self.ParentNode().ServerCallback('SaveModule', JSON.stringify(moduleObject), function(serverData) {
 			if (serverData.Success){
@@ -66,6 +121,25 @@ var nBraneAdminSuiteModulesViewModel = function () {
 		$('.nbr-dialog').fadeIn();
 		
 		self.FocusOnTitle(true);
+	};
+	
+	self.ShowCopyModulePanel = function() {
+		self.SelectedModule(null);
+		
+		self.ParentNode().ToggleLoadingScreen(true);
+		
+		self.ParentNode().ServerCallback('ListAllPages', 'portalId=' + controlPanelPortalId, function(serverData) {
+			if (serverData.Success){
+				self.Pages(serverData.CustomObject);
+				self.ParentNode().ToggleLoadingScreen(false);
+			}
+			else{
+				self.ParentNode().ToggleConfirmScreen('Sorry, We ran into a problem.', 'Please try again');
+			}
+		});
+		
+		self.DialogVisible(true);
+		$('.nbr-dialog').fadeIn();
 	};
 
     self.CloseSubMenu = function () {

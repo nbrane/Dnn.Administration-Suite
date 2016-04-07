@@ -1,5 +1,7 @@
 ﻿<div id="nbr-admin-suite-modules" class="nbr-sub-menu">
 	<ul class="actions">
+		<li data-bind="click: ShowCopyModulePanel"><i class="fa fa-copy"></i> <span>Copy</span></li>
+			
 		<li data-bind="click: CloseSubMenu">
 			<i class="fa fa-close"></i>
 			<span>Close</span>
@@ -8,10 +10,20 @@
 	<ul class="module-list" data-bind="foreach: Modules">
 		<li data-bind="click: $parent.ShowAddNewModuleDialog, css: {selected: $parent.SelectedModule() === $data}"><span data-bind="text: Name">Loading...</span></li>
 	</ul>
+
 	<div class="nbr-dialog">
 		<h2>Add a New Module</h2>
 		<ul>
-			<li>
+			<li data-bind="visible: SelectedModule() == null">
+				<label>Page:</label>
+				<select data-bind="options:Pages, optionsText: 'Name', optionsValue: 'Value', value: CopyModulePage"></select>
+			</li>
+			<li data-bind="visible: CopyModulePage() != -1">
+				<label>Module:</label>
+				<select data-bind="options:PageModules, optionsText: 'Name', optionsValue: 'Value', value: CopyModuleId"></select>
+			</li>
+			
+			<li data-bind="visible: SelectedModule() != null">
 				<label>Title:</label>
 				<input data-bind="hasFocus: FocusOnTitle, value: ModuleTitle" />
 			</li>
@@ -38,7 +50,10 @@
 				<select data-bind="options:Containers, optionsText: 'Name', optionsValue: 'Value', value: ModuleContainer"></select>
 			</li>
 		</ul>
-		<button data-bind="click: AddModule"><i class="fa fa-plus"/> Add Module</button> <button data-bind="click: CloseDialog"><i class="fa fa-close"/> Cancel</button>
+		<button data-bind="click: AddModule, visible: SelectedModule() != null"><i class="fa fa-plus"/> Add Module</button>
+		<button data-bind="click: CopyModule, visible: SelectedModule() == null"><i class="fa fa-copy"/> Copy Module</button>
+		<button data-bind="click: ShareModule, visible: SelectedModule() == null"><i class="fa fa-share"/> Share Module</button>
+		<button style="float:right;" data-bind="click: CloseDialog"><i class="fa fa-close"/> Cancel</button>
 	</div>
 </div>
 
