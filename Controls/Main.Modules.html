@@ -12,7 +12,8 @@
 	</ul>
 
 	<div class="nbr-dialog">
-		<h2>Add a New Module</h2>
+		<h2 data-bind="visible: SelectedModule() == null">Copy/Share Modules</h2>
+		<h2 data-bind="visible: SelectedModule() != null">Add a New Module</h2>
 		<ul>
 			<li data-bind="visible: SelectedModule() == null">
 				<label>Page:</label>

@@ -111,8 +111,7 @@ var nBraneAdminSuiteModulesViewModel = function () {
 	};
 	
 	self.CloseDialog = function(module) {
-		$('.nbr-dialog').fadeOut();
-		self.SelectedModule(null);
+		$('.nbr-dialog').fadeOut(400, function() {self.SelectedModule(null);});
 	};
 	
 	self.ShowAddNewModuleDialog = function(module) {
