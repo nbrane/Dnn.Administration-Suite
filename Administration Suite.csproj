@@ -81,6 +81,7 @@
     <None Include="Data\Sql\00.00.01.sqldataprovider" />
     <None Include="Data\Sql\uninstall.sqldataprovider" />
     <None Include="packages.config" />
+    <Content Include="Controls\Js\Main.Cache.js" />
     <Content Include="Controls\Js\Main.js" />
     <Content Include="Controls\Js\Main.Modules.js" />
     <Content Include="Controls\Main.Modules.html" />
