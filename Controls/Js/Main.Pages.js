@@ -85,13 +85,12 @@ var nBraneAdminSuitePagesViewModel = function () {
 					self.PageDescription(serverData.CustomObject.Description);
 					self.PageVisible(serverData.CustomObject.Visible);
 					self.PageDisabled(serverData.CustomObject.Disabled);
-					self.PageTheme(serverData.CustomObject.Theme);
-					self.PageContainer(serverData.CustomObject.Container);
-					
 					self.PageUrls(serverData.CustomObject.Urls);
 					self.PageList(serverData.CustomObject.AllPages);
 					self.ThemeList(serverData.CustomObject.Themes);
 					self.ContainerList(serverData.CustomObject.Containers);
+					self.PageTheme(serverData.CustomObject.Theme);
+					self.PageContainer(serverData.CustomObject.Container);
 					
 					if (self.DefaultAction() == 'edit') {
 						self.ParentNode().ToggleLoadingScreen(false);
@@ -152,6 +151,8 @@ var nBraneAdminSuitePagesViewModel = function () {
 		pageObject.Disabled = self.PageDisabled();
 		pageObject.Position = self.PagePositionTarget();
 		pageObject.PositionMode = self.PagePosition();
+		pageObject.Theme = self.PageTheme();
+		pageObject.Container = self.PageContainer();
 		
 		self.ParentNode().ServerCallback('SavePage', JSON.stringify(pageObject), function(serverData) {
 			if (serverData.Success){

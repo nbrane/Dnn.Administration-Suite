@@ -186,21 +186,21 @@ namespace nBrane.Modules.AdministrationSuite.Components.DTO
             // this.Containers = new ControlPanelController().ListContainers("all", "container");
             if (string.IsNullOrWhiteSpace(DotNetNuke.Entities.Portals.PortalSettings.Current.ActiveTab.SkinSrc))
             {
-                this.Theme = Common.GetFriendySkinName(DotNetNuke.Entities.Portals.PortalSettings.Current.DefaultPortalSkin);
+                this.Theme = "-1"; //DotNetNuke.Entities.Portals.PortalSettings.Current.DefaultPortalSkin;
             } else
             {
-                this.Theme = Common.GetFriendySkinName(DotNetNuke.Entities.Portals.PortalSettings.Current.ActiveTab.SkinSrc);
+                this.Theme = DotNetNuke.Entities.Portals.PortalSettings.Current.ActiveTab.SkinSrc;
             }
 
             this.Themes = Common.ListContainers("host", "skin");
 
             if (string.IsNullOrWhiteSpace(DotNetNuke.Entities.Portals.PortalSettings.Current.ActiveTab.ContainerSrc))
             {
-                this.Container = Common.GetFriendySkinName(DotNetNuke.Entities.Portals.PortalSettings.Current.DefaultPortalContainer);
+                this.Container = "-1"; //DotNetNuke.Entities.Portals.PortalSettings.Current.DefaultPortalContainer;
             }
             else
             {
-                this.Container = Common.GetFriendySkinName(DotNetNuke.Entities.Portals.PortalSettings.Current.ActiveTab.ContainerSrc);
+                this.Container = DotNetNuke.Entities.Portals.PortalSettings.Current.ActiveTab.ContainerSrc;
             }
 
             this.Containers = Common.ListContainers("host", "containers");

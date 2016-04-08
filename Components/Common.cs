@@ -96,7 +96,7 @@ namespace nBrane.Modules.AdministrationSuite.Components
                         }
                         break;
                 }
-
+                var siteDefault  = string.Empty;
                 if (SkinOrContainer.ToLower() == "skin")
                 {
                     var currentDefault = PortalSettings.Current.ActiveTab.SkinSrc;
@@ -105,6 +105,7 @@ namespace nBrane.Modules.AdministrationSuite.Components
                         currentDefault = PortalSettings.Current.DefaultPortalSkin;
                     }
 
+                    siteDefault = GetFriendySkinName(PortalSettings.Current.DefaultPortalSkin);
                     currentSetting = GetFriendySkinName(currentDefault);
                 }
                 else {
@@ -114,6 +115,7 @@ namespace nBrane.Modules.AdministrationSuite.Components
                         currentDefault = PortalSettings.Current.DefaultPortalContainer;
                     }
 
+                    siteDefault = GetFriendySkinName(PortalSettings.Current.DefaultPortalContainer);
                     currentSetting = GetFriendySkinName(currentDefault);
                 }
 
@@ -150,7 +152,7 @@ namespace nBrane.Modules.AdministrationSuite.Components
                 if (apiResponse.Count > 0)
                 {
                     apiResponse.Insert(0, new DTO.GenericSelectableListItem(strSeparator, "", false));
-                    apiResponse.Insert(0, new DTO.GenericSelectableListItem("Default - " + currentSetting, "-1", false));
+                    apiResponse.Insert(0, new DTO.GenericSelectableListItem("Default - " + siteDefault, "-1", false));
                 }
                 else {
                     apiResponse.Insert(0, new DTO.GenericSelectableListItem("ContainerNoneAvailable", "-1", false));

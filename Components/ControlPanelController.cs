@@ -536,10 +536,10 @@ namespace nBrane.Modules.AdministrationSuite.Components
                     dnnTab.DisableLink = page.Disabled;
 
                     if (!string.IsNullOrWhiteSpace(page.Theme))
-                        dnnTab.SkinSrc = page.Theme;
+                        dnnTab.SkinSrc = page.Theme != "-1" ? page.Theme : string.Empty;
 
                     if (!string.IsNullOrWhiteSpace(page.Container))
-                        dnnTab.ContainerSrc = page.Container;
+                        dnnTab.ContainerSrc = page.Container != "-1" ? page.Container : string.Empty;
 
                     if (page.Id == -1) {
                         dnnTab.PortalID = PortalSettings.PortalId;
