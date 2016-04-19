@@ -254,4 +254,5 @@
 	width:auto;
 }
 
-.nbr-upper-control-panel li {width: 20px; height: 25px; overflow: hidden;display:inline-block !important;white-space: nowrap;}
+.nbr-upper-control-panel li {width: 20px; height: 25px; overflow: hidden;display:inline-block !important;white-space: nowrap;font-family:'Montserrat';}
+.nbr-upper-control-panel li i {font-size:20px;}

@@ -941,6 +941,36 @@ namespace nBrane.Modules.AdministrationSuite.Components
 
             return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
         }
+        [HttpGet]
+        [DnnPageEditor]
+        public HttpResponseMessage ListModuleCategories()
+        {
+            var apiResponse = new DTO.ApiResponse<List<DTO.GenericListItem>>();
+            
+            try
+            {
+                apiResponse.CustomObject = new List<DTO.GenericListItem>();
+
+                var termController = DotNetNuke.Entities.Content.Common.Util.GetTermController();
+
+                foreach (var term in termController.GetTermsByVocabulary("Module_Categories").OrderBy(t => t.Weight).Where(t => t.Name != "< None >"))
+                {
+                    apiResponse.CustomObject.Add(new DTO.GenericListItem() { Value = term.TermId.ToString(), Name = term.Name });
+                }
+                apiResponse.CustomObject.Add(new DTO.GenericListItem() { Value = "All", Name = "All" });
+
+                apiResponse.Success = true;
+            }
+            catch (Exception err)
+            {
+                apiResponse.Success = false;
+                apiResponse.Message = err.Message;
+
+                Exceptions.LogException(err);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
+        }
 
         [HttpGet]
         [DnnPageEditor]
@@ -956,7 +986,17 @@ namespace nBrane.Modules.AdministrationSuite.Components
 
                 foreach (var module in listOfModules)
                 {
-                    apiResponse.Modules.Add(new DTO.GenericListItem() { Value = module.DesktopModuleID.ToString(), Name = module.FriendlyName });
+                    if (category.Equals("all", StringComparison.OrdinalIgnoreCase))
+                    {
+                        apiResponse.Modules.Add(new DTO.GenericListItem() { Value = module.DesktopModuleID.ToString(), Name = module.FriendlyName });
+                    }
+                    else
+                    {
+                        if (module.DesktopModule.Category.Equals(category, StringComparison.OrdinalIgnoreCase))
+                        {
+                            apiResponse.Modules.Add(new DTO.GenericListItem() { Value = module.DesktopModuleID.ToString(), Name = module.FriendlyName });
+                        }
+                    }
                 }
 
                 apiResponse.Panes = new List<DTO.GenericListItem>();

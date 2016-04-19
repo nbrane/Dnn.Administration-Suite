@@ -7,6 +7,9 @@
 			<span>Close</span>
 		</li>
 	</ul>
+    <ul class="module-list" data-bind="foreach: Categories">
+        <li data-bind="click: $parent.SelectCategory, css: {selected: $parent.SelectedCategory() === $data}, visible: $parent.SelectedCategory() === null || $parent.SelectedCategory() === $data"><span data-bind="text: Name">Loading...</span></li>
+    </ul>
 	<ul class="module-list" data-bind="foreach: Modules">
 		<li data-bind="click: $parent.ShowAddNewModuleDialog, css: {selected: $parent.SelectedModule() === $data}"><span data-bind="text: Name">Loading...</span></li>
 	</ul>

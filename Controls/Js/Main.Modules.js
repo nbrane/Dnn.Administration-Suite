@@ -6,6 +6,8 @@ var nBraneAdminSuiteModulesViewModel = function () {
 	self.Pages = ko.observableArray();
 	self.Containers = ko.observableArray();
 	self.Panes = ko.observableArray();
+	self.Categories = ko.observableArray();
+
 	self.ModuleTitle = ko.observable('');
 	self.ModuleVisibility = ko.observable('');
 	self.ModuleLocation = ko.observable('');
@@ -14,6 +16,7 @@ var nBraneAdminSuiteModulesViewModel = function () {
 	self.CopyModulePage = ko.observable(-1);
 	self.CopyModuleId = ko.observable(-1);
 
+	self.SelectedCategory = ko.observable(null);
 	self.SelectedModule = ko.observable();
 	self.DialogVisible = ko.observable(false);
 	self.FocusOnTitle = ko.observable(false);
@@ -35,13 +38,10 @@ var nBraneAdminSuiteModulesViewModel = function () {
 	
 	self.LoadInitialView = function() {
 		self.ParentNode().ToggleLoadingScreen(true);
-		self.ParentNode().ServerCallback('ListModules', 'category=all', function(serverData) {
+		self.ParentNode().ServerCallback('ListModuleCategories', 'category=all', function(serverData) {
 			if (serverData.Success){
-				self.Modules(serverData.Modules);
-				self.Panes(controlPanelPanes);
-				self.Containers(serverData.Containers);
-				self.ModuleLocation(serverData.DefaultModuleLocation);
-				
+				self.Categories(serverData.CustomObject);
+
 				self.ParentNode().ToggleLoadingScreen(false);
 			}
 			else{
@@ -49,6 +49,24 @@ var nBraneAdminSuiteModulesViewModel = function () {
 			}
 		});
 	};
+
+	self.LoadCategory = function (value) {
+	    self.ParentNode().ToggleLoadingScreen(true);
+	    self.ParentNode().ServerCallback('ListModules', 'category=' + value, function (serverData) {
+	        if (serverData.Success) {
+	            self.Modules(serverData.Modules);
+	            self.Panes(controlPanelPanes);
+	            self.Containers(serverData.Containers);
+	            self.ModuleLocation(serverData.DefaultModuleLocation);
+
+	            self.ParentNode().ToggleLoadingScreen(false);
+	        }
+	        else {
+	            self.ParentNode().ToggleConfirmScreen('Sorry, We ran into a problem.', 'Please try again');
+	        }
+	    });
+	};
+
 	self.AddModule = function(module) {
 		var moduleObject = {};
 		moduleObject.Module = self.SelectedModule().Value;
@@ -114,6 +132,16 @@ var nBraneAdminSuiteModulesViewModel = function () {
 		$('.nbr-dialog').fadeOut(400, function() {self.SelectedModule(null);});
 	};
 	
+	self.SelectCategory = function (category) {
+	    if (self.SelectedCategory() == category) {
+	        self.SelectedCategory(null);
+	        self.Modules(null);
+	    } else {
+	        self.SelectedCategory(category);
+	        self.LoadCategory(category.Name);
+	    }
+	};
+
 	self.ShowAddNewModuleDialog = function(module) {
 		self.SelectedModule(module);
 		self.DialogVisible(true);
