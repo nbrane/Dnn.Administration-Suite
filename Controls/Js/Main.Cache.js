@@ -9,7 +9,7 @@ var nBraneAdminSuiteCacheViewModel = function () {
 	self.LoadInitialView = function() {
 		self.ParentNode().ToggleLoadingScreen(true);
 
-		self.ParentNode().ServerCallback('LoadCacheDetails', 'PageId=' + controlPanelTabId, function(serverData) {
+		self.ParentNode().ServerCallback('', 'LoadCacheDetails', 'PageId=' + controlPanelTabId, function (serverData) {
 			if (serverData.Success){
 				self.PageOuputCacheVariations(serverData.PageOuputCacheVariations);
 				self.TotalCacheItems(serverData.TotalCacheItems);
@@ -39,7 +39,7 @@ var nBraneAdminSuiteCacheViewModel = function () {
 		self.CloseDialog();
 		self.ParentNode().ToggleLoadingScreen(true);
 		
-		self.ParentNode().ServerCallback('ClearOutputCache', 'PageId=' + pageId, function(serverData) {
+		self.ParentNode().ServerCallback('', 'ClearOutputCache', 'PageId=' + pageId, function (serverData) {
 			if (serverData.Success){
 				location.reload();
 			}
@@ -53,7 +53,7 @@ var nBraneAdminSuiteCacheViewModel = function () {
 		self.CloseDialog();
 		self.ParentNode().ToggleLoadingScreen(true);
 		
-		self.ParentNode().ServerCallback('RecycleApplication', null, function(serverData) {
+		self.ParentNode().ServerCallback('', 'RecycleApplication', null, function (serverData) {
 			if (serverData.Success){
 				location.reload();
 			}
@@ -67,7 +67,7 @@ var nBraneAdminSuiteCacheViewModel = function () {
 		self.CloseDialog();
 		self.ParentNode().ToggleLoadingScreen(true);
 		
-		self.ParentNode().ServerCallback('InstallExtensionUrl', 'PageId=' + controlPanelTabId, function(serverData) {
+		self.ParentNode().ServerCallback('', 'InstallExtensionUrl', 'PageId=' + controlPanelTabId, function (serverData) {
 			if (serverData.Success){
 				location.href = serverData.Message;
 			}

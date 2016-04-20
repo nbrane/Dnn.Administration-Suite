@@ -32,7 +32,7 @@ var nBraneAdminSuitePagesViewModel = function () {
 			self.DefaultAction('view');
 		}
 		
-		self.ParentNode().ServerCallback('ListPages', 'parent=' + self.ParentNode().CurrentSubaction(), function(serverData) {
+		self.ParentNode().ServerCallback('Pages', 'ListPages', 'parent=' + self.ParentNode().CurrentSubaction(), function (serverData) {
 			if (serverData.Success){
 				self.Pages(serverData.CustomObject);
 
@@ -60,7 +60,7 @@ var nBraneAdminSuitePagesViewModel = function () {
 				var pageObject = {};
 				pageObject.Id = page.Value;
 				
-				self.ParentNode().ServerCallback('DeletePage', JSON.stringify(pageObject), function(serverData) {
+				self.ParentNode().ServerCallback('Pages', 'DeletePage', JSON.stringify(pageObject), function (serverData) {
 					if (serverData.Success){
 
 						self.ParentNode().ToggleLoadingScreen(false);
@@ -78,7 +78,7 @@ var nBraneAdminSuitePagesViewModel = function () {
 		} else {
 			self.ParentNode().ToggleLoadingScreen(true);
 			
-			self.ParentNode().ServerCallback('LoadPageDetails', 'id=' + page.Value, function(serverData) {
+			self.ParentNode().ServerCallback('Pages', 'LoadPageDetails', 'id=' + page.Value, function (serverData) {
 				if (serverData.Success){
 					self.PageId(serverData.CustomObject.Id);
 					self.PageName(serverData.CustomObject.Name);
@@ -113,7 +113,7 @@ var nBraneAdminSuitePagesViewModel = function () {
 		self.SelectedPage(null);
 		self.ParentNode().ToggleLoadingScreen(true);
 		
-		self.ParentNode().ServerCallback('LoadPageDetails', 'id=-1', function(serverData) {
+		self.ParentNode().ServerCallback('Pages', 'LoadPageDetails', 'id=-1', function (serverData) {
 			if (serverData.Success){
 				self.PageId(serverData.CustomObject.Id);
 				self.PageName('');
@@ -154,7 +154,7 @@ var nBraneAdminSuitePagesViewModel = function () {
 		pageObject.Theme = self.PageTheme();
 		pageObject.Container = self.PageContainer();
 		
-		self.ParentNode().ServerCallback('SavePage', JSON.stringify(pageObject), function(serverData) {
+		self.ParentNode().ServerCallback('Pages', 'SavePage', JSON.stringify(pageObject), function (serverData) {
 			if (serverData.Success){
 
 				self.ParentNode().ToggleLoadingScreen(false);

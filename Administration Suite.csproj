@@ -64,6 +64,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Common.cs" />
+    <Compile Include="Components\ControlPanelModulesController.cs" />
+    <Compile Include="Components\ControlPanelPagesController.cs" />
+    <Compile Include="Components\ControlPanelUsersController.cs" />
     <Compile Include="Components\ControlPanelController.cs" />
     <Compile Include="Components\Data.cs" />
     <Compile Include="Components\DTO.cs" />

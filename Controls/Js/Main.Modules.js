@@ -24,7 +24,7 @@ var nBraneAdminSuiteModulesViewModel = function () {
 	self.CopyModulePage.subscribe(function(newValue) {
 		if (newValue && newValue != -1) {
 			self.ParentNode().ToggleLoadingScreen(true);
-			self.ParentNode().ServerCallback('ListModulesOnPage', 'portalid=' + controlPanelPortalId + '&tabid=' + newValue, function(serverData) {
+			self.ParentNode().ServerCallback('Modules', 'ListModulesOnPage', 'portalid=' + controlPanelPortalId + '&tabid=' + newValue, function (serverData) {
 				if (serverData.Success){
 					self.PageModules(serverData.CustomObject);
 					self.ParentNode().ToggleLoadingScreen(false);
@@ -38,7 +38,7 @@ var nBraneAdminSuiteModulesViewModel = function () {
 	
 	self.LoadInitialView = function() {
 		self.ParentNode().ToggleLoadingScreen(true);
-		self.ParentNode().ServerCallback('ListModuleCategories', 'category=all', function(serverData) {
+		self.ParentNode().ServerCallback('Modules', 'ListModuleCategories', 'category=all', function (serverData) {
 			if (serverData.Success){
 				self.Categories(serverData.CustomObject);
 
@@ -52,7 +52,7 @@ var nBraneAdminSuiteModulesViewModel = function () {
 
 	self.LoadCategory = function (value) {
 	    self.ParentNode().ToggleLoadingScreen(true);
-	    self.ParentNode().ServerCallback('ListModules', 'category=' + value, function (serverData) {
+	    self.ParentNode().ServerCallback('Modules', 'ListModules', 'category=' + value, function (serverData) {
 	        if (serverData.Success) {
 	            self.Modules(serverData.Modules);
 	            self.Panes(controlPanelPanes);
@@ -112,7 +112,7 @@ var nBraneAdminSuiteModulesViewModel = function () {
 	self.SaveModule = function(moduleObject){
 		self.ParentNode().ToggleLoadingScreen(true);
 		
-		self.ParentNode().ServerCallback('SaveModule', JSON.stringify(moduleObject), function(serverData) {
+		self.ParentNode().ServerCallback('Modules', 'SaveModule', JSON.stringify(moduleObject), function (serverData) {
 			if (serverData.Success){
 				self.ParentNode().ToggleConfirmScreen('Success!', 'moduleId: ' + serverData.CustomObject + '. refresh the page to show the new module?', function(){
 							location.reload();
@@ -155,7 +155,7 @@ var nBraneAdminSuiteModulesViewModel = function () {
 		
 		self.ParentNode().ToggleLoadingScreen(true);
 		
-		self.ParentNode().ServerCallback('ListAllPages', 'portalId=' + controlPanelPortalId, function(serverData) {
+		self.ParentNode().ServerCallback('Pages', 'ListAllPages', 'portalId=' + controlPanelPortalId, function (serverData) {
 			if (serverData.Success){
 				self.Pages(serverData.CustomObject);
 				self.ParentNode().ToggleLoadingScreen(false);

@@ -18,7 +18,7 @@
 		self.CurrentSubaction($(listItem).data('subaction'));
 
 		if (self.CurrentAction() != undefined){
-			self.ServerCallback('load', 'Name=' + self.CurrentAction(), function (serverData) {
+		    self.ServerCallback('', 'Load', 'Name=' + self.CurrentAction(), function (serverData) {
 				var decoded = $('<div/>').html(serverData.HTML).text();
 				$('.nbr-admin-suite').append(decoded);
 				
@@ -59,7 +59,7 @@
             listItem = event.target.parentNode;
         }
 
-		self.ServerCallback('SetUserMode', 'mode=' + $(listItem).data('action'), function (serverData) {
+		self.ServerCallback('', 'SetUserMode', 'mode=' + $(listItem).data('action'), function (serverData) {
 				location.reload();
 			}, function(xhr, status, thrown){
 				self.ToggleConfirmScreen('Sorry, We ran into a problem.', status + ': ' + thrown);
@@ -141,27 +141,26 @@
 			$('#yesButton').show();
 			$('#noButton').text('No');
 		}
-    };
+	};
 
-    self.ServerCallback = function (func, parameters, success, failure, complete, method) {
+	self.ServerCallback = function (api, func, parameters, success, failure, complete, method) {
+	    var service = $.dnnSF();
+	    var serviceUrl = service.getServiceRoot('nbrane/administrationsuite') + 'ControlPanel' + api + '/' + func;
 
-        var service = $.dnnSF();
-        var serviceUrl = service.getServiceRoot('nbrane/administrationsuite') + 'ControlPanel/' + func;
+	    method = method || "GET";
 
-        method = method || "GET";
-
-        $.ajax({
-            url: serviceUrl,
-            beforeSend: service.setModuleHeaders,
-            cache: false,
-            contentType: 'application/json; charset=UTF-8',
-            type: method,
-            data: parameters,
-            success: success,
-            error: failure,
-            complete: complete
-        });
-    }
+	    $.ajax({
+	        url: serviceUrl,
+	        beforeSend: service.setModuleHeaders,
+	        cache: false,
+	        contentType: 'application/json; charset=UTF-8',
+	        type: method,
+	        data: parameters,
+	        success: success,
+	        error: failure,
+	        complete: complete
+	    });
+	};
 };
 
 var nBraneAdminSuiteNode = null;

@@ -29,7 +29,7 @@ var nBraneAdminSuiteUsersViewModel = function () {
 	self.LoadInitialView = function() {
 		self.ParentNode().ToggleLoadingScreen(true);
 		
-		self.ParentNode().ServerCallback('ListUsers', 'filter=', function(serverData) {
+		self.ParentNode().ServerCallback('Users', 'ListUsers', 'filter=', function(serverData) {
 			if (serverData.Success){
 				self.Users(serverData.CustomObject);
 
@@ -48,7 +48,7 @@ var nBraneAdminSuiteUsersViewModel = function () {
 		userObject.Id = self.SelectedUser().Value;
 		
 		if (self.DefaultAction() == 'edit') {
-			self.ParentNode().ServerCallback('LoadUserDetails', 'Id=' + self.SelectedUser().Value, function(serverData) {
+		    self.ParentNode().ServerCallback('Users', 'LoadUserDetails', 'Id=' + self.SelectedUser().Value, function (serverData) {
 				if (serverData.Success){
 					self.Id(serverData.CustomObject.Id);
 					self.UserName(serverData.CustomObject.UserName);
@@ -66,7 +66,7 @@ var nBraneAdminSuiteUsersViewModel = function () {
 				}
 			});
 		} else if (self.DefaultAction() == 'login') {
-			self.ParentNode().ServerCallback('Impersonate', 'Id=' + self.SelectedUser().Value, function(serverData) {
+		    self.ParentNode().ServerCallback('Users', 'Impersonate', 'Id=' + self.SelectedUser().Value, function (serverData) {
 				if (serverData.Success){
 					location.reload();
 				}
@@ -76,7 +76,7 @@ var nBraneAdminSuiteUsersViewModel = function () {
 			});
 		}
 		 else if (self.DefaultAction() == 'delete') {
-			self.ParentNode().ServerCallback('DeleteUser', JSON.stringify(userObject), function(serverData) {
+		     self.ParentNode().ServerCallback('Users', 'DeleteUser', JSON.stringify(userObject), function (serverData) {
 				if (serverData.Success){
 					location.reload();
 				}
@@ -118,7 +118,7 @@ var nBraneAdminSuiteUsersViewModel = function () {
 				userObject.UserName = self.UserName();
 			}
 			
-			self.ParentNode().ServerCallback('SaveUser', JSON.stringify(userObject), function(serverData) {
+			self.ParentNode().ServerCallback('Users', 'SaveUser', JSON.stringify(userObject), function (serverData) {
 				if (serverData.Success){
 					$('.nbr-dialog').fadeOut(400, function() {self.LoadInitialView();});
 				}
