@@ -1,0 +1,20 @@
+﻿
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}{objectQualifier}nBrane_AdminSuite_GetExtensionUsage') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+    drop procedure {databaseOwner}{objectQualifier}nBrane_AdminSuite_GetExtensionUsage
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}nBrane_AdminSuite_GetExtensionUsage
+	@PortalID int
+AS
+	BEGIN
+		SELECT TOP 10 MD.DesktopModuleID,
+				Count(DISTINCT M.ModuleID) N,
+				MD.FriendlyName
+			FROM  {databaseOwner}{objectQualifier}ModuleDefinitions        AS MD
+			JOIN  {databaseOwner}{objectQualifier}Modules                  AS M  ON MD.ModuleDefID = M.ModuleDefID
+			JOIN  {databaseOwner}{objectQualifier}DesktopModules           AS DM ON MD.DesktopModuleID = DM.DesktopModuleID
+				WHERE M.PortalID = @PortalID AND DM.IsAdmin = 0
+					GROUP BY MD.DesktopModuleID, MD.FriendlyName
+						ORDER BY Count(1) DESC;
+	END
+GO

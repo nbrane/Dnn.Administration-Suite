@@ -270,9 +270,10 @@ namespace nBrane.Modules.AdministrationSuite.Components
 
                 foreach (var term in termController.GetTermsByVocabulary("Module_Categories").OrderBy(t => t.Weight).Where(t => t.Name != "< None >"))
                 {
-                    apiResponse.CustomObject.Add(new DTO.GenericListItem() { Value = term.TermId.ToString(), Name = term.Name });
+                    apiResponse.CustomObject.Add(new DTO.GenericListItem() { Value = term.Name.ToLower().Replace(" ", string.Empty), Name = term.Name });
                 }
-                apiResponse.CustomObject.Add(new DTO.GenericListItem() { Value = "All", Name = "All" });
+                apiResponse.CustomObject.Add(new DTO.GenericListItem() { Value = "top10", Name = "Top 10" });
+                apiResponse.CustomObject.Add(new DTO.GenericListItem() { Value = "all", Name = "All" });
 
                 apiResponse.Success = true;
             }
@@ -295,21 +296,32 @@ namespace nBrane.Modules.AdministrationSuite.Components
 
             try
             {
-                var listOfModules = DotNetNuke.Entities.Modules.DesktopModuleController.GetPortalDesktopModules(DotNetNuke.Entities.Portals.PortalSettings.Current.PortalId).Values;
-
                 apiResponse.Modules = new List<DTO.GenericListItem>();
 
-                foreach (var module in listOfModules)
+                if (category.Equals("top10", StringComparison.OrdinalIgnoreCase))
                 {
-                    if (category.Equals("all", StringComparison.OrdinalIgnoreCase))
+                    var top10Modules = Data.GetExtensionUsage(PortalSettings.PortalId);
+
+                    foreach (var item in top10Modules)
                     {
-                        apiResponse.Modules.Add(new DTO.GenericListItem() { Value = module.DesktopModuleID.ToString(), Name = module.FriendlyName });
+                        apiResponse.Modules.Add(new DTO.GenericListItem() { Value = item.DesktopModuleID.ToString(), Name = item.FriendlyName });
                     }
-                    else
+                }
+                else { 
+                    var listOfModules = DotNetNuke.Entities.Modules.DesktopModuleController.GetPortalDesktopModules(DotNetNuke.Entities.Portals.PortalSettings.Current.PortalId).Values;
+
+                    foreach (var module in listOfModules)
                     {
-                        if (module.DesktopModule.Category.Equals(category, StringComparison.OrdinalIgnoreCase))
+                        if (category.Equals("all", StringComparison.OrdinalIgnoreCase))
                         {
                             apiResponse.Modules.Add(new DTO.GenericListItem() { Value = module.DesktopModuleID.ToString(), Name = module.FriendlyName });
+                        }
+                        else
+                        {
+                            if (module.DesktopModule.Category.Equals(category, StringComparison.OrdinalIgnoreCase))
+                            {
+                                apiResponse.Modules.Add(new DTO.GenericListItem() { Value = module.DesktopModuleID.ToString(), Name = module.FriendlyName });
+                            }
                         }
                     }
                 }

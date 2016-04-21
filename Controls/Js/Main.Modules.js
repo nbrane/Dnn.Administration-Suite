@@ -138,7 +138,7 @@ var nBraneAdminSuiteModulesViewModel = function () {
 	        self.Modules(null);
 	    } else {
 	        self.SelectedCategory(category);
-	        self.LoadCategory(category.Name);
+	        self.LoadCategory(category.Value);
 	    }
 	};
 

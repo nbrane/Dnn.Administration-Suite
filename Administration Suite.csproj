@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="AdministrationSuite.dnn" />
+    <None Include="Data\Sql\00.00.05.sqldataprovider" />
     <None Include="Data\Sql\00.00.01.sqldataprovider" />
     <None Include="Data\Sql\uninstall.sqldataprovider" />
     <None Include="packages.config" />
