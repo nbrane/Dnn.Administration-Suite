@@ -24,6 +24,7 @@
 }
 .nbr-admin-suite ul.actions {
 	text-align: right;
+    width: auto;
 }
 
 .nbr-admin-suite div.default-action {
