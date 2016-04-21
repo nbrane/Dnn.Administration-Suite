@@ -2,5 +2,9 @@
     drop procedure {databaseOwner}{objectQualifier}nBrane_AdminSuite_SearchForUsers
 GO
 
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}{objectQualifier}nBrane_AdminSuite_GetExtensionUsage') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+    drop procedure {databaseOwner}{objectQualifier}nBrane_AdminSuite_GetExtensionUsage
+GO
+
 /* auto-enable the old control panel */
 UPDATE {databaseOwner}{objectQualifier}HostSettings SET [SettingValue] = 'Admin/ControlPanel/ControlBar.ascx' WHERE [SettingName] = 'ControlPanel'
