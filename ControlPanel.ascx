@@ -18,7 +18,7 @@
     </ul>
 	
 	<script type="text/javascript">
-	   var controlPanelPortalId = <%= PortalSettings.Current.ActiveTab.PortalID %>;
+	   var controlPanelPortalId = <%= PortalSettings.Current.PortalId %>;
 	   var controlPanelTabId = <%= PortalSettings.Current.ActiveTab.TabID %>;
 	   var controlPanelPanes = <%= PortalSettings.Current.ActiveTab.Panes.ToJson() %>;
 	</script>

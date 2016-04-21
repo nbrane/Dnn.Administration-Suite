@@ -20,7 +20,7 @@ var nBraneAdminSuiteModulesViewModel = function () {
 	self.SelectedModule = ko.observable();
 	self.DialogVisible = ko.observable(false);
 	self.FocusOnTitle = ko.observable(false);
-	
+
 	self.CopyModulePage.subscribe(function(newValue) {
 		if (newValue && newValue != -1) {
 			self.ParentNode().ToggleLoadingScreen(true);
@@ -35,7 +35,7 @@ var nBraneAdminSuiteModulesViewModel = function () {
 			});
 		}
     });
-	
+
 	self.LoadInitialView = function() {
 		self.ParentNode().ToggleLoadingScreen(true);
 		self.ParentNode().ServerCallback('Modules', 'ListModuleCategories', 'category=all', function (serverData) {
@@ -80,7 +80,7 @@ var nBraneAdminSuiteModulesViewModel = function () {
 	};
 	
 	self.CopyModule = function(module) {
-		if(self.CopyModulePage() != -1) {
+		if(self.CopyModulePage() != undefined && self.CopyModulePage() != -1) {
 			var moduleObject = {};
 			moduleObject.PageId = self.CopyModulePage();
 			moduleObject.ModuleId = self.CopyModuleId();
@@ -95,7 +95,7 @@ var nBraneAdminSuiteModulesViewModel = function () {
 	};
 	
 	self.ShareModule = function(module) {
-		if(self.CopyModulePage() != -1) {
+		if(self.CopyModulePage() != undefined && self.CopyModulePage() != -1) {
 			var moduleObject = {};
 			moduleObject.PageId = self.CopyModulePage();
 			moduleObject.ModuleId = self.CopyModuleId();
@@ -129,14 +129,20 @@ var nBraneAdminSuiteModulesViewModel = function () {
 	};
 	
 	self.CloseDialog = function(module) {
-		$('.nbr-dialog').fadeOut(400, function() {self.SelectedModule(null);});
+		$('.nbr-dialog').fadeOut(400, function() {
+			self.SelectedModule(null);
+			self.Pages(null);
+			self.CopyModulePage(-1);
+		});
 	};
 	
 	self.SelectCategory = function (category) {
+		
 	    if (self.SelectedCategory() == category) {
 	        self.SelectedCategory(null);
 	        self.Modules(null);
 	    } else {
+	        
 	        self.SelectedCategory(category);
 	        self.LoadCategory(category.Value);
 	    }

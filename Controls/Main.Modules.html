@@ -22,7 +22,7 @@
 				<label>Page:</label>
 				<select data-bind="options:Pages, optionsText: 'Name', optionsValue: 'Value', value: CopyModulePage"></select>
 			</li>
-			<li data-bind="visible: CopyModulePage() != -1">
+			<li data-bind="visible: CopyModulePage() != undefined && CopyModulePage() != -1">
 				<label>Module:</label>
 				<select data-bind="options:PageModules, optionsText: 'Name', optionsValue: 'Value', value: CopyModuleId"></select>
 			</li>
