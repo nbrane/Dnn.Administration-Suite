@@ -9,12 +9,12 @@ AS
 	BEGIN
 		SELECT TOP 10 MD.DesktopModuleID,
 				Count(DISTINCT M.ModuleID) N,
-				MD.FriendlyName
+				DM.FriendlyName
 			FROM  {databaseOwner}{objectQualifier}ModuleDefinitions        AS MD
 			JOIN  {databaseOwner}{objectQualifier}Modules                  AS M  ON MD.ModuleDefID = M.ModuleDefID
 			JOIN  {databaseOwner}{objectQualifier}DesktopModules           AS DM ON MD.DesktopModuleID = DM.DesktopModuleID
 				WHERE M.PortalID = @PortalID AND DM.IsAdmin = 0
-					GROUP BY MD.DesktopModuleID, MD.FriendlyName
+					GROUP BY MD.DesktopModuleID, DM.FriendlyName
 						ORDER BY Count(1) DESC;
 	END
 GO
