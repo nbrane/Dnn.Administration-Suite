@@ -26,6 +26,62 @@ namespace nBrane.Modules.AdministrationSuite.Components
     [DnnAuthorize]
     public class ControlPanelController : DnnApiController
     {
+        private LocalizationProvider localizationProvider = new LocalizationProvider();
+
+        [HttpGet]
+        public HttpResponseMessage LoadJS(string Name)
+        {
+            //1=control, 2=javascript. 
+            var controlName = string.Empty;
+
+            switch (Name.ToLower())
+            {
+                case "pages":
+                    controlName = "Main.Pages";
+                    break;
+                case "users":
+                    controlName = "Main.Users";
+                    break;
+                case "modules":
+                    controlName = "Main.Modules";
+                    break;
+                case "site":
+                    controlName = "Main.Site";
+                    break;
+                case "host":
+                    controlName = "Main.Host";
+                    break;
+                case "cache":
+                    controlName = "Main.Cache";
+                    break;
+                case "main":
+                    controlName = "Main";
+                    break;
+                default:
+
+                    break;
+            }
+
+            if (!string.IsNullOrWhiteSpace(controlName))
+            {
+                var fileName = DotNetNuke.Common.Globals.ApplicationMapPath + "\\desktopmodules\\nbrane\\administrationsuite\\controls\\js\\" + controlName + ".js";
+                if (System.IO.File.Exists(fileName))
+                {
+                    var fileContents = System.IO.File.ReadAllText(fileName);
+                    if (fileContents.Contains("\"[data-bind: main-resource-file]\""))
+                    {
+                        fileContents = fileContents.Replace("\"[data-bind: main-resource-file]\"", Newtonsoft.Json.JsonConvert.SerializeObject(localizationProvider.GetCompiledResourceFile(PortalSettings, "/DesktopModules/nBrane/AdministrationSuite/Controls/App_LocalResources/" + controlName + ".resx", System.Threading.Thread.CurrentThread.CurrentCulture.Name)));
+                    }
+                    var response = new HttpResponseMessage(HttpStatusCode.OK);
+                    response.Content = new StringContent(fileContents, System.Text.Encoding.UTF8, "text/plain");
+
+                    return response;
+                }
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, false);
+        }
+
         [HttpGet]
         public HttpResponseMessage Load(string Name)
         {
@@ -80,6 +136,10 @@ namespace nBrane.Modules.AdministrationSuite.Components
             fileContents = Regex.Replace(System.IO.File.ReadAllText(fileName), @"[\r\n\t ]+", " ");
 
             apiResponse.JS = fileContents;
+
+            var result = Newtonsoft.Json.JsonConvert.SerializeObject(localizationProvider.GetCompiledResourceFile(PortalSettings, "/DesktopModules/nBrane/AdministrationSuite/Controls/App_LocalResources/" + controlName + ".resx", System.Threading.Thread.CurrentThread.CurrentCulture.Name));
+            apiResponse.LANG = result;
+
             apiResponse.Success = true;
 
             var response = Request.CreateResponse(HttpStatusCode.OK, apiResponse);

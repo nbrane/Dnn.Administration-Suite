@@ -13,6 +13,7 @@ namespace nBrane.Modules.AdministrationSuite.Components.DTO
         public string Message { get; set; }
         public string HTML { get; set; }
         public string JS { get; set; }
+        public string LANG { get; set; }
     }
 
     public class ApiModuleResponse

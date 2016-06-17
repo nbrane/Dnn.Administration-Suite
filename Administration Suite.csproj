@@ -78,12 +78,33 @@
     <Compile Include="Components\ControlPanelController.cs" />
     <Compile Include="Components\Data.cs" />
     <Compile Include="Components\DTO.cs" />
+    <Compile Include="Components\LocalizationProvider.cs" />
     <Compile Include="ControlPanel.ascx.cs">
       <DependentUpon>ControlPanel.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ControlPanel.ascx.designer.cs">
       <DependentUpon>ControlPanel.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\App_LocalResources\Main.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Main.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\App_LocalResources\Main.Modules.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Main.Modules.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\App_LocalResources\Main.Pages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Main.Pages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\App_LocalResources\Main.Users.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Main.Users.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -93,6 +114,8 @@
     <None Include="Data\Sql\00.00.01.sqldataprovider" />
     <None Include="Data\Sql\uninstall.sqldataprovider" />
     <None Include="packages.config" />
+    <Content Include="Controls\Js\lang.main.modules.en-us.js" />
+    <Content Include="Controls\Js\lang.main.en-us.js" />
     <Content Include="Controls\Js\Main.Cache.js" />
     <Content Include="Controls\Js\Main.js" />
     <Content Include="Controls\Js\Main.Modules.js" />
@@ -107,7 +130,9 @@
     <Content Include="StyleSheet.css" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ControlPanel.ascx" />
+    <Content Include="ControlPanel.ascx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
     <Content Include="Controls\Js\Settings.Site.js" />
     <Content Include="Controls\Js\Settings.Page.js" />
     <Content Include="Controls\Js\Settings.Module.js" />
@@ -121,7 +146,24 @@
     <Content Include="Controls\Main.Users.html" />
     <Content Include="Controls\Main.Pages.html" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\App_LocalResources\Main.Modules.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Main.Modules.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\App_LocalResources\Main.Pages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Main.Pages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\App_LocalResources\Main.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Main.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\App_LocalResources\Main.Users.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Main.Users.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <Extension>zip</Extension>

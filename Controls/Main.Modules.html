@@ -16,7 +16,7 @@
 
 	<div class="nbr-dialog">
 		<h2 data-bind="visible: SelectedModule() == null">Copy/Share Modules</h2>
-		<h2 data-bind="visible: SelectedModule() != null">Add a New Module</h2>
+        <h2 data-bind="visible: SelectedModule() != null, restext: {key: 'Header', collection: Localization('Modules') }">Add a New Module</h2>
 		<ul>
 			<li data-bind="visible: SelectedModule() == null">
 				<label>Page:</label>
@@ -28,7 +28,7 @@
 			</li>
 			
 			<li data-bind="visible: SelectedModule() != null">
-				<label>Title:</label>
+                <label data-bind="restext: {key: 'Title', collection: Localization('Modules') }">Title:</label>
 				<input data-bind="hasFocus: FocusOnTitle, value: ModuleTitle" />
 			</li>
 			<li>
@@ -42,7 +42,7 @@
 				</select>
 			</li>
 			<li>
-				<label>Position / Location:</label>
+                <label data-bind="restext: {key: 'Position', collection: Localization('Modules') }">Position / Location:</label>
 				<select style="width: 45%" data-bind="value:ModulePosition">
 					<option value="TOP">Top</option>
 					<option value="BOTTOM">Bottom</option>
@@ -50,14 +50,14 @@
 				<select style="width: 46%" data-bind="options:Panes, value: ModuleLocation"></select>
 			</li>
 			<li>
-				<label>Container:</label>
+                <label data-bind="restext: {key: 'Container', collection: Localization('Modules') }">Container:</label>
 				<select data-bind="options:Containers, optionsText: 'Name', optionsValue: 'Value', value: ModuleContainer"></select>
 			</li>
 		</ul>
 		<button data-bind="click: AddModule, visible: SelectedModule() != null"><i class="fa fa-plus"/> Add Module</button>
 		<button data-bind="click: CopyModule, visible: SelectedModule() == null"><i class="fa fa-copy"/> Copy Module</button>
 		<button data-bind="click: ShareModule, visible: SelectedModule() == null"><i class="fa fa-share"/> Share Module</button>
-		<button style="float:right;" data-bind="click: CloseDialog"><i class="fa fa-close"/> Cancel</button>
+		<button style="float:right;" data-bind="click: CloseDialog"><i class="fa fa-close"/> <span>Cancel</span></button>
 	</div>
 </div>
 

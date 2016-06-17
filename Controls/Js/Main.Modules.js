@@ -178,6 +178,10 @@ var nBraneAdminSuiteModulesViewModel = function () {
     self.CloseSubMenu = function () {
         self.ParentNode().CloseSubMenu();
     };
+
+    self.Localization = function (keyName) {
+        return self.ParentNode().Language()[keyName];
+    };
 	
 	self.ParentNode = function() {
 		return ko.contextFor(nBraneAdminSuiteNode).$data;

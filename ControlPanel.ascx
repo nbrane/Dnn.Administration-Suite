@@ -4,16 +4,16 @@
 <% if (IsUserImpersonated()) { %>
         <li><i class="fa fa-sign-in"></i> <span>Revert User Impersonation</span></li>
 <% } %>
-        <li data-bind="click:Logoff"><i class="fa fa-sign-out"></i> <span>Logout</span></li>
+        <li data-bind="click:Logoff"><i class="fa fa-sign-out"></i> <span data-bind="restext: 'Logoff'">Logout</span></li>
 <% if (PortalSettings.UserMode.ToString().ToLower() != "view") { %>
-        <li data-bind="click:SwitchInto" data-action="VIEW"><i class="fa fa-eye"></i> <span>Switch to View</span></li>
+        <li data-bind="click:SwitchInto" data-action="VIEW"><i class="fa fa-eye"></i> <span data-bind="restext: 'SwitchToView'"></span></li>
 <% } if (PortalSettings.UserMode.ToString().ToLower() != "edit") { %>
-        <li data-bind="click:SwitchInto" data-action="EDIT"><i class="fa fa-edit"></i> <span>Switch to Edit</span></li>
+        <li data-bind="click:SwitchInto" data-action="EDIT"><i class="fa fa-edit"></i> <span data-bind="restext: 'SwitchToEdit'"></span></li>
 <% } if (PortalSettings.UserMode.ToString().ToLower() != "layout") { %>
-        <li data-bind="click:SwitchInto" data-action="LAYOUT"><i class="fa fa-wrench"></i> <span>Switch to Layout</span></li>
+        <li data-bind="click:SwitchInto" data-action="LAYOUT"><i class="fa fa-wrench"></i> <span data-bind="restext: 'SwitchToLayout'"></span></li>
 <% } %>
 <% if (ShowCachePanel() || !ShowCachePanel()) { %>
-		<li data-action="Cache" data-bind="click:Load"><i class="fa fa-info-circle"></i> <span>Tools</span></li>
+		<li data-action="Cache" data-bind="click:Load"><i class="fa fa-info-circle"></i> <span data-bind="restext: 'Tools'"></span></li>
 <% } %>
     </ul>
 	
@@ -24,11 +24,11 @@
 	</script>
 
     <ul class="nbr-control-panel" data-bind="click:Load">
-        <li data-action="Modules"><i class="fa fa-image"></i> <span>Modules</span></li>
-        <li data-action="Pages" data-subaction="all"><i class="fa fa-file-text"></i> <span>Pages</span></li>
-        <li data-action="Users"><i class="fa fa-users"></i><span>Users</span></li>
-        <li data-action="Pages" data-subaction="admin"><i class="fa fa-cog"></i><span>Site</span></li>
-        <li data-action="Pages" data-subaction="host"><i class="fa fa-fort-awesome"></i><span>Host</span></li>
+        <li data-action="Modules"><i class="fa fa-image"></i> <span data-bind="restext: 'Modules'"></span></li>
+        <li data-action="Pages" data-subaction="all"><i class="fa fa-file-text"></i> <span data-bind="restext: 'Pages'"></span></li>
+        <li data-action="Users"><i class="fa fa-users"></i><span data-bind="restext: 'Users'"></span></li>
+        <li data-action="Pages" data-subaction="admin"><i class="fa fa-cog"></i><span data-bind="restext: 'Site'"></span></li>
+        <li data-action="Pages" data-subaction="host"><i class="fa fa-fort-awesome"></i><span data-bind="restext: 'Host'"></span></li>
     </ul>
 
     <div class="nbr-admin-suite-loading">

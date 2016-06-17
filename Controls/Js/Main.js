@@ -3,6 +3,8 @@
 	self.CurrentAction = ko.observable('none');
 	self.CurrentSubaction = ko.observable('none');
 	
+	self.Language = ko.observableArray();
+	
     self.Load = function (item, event) {
         self.ToggleLoadingScreen(true);
 		
@@ -22,6 +24,10 @@
 				var decoded = $('<div/>').html(serverData.HTML).text();
 				$('.nbr-admin-suite').append(decoded);
 				
+				if (serverData.LANG) {
+				    self.Language()[self.CurrentAction()] = JSON.parse(serverData.LANG);
+				}
+
 				if (serverData.JS){
 					$('<script>').attr('type', 'text/javascript')
 						.text(serverData.JS)
@@ -163,6 +169,26 @@
 	};
 };
 
+ko.bindingHandlers.restext = {
+    update: function (element, valueAccessor, allBindingsAccessor, viewModel, context) {
+        var binding = ko.utils.unwrapObservable(valueAccessor());
+
+        if (Object.prototype.toString.call(binding) === '[object String]') {
+            binding = { key: binding, collection: context.$root.Language()['Main'] };
+        }
+
+        var key = binding.key;
+        var item = binding.collection[key];
+
+        ko.bindingHandlers.text.update(
+            element,
+            function () { return item; },
+            allBindingsAccessor,
+            viewModel,
+            context);
+    }
+};
+
 var nBraneAdminSuiteNode = null;
 $(document).ready(function () {
     nBraneAdminSuiteNode = document.getElementById('nbr-admin-suite');
@@ -170,6 +196,9 @@ $(document).ready(function () {
         ko.cleanNode(nBraneAdminSuiteNode);
 
         var koViewModel = new nBraneAdminSuiteMainViewModel();
+
+        koViewModel.Language()['Main'] = "[data-bind: main-resource-file]";
+
         ko.applyBindings(koViewModel, nBraneAdminSuiteNode);
     }
 	
