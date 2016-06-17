@@ -193,6 +193,11 @@
 	color:#000;
 }
 
+.nbr-admin-suite .nbr-dialog-shift {
+    left:99px;
+    opacity: 1.0;
+}
+
 .nbr-admin-suite .nbr-right-dialog {
 	
 	position: fixed;

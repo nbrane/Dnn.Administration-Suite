@@ -147,6 +147,9 @@
   <data name="Pages" xml:space="preserve">
     <value>Pages</value>
   </data>
+  <data name="PageSettings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
   <data name="Site" xml:space="preserve">
     <value>Site</value>
   </data>

@@ -27,21 +27,29 @@ var nBraneAdminSuitePagesViewModel = function () {
 		self.ParentNode().ToggleLoadingScreen(true);
 
 		if (self.ParentNode().CurrentSubaction() == 'all') {
-			self.ShowManagementLinks(true);
+		    self.ShowManagementLinks(true);
+		}
+		else if (self.ParentNode().CurrentSubaction() == 'settings') {
+		    self.ShowManagementLinks(false);
+		    self.DefaultAction('edit');
 		} else {
 			self.DefaultAction('view');
 		}
-		
-		self.ParentNode().ServerCallback('Pages', 'ListPages', 'parent=' + self.ParentNode().CurrentSubaction(), function (serverData) {
-			if (serverData.Success){
-				self.Pages(serverData.CustomObject);
 
-				self.ParentNode().ToggleLoadingScreen(false);
-			}
-			else{
-				self.ParentNode().ToggleConfirmScreen('Sorry, We ran into a problem.', 'Please try again');
-			}
-		});
+		if (self.ParentNode().CurrentSubaction() == 'settings') {
+		    self.ShowEditPageDialog({ Value: controlPanelTabId, Name: 'Current' });
+		} else {
+		    self.ParentNode().ServerCallback('Pages', 'ListPages', 'parent=' + self.ParentNode().CurrentSubaction(), function (serverData) {
+		    	if (serverData.Success){
+		    		self.Pages(serverData.CustomObject);
+
+		    		self.ParentNode().ToggleLoadingScreen(false);
+		    	}
+		    	else{
+		    		self.ParentNode().ToggleConfirmScreen('Sorry, We ran into a problem.', 'Please try again');
+		    	}
+		    });
+		}
 	};
 	
 	self.ShowAdvancedSettings = function() {
