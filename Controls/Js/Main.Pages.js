@@ -167,11 +167,16 @@ var nBraneAdminSuitePagesViewModel = function () {
 
 				self.ParentNode().ToggleLoadingScreen(false);
 				$('.nbr-dialog').fadeOut();
-				
-				if (serverData.CustomObject.Redirect){
+
+				if (serverData.CustomObject.Redirect) {
 					location.href = serverData.CustomObject.Url;
-				}else {
-					self.LoadInitialView();
+				} else {
+				    if (self.ParentNode().CurrentSubaction() == 'settings') {
+				        self.CloseSubMenu();
+				    } else {
+				        
+				        self.LoadInitialView();
+				    }
 				}
 			}
 			else{
