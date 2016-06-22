@@ -1,9 +1,9 @@
 ﻿<div id="nbr-admin-suite-pages" class="nbr-sub-menu">
     <ul class="actions" data-bind="visible: ParentNode().CurrentSubaction() != 'settings'">
-        <li data-bind="click: ShowAddNewPageDialog, visible: ShowManagementLinks" data-action="AddPage"><i class="fa fa-file"></i> <span>Add</span></li>
-        <li data-bind="click: CloseSubMenu"><i class="fa fa-close"></i> <span>Close</span></li>
+        <li data-bind="click: ShowAddNewPageDialog, visible: ShowManagementLinks" data-action="AddPage"><i class="fa fa-file"></i> <span data-bind="restext: {key: 'Add', collection: Localization('Main') }">Add</span></li>
+        <li data-bind="click: CloseSubMenu"><i class="fa fa-close"></i> <span data-bind="restext: {key: 'Close', collection: Localization('Main') }">Close</span></li>
     </ul>
-    <ul data-bind="foreach: Pages" data-bind="visible: ParentNode().CurrentSubaction() != 'settings'">
+    <ul data-bind="foreach: Pages, visible: ParentNode().CurrentSubaction() != 'settings'">
         <li data-bind="click: $parent.ShowEditPageDialog, css: {selected: $parent.SelectedPage() === $data}">
             <img data-bind="visible: Image.length > 0, attr:{src: Image}" />
             <span data-bind="text: Name">Loading...</span>
@@ -14,9 +14,9 @@
 
         <span>Default Action:</span>
         <ul class="actions">
-            <li data-bind="click: SetDefaultAction, css: {selected: DefaultAction() == 'view'}" data-action="view"><i class="fa fa-eye"></i> <span>View</span></li>
-            <li data-bind="click: SetDefaultAction, css: {selected: DefaultAction() == 'edit'}" data-action="edit"><i class="fa fa-edit"></i> <span>Edit</span></li>
-            <li data-bind="click: SetDefaultAction, visible: ShowManagementLinks, css: {selected: DefaultAction() == 'delete'}" data-action="delete"><i class="fa fa-trash"></i> <span>Delete</span></li>
+            <li data-bind="click: SetDefaultAction, css: {selected: DefaultAction() == 'view'}" data-action="view"><i class="fa fa-eye"></i> <span data-bind="restext: {key: 'View', collection: Localization('Main') }">View</span></li>
+            <li data-bind="click: SetDefaultAction, css: {selected: DefaultAction() == 'edit'}" data-action="edit"><i class="fa fa-edit"></i> <span data-bind="restext: {key: 'Edit', collection: Localization('Main') }">Edit</span></li>
+            <li data-bind="click: SetDefaultAction, visible: ShowManagementLinks, css: {selected: DefaultAction() == 'delete'}" data-action="delete"><i class="fa fa-trash"></i> <span data-bind="restext: {key: 'Delete', collection: Localization('Main') }">Delete</span></li>
         </ul>
     </div>
     <div class="nbr-dialog" data-bind="css:{'nbr-dialog-shift': ParentNode().CurrentSubaction() == 'settings' }">
@@ -24,23 +24,23 @@
         <h2 data-bind="visible: SelectedPage() !== null">Edit Page</h2>
         <ul>
             <li>
-                <label>Page Name:</label>
+                <label data-bind="restext: {key: 'PageName', collection: Localization('Pages') }">Page Name:</label>
                 <input data-bind="hasFocus: FocusOn, value: PageName" />
             </li>
             <li>
-                <label>Description:</label>
+                <label data-bind="restext: {key: 'Description', collection: Localization('Pages') }">Description:</label>
                 <input data-bind="value: PageDescription" />
             </li>
             <li class="single-line">
-                <label>Visible:</label>
+                <label data-bind="restext: {key: 'Visible', collection: Localization('Pages') }">Visible:</label>
                 <input type="checkbox" data-bind="checked: PageVisible" />
             </li>
             <li class="single-line">
-                <label>Disabled:</label>
+                <label data-bind="restext: {key: 'Disable', collection: Localization('Pages') }">Disabled:</label>
                 <input type="checkbox" data-bind="checked: PageDisabled" />
             </li>
             <li>
-                <label>Position:</label>
+                <label data-bind="restext: {key: 'Position', collection: Localization('Pages') }">Position:</label>
                 <select data-bind="value:PagePosition" style="width: 25%">
                     <option value=""></option>
                     <option value="1">After</option>
@@ -50,7 +50,7 @@
                 <select style="width: 50%" data-bind="options:PageList, optionsText: 'Name', optionsValue: 'Value', value: PagePositionTarget"></select>
             </li>
             <li data-bind="visible: SelectedPage() === null">
-                <label>Visibility:</label>
+                <label data-bind="restext: {key: 'Visibility', collection: Localization('Pages') }">Visibility:</label>
                 <select data-bind="value:PageVisibility" style="width: 50%">
                     <option value="0">Same as Page</option>
                     <option value="1">Page Editors Only</option>
@@ -60,16 +60,16 @@
                 </select>
             </li>
             <li>
-                <label>Theme:</label>
+                <label data-bind="restext: {key: 'Theme', collection: Localization('Pages') }">Theme:</label>
                 <select data-bind="options:ThemeList, optionsText: 'Name', optionsValue: 'Value', value: PageTheme"></select>
             </li>
             <li>
-                <label>Container:</label>
+                <label data-bind="restext: {key: 'Container', collection: Localization('Pages') }">Container:</label>
                 <select data-bind="options:ContainerList, optionsText: 'Name', optionsValue: 'Value', value: PageContainer"></select>
             </li>
         </ul>
-        <button data-bind="click: AddPage"><i class="fa fa-save" /> <span data-bind="visible: SelectedPage() === null">Add Page</span><span data-bind="visible: SelectedPage() !== null">Update Page</span></button>
-        <button data-bind="click: ShowAdvancedSettings"><i class="fa fa-cogs" /> <span>Advanced Settings</span></button>
-        <button style="float:right;" data-bind="click: CloseDialog"><i class="fa fa-close" /> Cancel</button>
+        <button data-bind="click: AddPage"><i class="fa fa-save" /> <span data-bind="visible: SelectedPage() === null, restext: {key: 'Add' , collection: Localization('Pages') }">Add Page</span><span data-bind="visible: SelectedPage() !== null, restext: {key: 'Update' , collection: Localization('Pages') }">Update Page</span></button>
+        <button data-bind="click: ShowAdvancedSettings"><i class="fa fa-cogs" /> <span data-bind="restext: {key: 'Advanced', collection: Localization('Pages') }">Advanced Settings</span></button>
+        <button style="float:right;" data-bind="click: CloseDialog"><i class="fa fa-close" /> <span data-bind="restext: {key: 'Cancel', collection: Localization('Main') }">Cancel</span></button>
     </div>
 </div>

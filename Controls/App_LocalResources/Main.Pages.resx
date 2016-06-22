@@ -117,16 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AdvancedSettings" xml:space="preserve">
+  <data name="Add" xml:space="preserve">
+    <value>Add Page</value>
+  </data>
+  <data name="Advanced" xml:space="preserve">
     <value>Advanced Settings</value>
   </data>
   <data name="Container" xml:space="preserve">
     <value>Container:</value>
   </data>
   <data name="Description" xml:space="preserve">
-    <value>Description</value>
+    <value>Description:</value>
   </data>
-  <data name="Disabled" xml:space="preserve">
+  <data name="Disable" xml:space="preserve">
     <value>Disabled:</value>
   </data>
   <data name="Header" xml:space="preserve">
@@ -136,7 +139,7 @@
     <value>Edit Page</value>
   </data>
   <data name="PageName" xml:space="preserve">
-    <value>Page Name</value>
+    <value>Page Name:</value>
   </data>
   <data name="Position" xml:space="preserve">
     <value>Position:</value>
@@ -144,8 +147,11 @@
   <data name="Theme" xml:space="preserve">
     <value>Theme:</value>
   </data>
-  <data name="UpdatePage" xml:space="preserve">
+  <data name="Update" xml:space="preserve">
     <value>Update Page</value>
+  </data>
+  <data name="Visibility" xml:space="preserve">
+    <value>Visibility:</value>
   </data>
   <data name="Visible" xml:space="preserve">
     <value>Visible:</value>
