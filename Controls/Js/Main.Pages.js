@@ -166,16 +166,13 @@ var nBraneAdminSuitePagesViewModel = function () {
 			if (serverData.Success){
 
 				self.ParentNode().ToggleLoadingScreen(false);
-				$('.nbr-dialog').fadeOut();
+				self.CloseDialog();
 
 				if (serverData.CustomObject.Redirect) {
 					location.href = serverData.CustomObject.Url;
 				} else {
-				    if (self.ParentNode().CurrentSubaction() == 'settings') {
-				        self.CloseSubMenu();
-				    } else {
-				        
-				        self.LoadInitialView();
+				    if (self.ParentNode().CurrentSubaction() != 'settings') {
+                        self.LoadInitialView();
 				    }
 				}
 			}
@@ -194,7 +191,11 @@ var nBraneAdminSuitePagesViewModel = function () {
 	};
 	
 	self.CloseDialog = function(module) {
-		$('.nbr-dialog').fadeOut(400, function() {self.SelectedPage(null);});
+	    $('.nbr-dialog').fadeOut(400, function () { self.SelectedPage(null); });
+
+	    if (self.ParentNode().CurrentSubaction() == 'settings') {
+	        self.CloseSubMenu();
+	    }
 	};
 
     self.CloseSubMenu = function () {
