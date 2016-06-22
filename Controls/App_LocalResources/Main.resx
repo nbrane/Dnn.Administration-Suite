@@ -204,4 +204,10 @@
   <data name="View" xml:space="preserve">
     <value>View</value>
   </data>
+  <data name="ListLoading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
 </root>
