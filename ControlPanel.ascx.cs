@@ -48,7 +48,10 @@ namespace nBrane.Modules.AdministrationSuite
                     ClientResourceManager.RegisterStyleSheet(Page, "//fonts.googleapis.com/css?family=Montserrat", FileOrder.Css.ModuleCss);
                     ClientResourceManager.RegisterStyleSheet(Page, "//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css", FileOrder.Css.ModuleCss);
                     ClientResourceManager.RegisterStyleSheet(Page, "~/desktopmodules/nbrane/administrationsuite/stylesheet.css", FileOrder.Css.ModuleCss);
-                    ClientResourceManager.RegisterScript(Page, "~/desktopmodules/nbrane/administrationsuite/api/controlpanel/loadjs?name=main", FileOrder.Js.DefaultPriority);
+                    
+
+
+                    ClientResourceManager.RegisterScript(Page, "//" + PortalSettings.PortalAlias.HTTPAlias.Replace("http://", string.Empty).Replace("https://", string.Empty) + "/desktopmodules/nbrane/administrationsuite/api/controlpanel/loadjs?name=main", FileOrder.Js.DefaultPriority);
                     
                     ClientResourceManager.RegisterScript(Page, "//cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.66.0-2013.10.09/jquery.blockUI.min.js", FileOrder.Js.DefaultPriority);
                 }

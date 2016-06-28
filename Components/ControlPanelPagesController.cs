@@ -241,7 +241,7 @@ namespace nBrane.Modules.AdministrationSuite.Components
                         pageId = -1;
                         break;
                     default:
-                        //todo, parse for int and get by parent id
+                        int.TryParse(parent, out pageId);
                         break;  
                 }
                 if (pageId > -2)
