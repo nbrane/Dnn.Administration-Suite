@@ -57,64 +57,78 @@ var nBraneAdminSuitePagesViewModel = function () {
 		location.href = self.PageUrls()[0].Value + "?ctl=tab&action=edit&returntabid=" + controlPanelTabId;
 	};
 	
-	self.ShowEditPageDialog = function(page) {
-		self.SelectedPage(page);
+	self.ShowEditPageDialog = function(page, event) {
 
-		if (self.DefaultAction() == 'delete') {
-			
-			self.ParentNode().ToggleConfirmScreen('Are you sure you want to delete the following page?', 'Id: ' + page.Value + ', Name: ' + page.Name, function() {
-				self.ParentNode().ToggleLoadingScreen(true);
-				
-				var pageObject = {};
-				pageObject.Id = page.Value;
-				
-				self.ParentNode().ServerCallback('Pages', 'DeletePage', JSON.stringify(pageObject), function (serverData) {
-					if (serverData.Success){
+	    if ($(event.target).hasClass("page-with-children")) {
+	        self.ParentNode().ServerCallback('Pages', 'ListPages', 'parent=' + page.Value, function (serverData) {
+	            if (serverData.Success) {
+	                self.Pages(serverData.CustomObject);
 
-						self.ParentNode().ToggleLoadingScreen(false);
-						if (serverData.CustomObject.Redirect){
-							location.href = serverData.CustomObject.Url;
-						}else {
-							self.LoadInitialView();
-						}
-					}
-					else{
-						self.ParentNode().ToggleConfirmScreen('Sorry, We ran into a problem.', 'Please try again');
-					}
-				}, null,null, 'POST');
-			});
-		} else {
-			self.ParentNode().ToggleLoadingScreen(true);
-			
-			self.ParentNode().ServerCallback('Pages', 'LoadPageDetails', 'id=' + page.Value, function (serverData) {
-				if (serverData.Success){
-					self.PageId(serverData.CustomObject.Id);
-					self.PageName(serverData.CustomObject.Name);
-					self.PageDescription(serverData.CustomObject.Description);
-					self.PageVisible(serverData.CustomObject.Visible);
-					self.PageDisabled(serverData.CustomObject.Disabled);
-					self.PageUrls(serverData.CustomObject.Urls);
-					self.PageList(serverData.CustomObject.AllPages);
-					self.ThemeList(serverData.CustomObject.Themes);
-					self.ContainerList(serverData.CustomObject.Containers);
-					self.PageTheme(serverData.CustomObject.Theme);
-					self.PageContainer(serverData.CustomObject.Container);
-					
-					if (self.DefaultAction() == 'edit') {
-						self.ParentNode().ToggleLoadingScreen(false);
-						$('.nbr-dialog').fadeIn();
-						self.FocusOn(false);
-					}
-					else if (self.DefaultAction() == 'view'){
-						location.href = serverData.CustomObject.Urls[0].Value;
-					}
-				}
-				else{
-					self.ParentNode().ToggleConfirmScreen('Sorry, We ran into a problem.', 'Please try again');
-				}
-			});
-		}
-		
+	                self.ParentNode().ToggleLoadingScreen(false);
+	            }
+	            else {
+	                self.ParentNode().ToggleConfirmScreen('Sorry, We ran into a problem.', 'Please try again');
+	            }
+	        });
+	    }
+	    else {
+	        self.SelectedPage(page);
+
+	        if (self.DefaultAction() == 'delete') {
+
+	            self.ParentNode().ToggleConfirmScreen('Are you sure you want to delete the following page?', 'Id: ' + page.Value + ', Name: ' + page.Name, function () {
+	                self.ParentNode().ToggleLoadingScreen(true);
+
+	                var pageObject = {};
+	                pageObject.Id = page.Value;
+
+	                self.ParentNode().ServerCallback('Pages', 'DeletePage', JSON.stringify(pageObject), function (serverData) {
+	                    if (serverData.Success) {
+
+	                        self.ParentNode().ToggleLoadingScreen(false);
+	                        if (serverData.CustomObject.Redirect) {
+	                            location.href = serverData.CustomObject.Url;
+	                        } else {
+	                            self.LoadInitialView();
+	                        }
+	                    }
+	                    else {
+	                        self.ParentNode().ToggleConfirmScreen('Sorry, We ran into a problem.', 'Please try again');
+	                    }
+	                }, null, null, 'POST');
+	            });
+	        } else {
+	            self.ParentNode().ToggleLoadingScreen(true);
+
+	            self.ParentNode().ServerCallback('Pages', 'LoadPageDetails', 'id=' + page.Value, function (serverData) {
+	                if (serverData.Success) {
+	                    self.PageId(serverData.CustomObject.Id);
+	                    self.PageName(serverData.CustomObject.Name);
+	                    self.PageDescription(serverData.CustomObject.Description);
+	                    self.PageVisible(serverData.CustomObject.Visible);
+	                    self.PageDisabled(serverData.CustomObject.Disabled);
+	                    self.PageUrls(serverData.CustomObject.Urls);
+	                    self.PageList(serverData.CustomObject.AllPages);
+	                    self.ThemeList(serverData.CustomObject.Themes);
+	                    self.ContainerList(serverData.CustomObject.Containers);
+	                    self.PageTheme(serverData.CustomObject.Theme);
+	                    self.PageContainer(serverData.CustomObject.Container);
+
+	                    if (self.DefaultAction() == 'edit') {
+	                        self.ParentNode().ToggleLoadingScreen(false);
+	                        $('.nbr-dialog').fadeIn();
+	                        self.FocusOn(false);
+	                    }
+	                    else if (self.DefaultAction() == 'view') {
+	                        location.href = serverData.CustomObject.Urls[0].Value;
+	                    }
+	                }
+	                else {
+	                    self.ParentNode().ToggleConfirmScreen('Sorry, We ran into a problem.', 'Please try again');
+	                }
+	            });
+	        }
+	    }
 	};
 	
 	self.ShowAddNewPageDialog = function() {

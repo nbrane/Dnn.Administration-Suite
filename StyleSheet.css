@@ -263,3 +263,15 @@
 
 .nbr-upper-control-panel li {width: 20px; height: 25px; overflow: hidden;display:inline-block !important;white-space: nowrap;font-family:'Montserrat';}
 .nbr-upper-control-panel li i {font-size:20px;}
+
+.nbr-admin-suite .page-with-children {
+    float:right;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 0;
+    
+}
+
+.nbr-admin-suite .page-with-children:hover {
+    background-color: #1f6fb3;
+}

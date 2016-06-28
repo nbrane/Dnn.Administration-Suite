@@ -47,12 +47,18 @@ namespace nBrane.Modules.AdministrationSuite.Components.DTO
         public string Name { get; set; }
     }
 
+
     public class GenericListImageItem : GenericListItem
     {
         public string Image { get; set; }
     }
 
-        public class GenericSelectableListItem : GenericListItem
+    public class GenericPageListItem : GenericListImageItem
+    {
+        public bool HasChildren { get; set; }
+    }
+
+    public class GenericSelectableListItem : GenericListItem
     {
         public GenericSelectableListItem() { }
         public GenericSelectableListItem(string name, string value, bool selected)

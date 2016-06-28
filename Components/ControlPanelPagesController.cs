@@ -221,7 +221,7 @@ namespace nBrane.Modules.AdministrationSuite.Components
         [DnnPageEditor]
         public HttpResponseMessage ListPages(string parent)
         {
-            var apiResponse = new DTO.ApiResponse<List<DTO.GenericListImageItem>>();
+            var apiResponse = new DTO.ApiResponse<List<DTO.GenericPageListItem>>();
 
             try
             {
@@ -247,11 +247,11 @@ namespace nBrane.Modules.AdministrationSuite.Components
                 if (pageId > -2)
                 {
                     var listOfPages = DotNetNuke.Entities.Tabs.TabController.GetTabsByParent(pageId, portalId);
-                    apiResponse.CustomObject = new List<DTO.GenericListImageItem>();
+                    apiResponse.CustomObject = new List<DTO.GenericPageListItem>();
 
                     foreach (var page in listOfPages.Where(i => i.IsDeleted == false).OrderBy(i => i.TabOrder))
                     {
-                        var newItem = new DTO.GenericListImageItem() { Value = page.TabID.ToString(), Name = page.TabName };
+                        var newItem = new DTO.GenericPageListItem() { Value = page.TabID.ToString(), Name = page.TabName };
 
                         if (string.IsNullOrWhiteSpace(page.IconFileLarge) == false)
                         {
@@ -260,6 +260,8 @@ namespace nBrane.Modules.AdministrationSuite.Components
                         {
                             newItem.Image = string.Empty;
                         }
+
+                        newItem.HasChildren = page.HasChildren;
 
                         apiResponse.CustomObject.Add(newItem);
                     }

@@ -7,6 +7,7 @@
         <li data-bind="click: $parent.ShowEditPageDialog, css: {selected: $parent.SelectedPage() === $data}">
             <img data-bind="visible: Image.length > 0, attr:{src: Image}" />
             <span data-bind="text: Name">Loading...</span>
+            <span class="page-with-children" data-bind="visible: HasChildren">></span>
         </li>
     </ul>
 	
