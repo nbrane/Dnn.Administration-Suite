@@ -148,7 +148,7 @@
 	color:#fff
 }
 
-.nbr-admin-suite .module-list {
+.nbr-admin-suite .module-list, .nbr-admin-suite .page-list, .nbr-admin-suite .user-list {
 	overflow-x: hidden;
 	overflow-y: auto;
     max-height:75%;

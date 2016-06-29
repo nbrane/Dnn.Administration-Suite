@@ -3,7 +3,7 @@
 		<li data-bind="click: ShowAddNewUserDialog"><i class="fa fa-user"></i> <span data-bind="restext: {key: 'Add', collection: Localization('Main') }">Add</span></li>
 		<li data-bind="click: CloseSubMenu"><i class="fa fa-close"></i> <span data-bind="restext: {key: 'Close', collection: Localization('Main') }">Close</span></li>
 	</ul>
-	<ul data-bind="foreach: filteredUsers">
+	<ul class="user-list" data-bind="foreach: filteredUsers">
 		<li data-bind="click: $parent.ShowUserDetailsDialog, css: {selected: $parent.SelectedUser() === $data}"><span data-bind="text: Name">Loading...</span></li>
 	</ul>
 	

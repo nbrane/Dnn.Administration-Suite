@@ -3,7 +3,7 @@
         <li data-bind="click: ShowAddNewPageDialog, visible: ShowManagementLinks" data-action="AddPage"><i class="fa fa-file-o"></i> <span data-bind="restext: {key: 'Add', collection: Localization('Main') }">Add</span></li>
         <li data-bind="click: CloseSubMenu"><i class="fa fa-close"></i> <span data-bind="restext: {key: 'Close', collection: Localization('Main') }">Close</span></li>
     </ul>
-    <ul data-bind="foreach: Pages, visible: ParentNode().CurrentSubaction() != 'settings'">
+    <ul class="page-list" data-bind="foreach: Pages, visible: ParentNode().CurrentSubaction() != 'settings'">
         <li data-bind="click: $parent.ShowEditPageDialog, css: {selected: $parent.SelectedPage() === $data}">
             <img data-bind="visible: Image.length > 0, attr:{src: Image}" />
             <span data-bind="text: Name">Loading...</span>
