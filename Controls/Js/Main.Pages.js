@@ -59,7 +59,7 @@ var nBraneAdminSuitePagesViewModel = function () {
 	
 	self.ShowEditPageDialog = function(page, event) {
 
-	    if ($(event.target).hasClass("page-with-children")) {
+	    if (event && $(event.target).hasClass("page-with-children")) {
 	        self.ParentNode().ServerCallback('Pages', 'ListPages', 'parent=' + page.Value, function (serverData) {
 	            if (serverData.Success) {
 	                self.Pages(serverData.CustomObject);
