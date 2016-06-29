@@ -18,7 +18,7 @@
 	
 	<div class="nbr-dialog">
         <h2 data-bind="visible: SelectedUser() === null, restext: {key: 'Header', collection: Localization('Users') }">Create a New User</h2>
-		<h2 data-bind="visible: SelectedUser() !== null">Edit User</h2>
+        <h2 data-bind="visible: SelectedUser() !== null, restext: {key: 'HeaderEdit', collection: Localization('Users') }">Edit User</h2>
 		<ul>
 			<li>
                 <label data-bind="restext: {key: 'UserName', collection: Localization('Users') }">User Name:</label>
