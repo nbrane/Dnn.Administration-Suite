@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Add">
+    <value xml:space="preserve">Voeg pagina toe</value>
+  </data>
+  <data name="Advanced">
+    <value xml:space="preserve">Geavanceerde instellingen</value>
+  </data>
+  <data name="Container">
+    <value xml:space="preserve">Container:</value>
+  </data>
+  <data name="Description">
+    <value xml:space="preserve">Omschrijving:</value>
+  </data>
+  <data name="Disable">
+    <value xml:space="preserve">Gedeactiveerd:</value>
+  </data>
+  <data name="Header">
+    <value xml:space="preserve">Maak een nieuwe pagina</value>
+  </data>
+  <data name="HeaderEdit">
+    <value xml:space="preserve">Wijzig pagina</value>
+  </data>
+  <data name="PageName">
+    <value xml:space="preserve">Paginanaam:</value>
+  </data>
+  <data name="Position">
+    <value xml:space="preserve">Positie:</value>
+  </data>
+  <data name="Secure">
+    <value xml:space="preserve">Beveiligd:</value>
+  </data>
+  <data name="Theme">
+    <value xml:space="preserve">Thema:</value>
+  </data>
+  <data name="Update">
+    <value xml:space="preserve">Pagina bijwerken</value>
+  </data>
+  <data name="Visibility">
+    <value xml:space="preserve">Zichtbaarheid</value>
+  </data>
+  <data name="Visible">
+    <value xml:space="preserve">ZIchtbaar</value>
+  </data>
+</root>

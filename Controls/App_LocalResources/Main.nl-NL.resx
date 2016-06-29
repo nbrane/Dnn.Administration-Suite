@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Add">
+    <value xml:space="preserve">Toevoegen</value>
+  </data>
+  <data name="Cancel">
+    <value xml:space="preserve">Afbreken</value>
+  </data>
+  <data name="Close">
+    <value xml:space="preserve">Sluiten</value>
+  </data>
+  <data name="DefaultAction">
+    <value xml:space="preserve">Standaard actie</value>
+  </data>
+  <data name="Delete">
+    <value xml:space="preserve">Verwijderen</value>
+  </data>
+  <data name="Edit">
+    <value xml:space="preserve">Wijzigen</value>
+  </data>
+  <data name="Host">
+    <value xml:space="preserve">Superuser</value>
+  </data>
+  <data name="Logoff">
+    <value xml:space="preserve">Uitloggen</value>
+  </data>
+  <data name="Modules">
+    <value xml:space="preserve">Modules</value>
+  </data>
+  <data name="Pages">
+    <value xml:space="preserve">Pagina's</value>
+  </data>
+  <data name="PageSettings">
+    <value xml:space="preserve">Instellingen</value>
+  </data>
+  <data name="Site">
+    <value xml:space="preserve">Website</value>
+  </data>
+  <data name="SwitchToEdit">
+    <value xml:space="preserve">Schakel naar wijzigen</value>
+  </data>
+  <data name="SwitchToLayout">
+    <value xml:space="preserve">Schakel naar lay-out</value>
+  </data>
+  <data name="SwitchToView">
+    <value xml:space="preserve">Schakel naar bekijken</value>
+  </data>
+  <data name="Tools">
+    <value xml:space="preserve">Gereedschappen</value>
+  </data>
+  <data name="ToolsCacheSizeLimit">
+    <value xml:space="preserve">Limiet Cache grootte</value>
+  </data>
+  <data name="ToolsClearCache">
+    <value xml:space="preserve">Schoon cache op voor...</value>
+  </data>
+  <data name="ToolsClearCacheInstance">
+    <value xml:space="preserve">Alle websites</value>
+  </data>
+  <data name="ToolsClearCachePage">
+    <value xml:space="preserve">Deze pagina</value>
+  </data>
+  <data name="ToolsClearCacheSite">
+    <value xml:space="preserve">Alle pagina's</value>
+  </data>
+  <data name="ToolsHeader">
+    <value xml:space="preserve">Cachebeheer</value>
+  </data>
+  <data name="ToolsHost">
+    <value xml:space="preserve">Superuser gereedschap</value>
+  </data>
+  <data name="ToolsInstallExtension">
+    <value xml:space="preserve">Installeer uitbreiding</value>
+  </data>
+  <data name="ToolsPageVariations">
+    <value xml:space="preserve">Paginavariaties</value>
+  </data>
+  <data name="ToolsRecycle">
+    <value xml:space="preserve">Recycle de applicatie</value>
+  </data>
+  <data name="ToolsTotalCacheItems">
+    <value xml:space="preserve">Totaal aantal cache odnerdelen</value>
+  </data>
+  <data name="Users">
+    <value xml:space="preserve">Gebruikers</value>
+  </data>
+  <data name="View">
+    <value xml:space="preserve">Bekijken</value>
+  </data>
+  <data name="ListLoading">
+    <value xml:space="preserve">Wordt geladen...</value>
+  </data>
+  <data name="Login">
+    <value xml:space="preserve">Inloggen</value>
+  </data>
+</root>
