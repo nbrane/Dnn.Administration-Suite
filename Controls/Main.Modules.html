@@ -4,7 +4,7 @@
 			
 		<li data-bind="click: CloseSubMenu">
 			<i class="fa fa-close"></i>
-			<span>Close</span>
+            <span data-bind="restext: {key: 'Close', collection: Localization('Main') }">Close</span>
 		</li>
 	</ul>
     <ul class="module-list" data-bind="foreach: Categories">
@@ -32,7 +32,7 @@
 				<input data-bind="hasFocus: FocusOnTitle, value: ModuleTitle" />
 			</li>
 			<li>
-				<label>Visibility:</label>
+                <label data-bind="restext: {key: 'Visibility', collection: Localization('Modules') }">Visibility:</label>
 				<select data-bind="value:ModuleVisibility">
 					<option value="0">Same as Page</option>
 					<option value="1">Page Editors Only</option>

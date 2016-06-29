@@ -121,18 +121,18 @@
     <value>Add Module</value>
   </data>
   <data name="Container" xml:space="preserve">
-    <value>Container</value>
+    <value>Container:</value>
   </data>
   <data name="Header" xml:space="preserve">
     <value>Add a New Module</value>
   </data>
   <data name="Position" xml:space="preserve">
-    <value>Position / Location</value>
+    <value>Position / Location:</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Title</value>
+    <value>Title:</value>
   </data>
   <data name="Visibility" xml:space="preserve">
-    <value>Visibility</value>
+    <value>Visibility:</value>
   </data>
 </root>
