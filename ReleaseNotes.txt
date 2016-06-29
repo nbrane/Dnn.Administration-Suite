@@ -7,6 +7,7 @@
 	<h3>Changelog:</h3>
 
 	<ul>
+		<li>v0.1.1 - 6/29/2016: Seventh Prototype. added German (Germany), German (Switzerland), Dutch (Netherlands) and Spanish (Spain) translations. Thanks to @divertogmbh, Ernst Peter Tamminga, and Francisco Perez Andres.</li>
 		<li>v0.1.0 - 6/29/2016: Sixth Prototype. added basic localization support which was presented at dnn-connect 2016, added link to current page settings, added page-secure flag (ssl), allow modules/pages/users lists to scroll when very long</li>
 		<li>v0.0.5 - 4/20/2016: Fifth Prototype. added module category filters. added top10 modules based on current portal usage.</li>
 		<li>v0.0.4 - 4/07/2016: Forth Prototype. fixed issues with FF and the default user/pages action control. added ability to copy/share existing modules. added ability to set theme/container in page mgmt.</li>
