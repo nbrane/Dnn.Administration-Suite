@@ -142,6 +142,7 @@ namespace nBrane.Modules.AdministrationSuite.Components.DTO
                 this.Theme = dnnTab.SkinSrc;
                 this.Container = dnnTab.ContainerSrc;
                 this.Visible = dnnTab.IsVisible;
+                this.Secure = dnnTab.IsSecure;
 
                 this.Urls = new List<GenericListItem>();
                 this.Urls.Add(new GenericListItem() { Name = dnnTab.FullUrl, Value = dnnTab.FullUrl });
@@ -167,6 +168,7 @@ namespace nBrane.Modules.AdministrationSuite.Components.DTO
         public string Container { get; set; }
         public bool Visible { get; set; }
         public bool Disabled { get; set; }
+        public bool Secure { get; set; }
 
         public List<GenericListItem> AllPages { get; set; }
         public List<GenericListItem> Urls { get; set; }

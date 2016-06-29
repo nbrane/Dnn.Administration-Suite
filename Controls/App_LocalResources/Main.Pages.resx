@@ -144,6 +144,9 @@
   <data name="Position" xml:space="preserve">
     <value>Position:</value>
   </data>
+  <data name="Secure" xml:space="preserve">
+    <value>Secure:</value>
+  </data>
   <data name="Theme" xml:space="preserve">
     <value>Theme:</value>
   </data>

@@ -72,6 +72,7 @@ namespace nBrane.Modules.AdministrationSuite.Components
                     {
                         fileContents = fileContents.Replace("\"[data-bind: main-resource-file]\"", Newtonsoft.Json.JsonConvert.SerializeObject(localizationProvider.GetCompiledResourceFile(PortalSettings, "/DesktopModules/nBrane/AdministrationSuite/Controls/App_LocalResources/" + controlName + ".resx", System.Threading.Thread.CurrentThread.CurrentCulture.Name)));
                     }
+                    
                     var response = new HttpResponseMessage(HttpStatusCode.OK);
                     response.Content = new StringContent(fileContents, System.Text.Encoding.UTF8, "text/plain");
 
@@ -134,6 +135,12 @@ namespace nBrane.Modules.AdministrationSuite.Components
             
             fileName = DotNetNuke.Common.Globals.ApplicationMapPath + "\\desktopmodules\\nbrane\\administrationsuite\\controls\\js\\" + controlName + ".js";
             fileContents = Regex.Replace(System.IO.File.ReadAllText(fileName), @"[\r\n\t ]+", " ");
+
+
+            if (fileContents.Contains("\"[data-bind: sslenabled]\""))
+            {
+                fileContents = fileContents.Replace("\"[data-bind: sslenabled]\"", PortalSettings.SSLEnabled.ToString().ToLower());
+            }
 
             apiResponse.JS = fileContents;
 

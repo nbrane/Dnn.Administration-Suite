@@ -94,6 +94,7 @@ namespace nBrane.Modules.AdministrationSuite.Components
 
                     dnnTab.IsVisible = page.Visible;
                     dnnTab.DisableLink = page.Disabled;
+                    dnnTab.IsSecure = page.Secure;
 
                     if (!string.IsNullOrWhiteSpace(page.Theme))
                         dnnTab.SkinSrc = page.Theme != "-1" ? page.Theme : string.Empty;

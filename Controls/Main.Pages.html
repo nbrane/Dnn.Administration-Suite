@@ -40,6 +40,10 @@
                 <label data-bind="restext: {key: 'Disable', collection: Localization('Pages') }">Disabled:</label>
                 <input type="checkbox" data-bind="checked: PageDisabled" />
             </li>
+            <li class="single-line" data-bind="visible: SslEnabled">
+                <label data-bind="restext: {key: 'Secure', collection: Localization('Pages') }">Secure:</label>
+                <input type="checkbox" data-bind="checked: PageSecure" />
+            </li>
             <li>
                 <label data-bind="restext: {key: 'Position', collection: Localization('Pages') }">Position:</label>
                 <select data-bind="value:PagePosition" style="width: 25%">

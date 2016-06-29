@@ -11,6 +11,7 @@ var nBraneAdminSuitePagesViewModel = function () {
 	self.PageDescription = ko.observable('');
 	self.PageVisible = ko.observable(true);
 	self.PageDisabled = ko.observable(false);
+	self.PageSecure = ko.observable(false);
 	self.PagePosition = ko.observable('');
 	self.PagePositionTarget = ko.observable('');
 	self.PageVisibility = ko.observable('');
@@ -22,6 +23,7 @@ var nBraneAdminSuitePagesViewModel = function () {
 	self.ContainerList = ko.observableArray();
 	self.ShowManagementLinks =  ko.observable(false);
 	self.FocusOn = ko.observable(false);
+	self.SslEnabled = ko.observable("[data-bind: sslenabled]");
 
 	self.LoadInitialView = function() {
 		self.ParentNode().ToggleLoadingScreen(true);
@@ -107,6 +109,7 @@ var nBraneAdminSuitePagesViewModel = function () {
 	                    self.PageDescription(serverData.CustomObject.Description);
 	                    self.PageVisible(serverData.CustomObject.Visible);
 	                    self.PageDisabled(serverData.CustomObject.Disabled);
+	                    self.PageSecure(serverData.CustomObject.Secure);
 	                    self.PageUrls(serverData.CustomObject.Urls);
 	                    self.PageList(serverData.CustomObject.AllPages);
 	                    self.ThemeList(serverData.CustomObject.Themes);
@@ -142,6 +145,11 @@ var nBraneAdminSuitePagesViewModel = function () {
 				self.PageDescription('');
 				self.PageVisible(true);
 				self.PageDisabled(false);
+
+				if (self.SslEnabled()) {
+				    self.PageSecure(true);
+				}
+
 				self.PageTheme();
 				self.PageContainer();
 				
