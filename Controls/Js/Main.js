@@ -46,6 +46,17 @@
         
     };
 	
+    self.RevertImpersonation = function () {
+        self.ToggleLoadingScreen(true);
+
+        self.ServerCallback('Users', 'RevertImpersonation', null, function (serverData) {
+            location.reload();
+        }, function (xhr, status, thrown) {
+            self.ToggleConfirmScreen('Sorry, We ran into a problem.', status + ': ' + thrown);
+        }
+		);
+    };
+
 	self.Logoff = function (){
 		self.ToggleLoadingScreen(true);
 		

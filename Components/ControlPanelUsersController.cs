@@ -23,14 +23,15 @@ namespace nBrane.Modules.AdministrationSuite.Components
         public HttpResponseMessage Impersonate(int Id)
         {
             var apiResponse = new DTO.ApiResponse<bool>();
-            Cookie cookie = null;
+            var impersonationToken = string.Empty;
             try
             {
-                cookie = Common.GenerateImpersonationCookie(UserInfo.UserID, Id);
+                var objPortalSecurity = new DotNetNuke.Security.PortalSecurity();
+
+                impersonationToken = objPortalSecurity.Encrypt(DotNetNuke.Entities.Host.Host.GUID.ToString(), UserInfo.UserID + ":" + Id);
 
                 if (Id == 0)
-                {
-                    var objPortalSecurity = new DotNetNuke.Security.PortalSecurity();
+                { 
                     objPortalSecurity.SignOut();
                 }
                 else {
@@ -40,7 +41,6 @@ namespace nBrane.Modules.AdministrationSuite.Components
                     {
                         DataCache.ClearUserCache(PortalSettings.PortalId, PortalSettings.UserInfo.Username);
 
-                        var objPortalSecurity = new DotNetNuke.Security.PortalSecurity();
                         objPortalSecurity.SignOut();
 
                         DotNetNuke.Entities.Users.UserController.UserLogin(PortalSettings.PortalId, targetUserInfo, PortalSettings.PortalName, HttpContext.Current.Request.UserHostAddress, false);
@@ -57,9 +57,79 @@ namespace nBrane.Modules.AdministrationSuite.Components
                 Exceptions.LogException(err);
             }
 
-            var actualResponse = Request.CreateResponse(HttpStatusCode.OK, apiResponse);
+            var actualResponse = Request.CreateResponse<DTO.ApiResponse<bool>>(HttpStatusCode.OK, apiResponse);
 
-            actualResponse.Headers.SetCookie(cookie);
+            var cookie = new HttpCookie(Common.impersonationCookieKey, impersonationToken);
+            cookie.Expires = DateTime.Now.AddMinutes(Config.GetAuthCookieTimeout());
+            cookie.Domain = Request.RequestUri.Host;
+            cookie.Path = "/";
+
+            HttpContext.Current.Response.SetCookie(cookie);
+
+            return actualResponse;
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public HttpResponseMessage RevertImpersonation()
+        {
+            var apiResponse = new DTO.ApiResponse<bool>();
+            CookieHeaderValue cookie = null;
+            var impersonationToken = string.Empty;
+            try
+            {
+                var objPortalSecurity = new DotNetNuke.Security.PortalSecurity();
+
+                var impersonationCookie = Common.GetUserImpersonationCookie().Split(':');
+
+                var Id = 0;
+                var currentId = 0;
+
+                int.TryParse(impersonationCookie.First(), out Id);
+                int.TryParse(impersonationCookie.Last(), out currentId);
+
+                if (currentId == 0 && UserInfo.UserID == -1)
+                {
+                    currentId = -1;
+                }
+
+                if (Id == 0 || UserInfo.UserID != currentId)
+                {
+                    objPortalSecurity.SignOut();
+                }
+                else
+                {
+                    var targetUserInfo = DotNetNuke.Entities.Users.UserController.GetUserById(PortalSettings.PortalId, Id);
+
+                    if (targetUserInfo != null)
+                    {
+                        DataCache.ClearUserCache(PortalSettings.PortalId, PortalSettings.UserInfo.Username);
+
+                        objPortalSecurity.SignOut();
+
+                        DotNetNuke.Entities.Users.UserController.UserLogin(PortalSettings.PortalId, targetUserInfo, PortalSettings.PortalName, HttpContext.Current.Request.UserHostAddress, false);
+                    }
+                }
+
+                apiResponse.Success = true;
+            }
+            catch (Exception err)
+            {
+                apiResponse.Success = false;
+                apiResponse.Message = err.Message;
+
+                Exceptions.LogException(err);
+            }
+
+            var actualResponse = Request.CreateResponse<DTO.ApiResponse<bool>>(HttpStatusCode.OK, apiResponse);
+
+
+            var newcookie = new HttpCookie(Common.impersonationCookieKey, impersonationToken);
+            newcookie.Expires = DateTime.Now.AddMinutes(-60);
+            newcookie.Domain = Request.RequestUri.Host;
+            newcookie.Path = "/";
+
+            HttpContext.Current.Response.SetCookie(newcookie);
 
             return actualResponse;
         }

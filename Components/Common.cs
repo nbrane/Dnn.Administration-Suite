@@ -237,10 +237,13 @@ namespace nBrane.Modules.AdministrationSuite.Components
             if (HttpContext.Current.Request.Cookies[impersonationCookieKey] != null)
             {
                 string cookieValue = GetUserImpersonationCookie();
-                dynamic cookieArray = cookieValue.Split(':');
+                var cookieArray = cookieValue.Split(':');
 
-                int originalUserId = int.Parse(cookieArray.First());
-                int targetUserId = int.Parse(cookieArray.Last());
+                int originalUserId = -1;
+                int targetUserId = -1;
+
+                int.TryParse(cookieArray.First(), out originalUserId);
+                int.TryParse(cookieArray.Last(), out targetUserId);
 
                 if (originalUserId == 0)
                     originalUserId = -1;
@@ -258,7 +261,7 @@ namespace nBrane.Modules.AdministrationSuite.Components
             return false;
         }
 
-        const string impersonationCookieKey = "nbrane-user-impersonation";
+        internal const string impersonationCookieKey = "nbrane-user-impersonation";
 
         internal static Cookie ClearUserImpersonationCookie()
         {
@@ -284,15 +287,6 @@ namespace nBrane.Modules.AdministrationSuite.Components
             }
             return functionReturnValue;
 
-        }
-
-        internal static Cookie GenerateImpersonationCookie(int originalUserId, int targetUserId)
-        {
-            var objPortalSecurity = new DotNetNuke.Security.PortalSecurity();
-            var cookie = new Cookie(impersonationCookieKey, objPortalSecurity.Encrypt(DotNetNuke.Entities.Host.Host.GUID.ToString(), originalUserId + ":" + targetUserId));
-            cookie.Expires = DateTime.Now.AddMinutes(60);
-
-            return cookie;
         }
 
         internal static int AddExistingModule(int moduleId, int tabId, string paneName, int position, string align, string container)

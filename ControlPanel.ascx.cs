@@ -27,7 +27,7 @@ namespace nBrane.Modules.AdministrationSuite
         {
             get
             {
-                return IsUserImpersonated() || (base.IncludeInControlHierarchy && (IsPageAdmin() || IsModuleAdmin()));
+                return IsUserImpersonated() || (DotNetNuke.Entities.Host.Host.AllowControlPanelToDetermineVisibility && (IsPageAdmin() || IsModuleAdmin()));
             }
         }
 

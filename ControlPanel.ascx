@@ -2,7 +2,7 @@
 <div id="nbr-admin-suite" class="nbr-admin-suite">
     <ul class="nbr-upper-control-panel">
 <% if (IsUserImpersonated()) { %>
-        <li><i class="fa fa-sign-in"></i> <span>Revert User Impersonation</span></li>
+        <li data-bind="click:RevertImpersonation"><i class="fa fa-sign-in"></i> <span>Revert User Impersonation</span></li>
 <% } %>
         <li data-bind="click:Logoff"><i class="fa fa-sign-out"></i> <span data-bind="restext: 'Logoff'">Logout</span></li>
 <% if (PortalSettings.UserMode.ToString().ToLower() != "view") { %>
