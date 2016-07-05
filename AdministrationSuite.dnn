@@ -1,6 +1,6 @@
 ﻿<dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="nBrane.AdministrationSuite" type="Provider" version="00.01.01">
+    <package name="nBrane.AdministrationSuite" type="Provider" version="00.01.02">
       <friendlyName>nBrane: Administration Suite</friendlyName>
       <description>The AdministrationSuite for DotNetNuke by nBrane!</description>
       <owner>
@@ -31,7 +31,7 @@
             <script type="UnInstall">
               <path>Sql</path>
               <name>uninstall.sqldataprovider</name>
-              <version>00.01.01</version>
+              <version>00.01.02</version>
             </script>
           </scripts>
         </component>
@@ -40,7 +40,7 @@
             <assembly>
               <path>bin</path>
               <name>nBrane.AdministrationSuite.dll</name>
-			        <version>00.01.01</version>
+			        <version>00.01.02</version>
             </assembly>
           </assemblies>
         </component>
