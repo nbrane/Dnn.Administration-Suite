@@ -5,6 +5,7 @@ var nBraneAdminSuitePagesViewModel = function () {
 	self.SelectedPage = ko.observable();
 	self.DefaultAction = ko.observable('edit');
 	
+	self.ParentId = ko.observable(-1);
 	self.PageId = ko.observable(-1);
 	self.PortalId = ko.observable(-1);
 	self.PageName = ko.observable('');
@@ -21,7 +22,8 @@ var nBraneAdminSuitePagesViewModel = function () {
 	self.PageList = ko.observableArray();
 	self.ThemeList = ko.observableArray();
 	self.ContainerList = ko.observableArray();
-	self.ShowManagementLinks =  ko.observable(false);
+	self.ShowManagementLinks = ko.observable(false);
+	self.ShowBackLink = ko.observable(false);
 	self.FocusOn = ko.observable(false);
 	self.SslEnabled = ko.observable("[data-bind: sslenabled]");
 
@@ -64,6 +66,8 @@ var nBraneAdminSuitePagesViewModel = function () {
 	    if (event && $(event.target).hasClass("page-with-children")) {
 	        self.ParentNode().ServerCallback('Pages', 'ListPages', 'parent=' + page.Value, function (serverData) {
 	            if (serverData.Success) {
+	                self.ParentId(page.Value);
+	                self.ShowBackLink(true);
 	                self.Pages(serverData.CustomObject);
 
 	                self.ParentNode().ToggleLoadingScreen(false);
@@ -204,6 +208,19 @@ var nBraneAdminSuitePagesViewModel = function () {
 		}, null,null, 'POST');
 	};
 	
+	self.GoBackwards = function (data, event) {
+	    self.ParentNode().ServerCallback('Pages', 'ListParentPages', 'id=' + self.ParentId(), function (serverData) {
+	        if (serverData.Success) {
+	            self.Pages(serverData.CustomObject);
+
+	            self.ParentNode().ToggleLoadingScreen(false);
+	        }
+	        else {
+	            self.ParentNode().ToggleConfirmScreen('Sorry, We ran into a problem.', 'Please try again');
+	        }
+	    });
+	};
+
 	self.SetDefaultAction = function(data, event){
 		var listItem = event.target;
         if (listItem.nodeName != "li" && listItem.nodeName != "LI") {

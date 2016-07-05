@@ -282,5 +282,55 @@ namespace nBrane.Modules.AdministrationSuite.Components
 
             return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
         }
+
+        [HttpGet]
+        [DnnPageEditor]
+        public HttpResponseMessage ListParentPages(int id)
+        {
+            var apiResponse = new DTO.ApiResponse<List<DTO.GenericPageListItem>>();
+
+            try
+            {
+                var portalId = PortalSettings.PortalId;
+                var tab = new DotNetNuke.Entities.Tabs.TabController().GetTab(id, portalId);
+                if (tab != null)
+                {
+                    var listOfPages = DotNetNuke.Entities.Tabs.TabController.GetTabsByParent(tab.ParentId, portalId);
+                    apiResponse.CustomObject = new List<DTO.GenericPageListItem>();
+
+                    foreach (var page in listOfPages.Where(i => i.IsDeleted == false).OrderBy(i => i.TabOrder))
+                    {
+                        var newItem = new DTO.GenericPageListItem() { Value = page.TabID.ToString(), Name = page.TabName };
+
+                        if (string.IsNullOrWhiteSpace(page.IconFileLarge) == false)
+                        {
+                            newItem.Image = VirtualPathUtility.ToAbsolute(page.IconFileLarge);
+                        }
+                        else
+                        {
+                            newItem.Image = string.Empty;
+                        }
+
+                        newItem.HasChildren = page.HasChildren;
+
+                        apiResponse.CustomObject.Add(newItem);
+                    }
+
+                    apiResponse.Success = true;
+
+                    return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
+                }
+                
+            }
+            catch (Exception err)
+            {
+                apiResponse.Success = false;
+                apiResponse.Message = err.Message;
+
+                Exceptions.LogException(err);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
+        }
     }
 }

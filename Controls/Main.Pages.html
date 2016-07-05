@@ -1,5 +1,6 @@
 ﻿<div id="nbr-admin-suite-pages" class="nbr-sub-menu">
     <ul class="actions" data-bind="visible: ParentNode().CurrentSubaction() != 'settings'">
+        <li data-bind="click: GoBackwards, visible: ShowBackLink"><i class="fa fa-arrow-left"></i> <span data-bind="restext: {key: 'Back', collection: Localization('Main') }">Back</span></li>
         <li data-bind="click: ShowAddNewPageDialog, visible: ShowManagementLinks" data-action="AddPage"><i class="fa fa-file-o"></i> <span data-bind="restext: {key: 'Add', collection: Localization('Main') }">Add</span></li>
         <li data-bind="click: CloseSubMenu"><i class="fa fa-close"></i> <span data-bind="restext: {key: 'Close', collection: Localization('Main') }">Close</span></li>
     </ul>
