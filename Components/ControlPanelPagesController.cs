@@ -256,7 +256,32 @@ namespace nBrane.Modules.AdministrationSuite.Components
 
                         if (string.IsNullOrWhiteSpace(page.IconFileLarge) == false)
                         {
-                            newItem.Image = VirtualPathUtility.ToAbsolute(page.IconFileLarge);
+                            var iconPath = page.IconFileLarge;
+
+                            if (iconPath.StartsWith("~/icons/sigma/", StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                iconPath = "~/desktopmodules/nbrane/administrationsuite/images/pageicons/" + iconPath.Substring(14);
+                            }
+                            else if (iconPath.StartsWith("~/desktopmodules/DevicePreviewManagement/images/", StringComparison.InvariantCultureIgnoreCase)){
+                                iconPath = "~/desktopmodules/nbrane/administrationsuite/images/pageicons/" + iconPath.Substring(48);
+                            }
+                            else if (iconPath.StartsWith("~/desktopmodules/MobileManagement/images/", StringComparison.InvariantCultureIgnoreCase)){
+                                iconPath = "~/desktopmodules/nbrane/administrationsuite/images/pageicons/" + iconPath.Substring(41);
+                            }
+                            else if (iconPath.StartsWith("~/DesktopModules/Admin/FiftyOneClientCapabilityProvider/Images/", StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                iconPath = "~/desktopmodules/nbrane/administrationsuite/images/pageicons/" + iconPath.Substring(62);
+                            }
+                            else if (iconPath.StartsWith("~/DesktopModules/Admin/HtmlEditorManager/images/", StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                iconPath = "~/desktopmodules/nbrane/administrationsuite/images/pageicons/" + iconPath.Substring(47);
+                            }
+                            else if (iconPath.Equals("~/images/icon_dashboard_32px.gif", StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                iconPath = "~/desktopmodules/nbrane/administrationsuite/images/pageicons/dashboard_32x32.png";
+                            }
+                            
+                            newItem.Image = VirtualPathUtility.ToAbsolute(iconPath);
                         } else
                         {
                             newItem.Image = string.Empty;
