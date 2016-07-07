@@ -278,8 +278,13 @@ namespace nBrane.Modules.AdministrationSuite.Components
                             }
                             else if (iconPath.Equals("~/images/icon_dashboard_32px.gif", StringComparison.InvariantCultureIgnoreCase))
                             {
-                                iconPath = "~/desktopmodules/nbrane/administrationsuite/images/pageicons/dashboard_32x32.png";
+                                iconPath = "~/desktopmodules/nbrane/administrationsuite/images/pageicons/dashboard_32x32_standard.png";
                             }
+                            else if (iconPath.Equals("~/images/icon_extensions_32px.gif", StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                iconPath = "~/desktopmodules/nbrane/administrationsuite/images/pageicons/Extensions_32x32_Standard.png";
+                            }
+                            
                             
                             newItem.Image = VirtualPathUtility.ToAbsolute(iconPath);
                         } else
