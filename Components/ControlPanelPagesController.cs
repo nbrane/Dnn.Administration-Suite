@@ -254,6 +254,13 @@ namespace nBrane.Modules.AdministrationSuite.Components
                     {
                         var newItem = new DTO.GenericPageListItem() { Value = page.TabID.ToString(), Name = page.TabName };
 
+                        var localizedPageName = DotNetNuke.Services.Localization.Localization.GetString(page.TabPath + ".String", DotNetNuke.Services.Localization.Localization.GlobalResourceFile);
+
+                        if (!string.IsNullOrWhiteSpace(localizedPageName))
+                        {
+                            newItem.Name = localizedPageName;
+                        }
+
                         if (string.IsNullOrWhiteSpace(page.IconFileLarge) == false)
                         {
                             var iconPath = page.IconFileLarge;
