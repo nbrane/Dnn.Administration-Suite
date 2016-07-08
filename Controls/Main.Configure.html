@@ -35,7 +35,7 @@
                     <li>Configuration: Super Users</li>
                 </ul>
             </li>
-            <li>
+            <li data-bind="visible: DetermineVisibility() != InitialDetermineVisibility()">
                 <button data-bind="click: UpdateConfiguration"><i class="fa fa-save" /> Update</button>
             </li>
         </ul>

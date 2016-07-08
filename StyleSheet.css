@@ -167,11 +167,15 @@
 .nbr-admin-suite-loading h2 {
 	padding:0;
 	margin:0;
+    font-family: 'Montserrat';
+    font-weight: 600; 
+    font-size: 30px;
 }
 
 .nbr-admin-suite-loading span {
 	font-weight:400;
 	font-size:12px;
+    font-family: 'Montserrat';
 }
 
 .nbr-admin-suite-confirm img {width: auto;height: 90px;margin: 5px;float: left;}
@@ -229,12 +233,17 @@
 .nbr-admin-suite h2 {
 	font-weight: 600;
 	font-size: 20px;
+    padding:0;
+	margin:0;
+    font-family: 'Montserrat';
+    font-weight:400;
 }
 
 .nbr-admin-suite .nbr-dialog label {
 	display:block;
 	color: #fff;
     font-size:16px;
+    font-family: 'Montserrat';
 }
 
 .nbr-admin-suite .nbr-dialog input, .nbr-admin-suite .nbr-dialog select {

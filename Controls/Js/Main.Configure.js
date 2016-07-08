@@ -3,12 +3,15 @@ var nBraneAdminSuiteConfigureViewModel = function () {
     var self = this;
     self.DetermineVisibility = ko.observable(false);
 
+    self.InitialDetermineVisibility = ko.observable(false);
+
     self.LoadInitialView = function () {
         self.ParentNode().ToggleLoadingScreen(true);
 
         self.ParentNode().ServerCallback('', 'LoadConfigurationSettings', null, function (serverData) {
             if (serverData.Success) {
                 self.DetermineVisibility(serverData.CustomObject.DetermineVisibility);
+                self.InitialDetermineVisibility(serverData.CustomObject.DetermineVisibility);
 
                 $('.nbr-right-dialog').fadeIn(400, function () { self.ParentNode().ToggleLoadingScreen(false); });
             }
@@ -17,6 +20,8 @@ var nBraneAdminSuiteConfigureViewModel = function () {
             }
         });
     };
+
+    
 
     self.UpdateConfiguration = function () {
         self.CloseDialog();
@@ -27,7 +32,6 @@ var nBraneAdminSuiteConfigureViewModel = function () {
 
         self.ParentNode().ServerCallback('', 'UpdateConfiguration', JSON.stringify(configObject), function (serverData) {
             if (serverData.Success) {
-
                 self.ParentNode().ToggleLoadingScreen(false);
                 self.CloseDialog();
             }
