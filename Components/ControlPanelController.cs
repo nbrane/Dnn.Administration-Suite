@@ -60,6 +60,9 @@ namespace nBrane.Modules.AdministrationSuite.Components
                 case "cache":
                     controlName = "Main.Cache";
                     break;
+                case "configure":
+                    controlName = "Main.Configure";
+                    break;
                 case "main":
                     controlName = "Main";
                     break;
@@ -116,6 +119,9 @@ namespace nBrane.Modules.AdministrationSuite.Components
                     break;
                 case "cache":
                     controlName = "Main.Cache";
+                    break;
+                case "configure":
+                    controlName = "Main.Configure";
                     break;
                 default:
 
@@ -295,6 +301,55 @@ namespace nBrane.Modules.AdministrationSuite.Components
                         DataCache.ClearCache();
                         DotNetNuke.Services.OutputCache.OutputCachingProvider.Instance(item.Key).Remove(PageId);
                     }
+                }
+
+                apiResponse.Success = true;
+            }
+            catch (Exception err)
+            {
+                apiResponse.Success = false;
+                apiResponse.Message = err.Message;
+
+                Exceptions.LogException(err);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
+        }
+
+        [HttpGet]
+        [DnnPageEditor]
+        public HttpResponseMessage LoadConfigurationSettings()
+        {
+            var apiResponse = new DTO.ApiResponse<DTO.ConfigurationResponse>();
+
+            try
+            {
+                apiResponse.CustomObject = new DTO.ConfigurationResponse();
+                apiResponse.CustomObject.DetermineVisibility = DotNetNuke.Entities.Host.Host.AllowControlPanelToDetermineVisibility;
+                apiResponse.Success = true;
+            }
+            catch (Exception err)
+            {
+                apiResponse.Success = false;
+                apiResponse.Message = err.Message;
+
+                Exceptions.LogException(err);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
+        }
+
+        [HttpPost]
+        [DnnPageEditor]
+        public HttpResponseMessage UpdateConfiguration(DTO.ConfigurationResponse config)
+        {
+            var apiResponse = new DTO.ApiResponse<DTO.SavePageResponse>();
+            apiResponse.CustomObject = new DTO.SavePageResponse();
+            try
+            {
+                if (config.DetermineVisibility != DotNetNuke.Entities.Host.Host.AllowControlPanelToDetermineVisibility)
+                {
+                    DotNetNuke.Entities.Controllers.HostController.Instance.Update("AllowControlPanelToDetermineVisibility", config.DetermineVisibility.ToString().ToLower());
                 }
 
                 apiResponse.Success = true;

@@ -213,4 +213,7 @@
   <data name="Back" xml:space="preserve">
     <value>Back</value>
   </data>
+  <data name="Configure" xml:space="preserve">
+    <value>Configure Administration Suite</value>
+  </data>
 </root>

@@ -1,0 +1,43 @@
+﻿<div id="nbr-admin-suite-configure">
+    <div class="nbr-right-dialog">
+        <button style="float:right; padding:0; margin:5px;" data-bind="click: CloseDialog"><i style="padding:5px;" class="fa fa-close" /></button>
+        <h2>Configuration</h2>
+        <p>&nbsp;</p>
+        <ul>
+            <li>
+                <label>Control Panel Decides Visibility:</label>
+                <div class="switch">
+                    <input type="checkbox" class="switch-checkbox" id="VisibilitySwitch" data-bind="checked: DetermineVisibility">
+                    <label class="switch-label" for="VisibilitySwitch"></label>
+                </div>
+                <p class="note" data-bind="visible: DetermineVisibility">Note: This setting is for user impersonation. If reverting from users who normally cannot see the control is required. This needs to be turned on. However, there is a slightly performance penality having the control panel always detecting if it should be shown.</p>
+                <p>&nbsp;</p>
+            </li>
+            <li style="display:none;">
+                <label>Security:</label>
+                <span></span>
+                <ul>
+                    <li>Modules: PageAdmins</li>
+                    <li>Pages: PageAdmins</li>
+                    <li>Page Settings: PageAdmins</li>
+                    <li>Page Advanced Settings: Admins</li>
+                    <li>Page Create: PageAdmins</li>
+                    <li>Page Delete: Admins</li>
+                    <li>Users: Admins</li>
+                    <li>User Impersonation: Admins</li>
+                    <li>User Delete: Super Users</li>
+                    <li>Site Menu: Admins</li>
+                    <li>Host Menu: Super Users</li>
+                    <li>Clear Cache: PageAdmins</li>
+                    <li>Clear Cache All Pages: PageAdmins</li>
+                    <li>Clear Cache All Sites: Super Users</li>
+                    <li>Recycle Application: Super Users</li>
+                    <li>Configuration: Super Users</li>
+                </ul>
+            </li>
+            <li>
+                <button data-bind="click: UpdateConfiguration"><i class="fa fa-save" /> Update</button>
+            </li>
+        </ul>
+    </div>
+</div>

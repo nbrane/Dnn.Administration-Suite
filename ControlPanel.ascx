@@ -13,6 +13,7 @@
   <% } if (PortalSettings.UserMode.ToString().ToLower() != "layout") { %>
         <li data-bind="click:SwitchInto" data-action="LAYOUT"><i class="fa fa-wrench"></i> <span data-bind="restext: 'SwitchToLayout'"></span></li>
   <% } %>
+        <li data-action="Configure" data-bind="click:Load"><i class="fa fa-cogs"></i> <span data-bind="restext: 'Configure'"></span></li>
   <% if (ShowCachePanel() || !ShowCachePanel()) { %>
 		<li data-action="Cache" data-bind="click:Load"><i class="fa fa-info-circle"></i> <span data-bind="restext: 'Tools'"></span></li>
   <% } %>

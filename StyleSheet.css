@@ -3,6 +3,7 @@
 	margin-left: 100px;
 }
 .nbr-admin-suite {
+    font-size:12px;
 	font-family:'Montserrat';
 }
 .nbr-admin-suite ul, .nbr-admin-suite ul li, .nbr-admin-suite .nbr-sub-menu li {
@@ -68,6 +69,7 @@
 .nbr-admin-suite .nbr-control-panel span, .nbr-admin-suite .nbr-sub-menu span{
 	font-size: 12px;
 	font-weight: 400;
+    font-family:'Montserrat';
 }
 .nbr-admin-suite .nbr-control-panel li {
     padding-top: 15px;
@@ -191,6 +193,7 @@
 	text-align:left;
 	opacity: 0.9;
 	color:#000;
+    font-size:16px;
 }
 
 .nbr-admin-suite .nbr-dialog-shift {
@@ -199,7 +202,7 @@
 }
 
 .nbr-admin-suite .nbr-right-dialog {
-	
+	display:none;
 	position: fixed;
 	top:24px;
 	right:0;
@@ -215,6 +218,10 @@
 	z-index:9999;
 }
 
+#nbr-admin-suite-configure .nbr-right-dialog {
+    width: 450px;
+}
+
 .nbr-admin-suite .nbr-right-dialog label, .nbr-admin-suite .nbr-right-dialog span,  .nbr-admin-suite .nbr-right-dialog h2{
 	color: #fff
 }
@@ -227,12 +234,16 @@
 .nbr-admin-suite .nbr-dialog label {
 	display:block;
 	color: #fff;
+    font-size:16px;
 }
 
 .nbr-admin-suite .nbr-dialog input, .nbr-admin-suite .nbr-dialog select {
 	width: 95%;
-	margin-left: 10px;
+    margin: 0 0 0 10px;
+	padding: 0;
 	color: #000;
+    font-family:'Montserrat';
+    font-size: 16px;
 }
 
 .nbr-admin-suite .nbr-dialog button {
@@ -274,4 +285,55 @@
 
 .nbr-admin-suite .page-with-children:hover {
     background-color: #1f6fb3;
+}
+
+
+.nbr-admin-suite .switch {
+    float:right;
+    position: relative; width: 40px; height:20px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.nbr-admin-suite .switch-checkbox {
+    display: none;
+}
+.nbr-admin-suite .switch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    height: 20px; padding: 0; line-height: 20px;
+    border: 2px solid #CCCCCC; border-radius: 20px;
+    background-color: #FFFFFF;
+    transition: background-color 0.3s ease-in;
+}
+.nbr-admin-suite .switch-label:before {
+    content: "";
+    display: block; width: 20px; margin: 0px;
+    background: #F5F5F5;
+    position: absolute; top: 0; bottom: 0;
+    right: 18px;
+    border: 2px solid #CCCCCC; border-radius: 20px;
+    transition: all 0.3s ease-in 0s; 
+}
+.nbr-admin-suite .switch-checkbox:checked + .switch-label {
+    background-color: #e8501c;
+}
+.nbr-admin-suite .switch-checkbox:checked + .switch-label, .nbr-admin-suite .switch-checkbox:checked + .switch-label:before {
+   border-color: #e8501c;
+}
+.nbr-admin-suite .switch-checkbox:checked + .switch-label:before {
+    right: 0px; 
+}
+
+.nbr-admin-suite .nbr-right-dialog ul li ul {
+    margin-left: 25px;
+    color:#fff;
+}
+
+.nbr-admin-suite p {
+    margin:0;
+    padding: 0;
+}
+
+.nbr-admin-suite .note{
+    font-style: italic;
+    font-size:11px;
+    color: #fff;
 }

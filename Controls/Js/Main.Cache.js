@@ -80,6 +80,7 @@ var nBraneAdminSuiteCacheViewModel = function () {
 	self.CloseDialog = function() {
 		$('.nbr-upper-control-panel li.selected').removeClass('selected');
 		$('.nbr-right-dialog').fadeOut(400);
+		$('#nbr-admin-suite-cache').remove();
 	};
 
 	self.ParentNode = function() {

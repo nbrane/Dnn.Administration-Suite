@@ -114,6 +114,14 @@ namespace nBrane.Modules.AdministrationSuite.Components.DTO
         public string TotalCacheSizeLimit { get; set; }
     }
 
+    public class ConfigurationResponse
+    {
+        public bool Success { get; set; }
+        public string Message { get; set; }
+
+        public bool DetermineVisibility { get; set; }
+    }
+
     public class SavePageResponse
     {
         public bool Redirect { get; set; }
