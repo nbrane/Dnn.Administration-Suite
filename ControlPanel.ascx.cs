@@ -51,8 +51,7 @@ namespace nBrane.Modules.AdministrationSuite
                     
 
 
-                    ClientResourceManager.RegisterScript(Page, "//" + PortalSettings.PortalAlias.HTTPAlias.Replace("http://", string.Empty).Replace("https://", string.Empty) + "/desktopmodules/nbrane/administrationsuite/api/controlpanel/loadjs?name=main", FileOrder.Js.DefaultPriority);
-                    
+                    ClientResourceManager.RegisterScript(Page, "~/desktopmodules/nbrane/administrationsuite/api/controlpanel/loadjs?name=main", FileOrder.Js.DefaultPriority);
                     ClientResourceManager.RegisterScript(Page, "//cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.66.0-2013.10.09/jquery.blockUI.min.js", FileOrder.Js.DefaultPriority);
                 }
             }
