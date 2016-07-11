@@ -15,7 +15,25 @@ var nBraneAdminSuiteUsersViewModel = function () {
 	self.LastLogin = ko.observable('');
 	self.Approved = ko.observable(true);
 	self.Locked = ko.observable(false);
-	
+
+	self.SearchText = ko.observable();
+	self.SearchTextDelayed = ko.pureComputed(self.SearchText).extend({ rateLimit: { method: "notifyWhenChangesStop", timeout: 400 } });
+
+	this.SearchTextDelayed.subscribe(function (newValue) {
+	    self.ParentNode().ToggleLoadingScreen(true);
+	    self.ParentNode().ServerCallback('Users', 'ListUsers', 'filter=' + self.SearchTextDelayed(), function (serverData) {
+	        if (serverData.Success) {
+	            self.Users(serverData.CustomObject);
+
+	            self.ParentNode().ToggleLoadingScreen(false);
+	        }
+	        else {
+	            self.ParentNode().ToggleConfirmScreen('Sorry, We ran into a problem.', 'Please try again');
+	        }
+	    });
+	});
+
+
 	self.filteredUsers = ko.computed(function() {
         if(self.DefaultAction() == 'login') {
             return self.Users(); 
