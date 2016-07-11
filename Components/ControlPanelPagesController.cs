@@ -103,46 +103,118 @@ namespace nBrane.Modules.AdministrationSuite.Components
                         dnnTab.ContainerSrc = page.Container != "-1" ? page.Container : string.Empty;
 
                     if (page.Id == -1) {
-                        dnnTab.PortalID = PortalSettings.PortalId;
-                        switch (page.PositionMode)
+
+                        var positionTabID = int.Parse(page.Position);
+                        var positionModeInt = int.Parse(page.PositionMode);
+
+                        var parentTab = tc.GetTab(positionTabID, PortalSettings.PortalId);
+
+                        if (page.PositionMode == ((int)DTO.PagePositionMode.ChildOf).ToString())
                         {
-                            case "1":
-                                page.Id = tc.AddTabAfter(dnnTab, int.Parse(page.Position));
-                                break;
-                            case "2":
-                                page.Id = tc.AddTabBefore(dnnTab, int.Parse(page.Position));
-                                break;
-                            default:
-                                page.Id = tc.AddTab(dnnTab);
-                                break;
+                            if (parentTab != null)
+                            {
+                                dnnTab.PortalID = parentTab.PortalID;
+                                dnnTab.ParentId = parentTab.TabID;
+                                dnnTab.Level = parentTab.Level + 1;
+                            }
+
+                            page.Id = tc.AddTab(dnnTab);
                         }
-                        
+                        else
+                        {
+                            dnnTab.PortalID = PortalSettings.PortalId;
+                            switch (positionModeInt)
+                            {
+                                case (int)DTO.PagePositionMode.After:
+                                    dnnTab.PortalID = parentTab.PortalID;
+                                    dnnTab.ParentId = parentTab.ParentId;
+                                    dnnTab.Level = parentTab.Level;
+                                    page.Id = tc.AddTabAfter(dnnTab, int.Parse(page.Position));
+                                    break;
+                                case (int)DTO.PagePositionMode.Before:
+                                    dnnTab.PortalID = parentTab.PortalID;
+                                    dnnTab.ParentId = parentTab.ParentId;
+                                    dnnTab.Level = parentTab.Level;
+                                    page.Id = tc.AddTabBefore(dnnTab, int.Parse(page.Position));
+                                    break;
+                                default:
+                                    page.Id = tc.AddTab(dnnTab);
+                                    break;
+                            }
+                        }
+
                         apiResponse.CustomObject.Redirect = true;
                         apiResponse.CustomObject.Url = DotNetNuke.Common.Globals.NavigateURL(page.Id);
                     }
                     else {
-                        tc.UpdateTab(dnnTab);
+                        if (page.PositionMode == ((int)DTO.PagePositionMode.ChildOf).ToString())
+                        {
+                            var positionTabID = int.Parse(page.Position);
+                            if (positionTabID == -1)
+                            {
+                                dnnTab.PortalID = PortalSettings.PortalId;
+                                dnnTab.ParentId = -1;
+                                dnnTab.Level = 0;
+                            }
+                            else
+                            {
+                                var parentTab = tc.GetTab(positionTabID, PortalSettings.PortalId);
+                                if (parentTab != null)
+                                {
+                                    dnnTab.PortalID = parentTab.PortalID;
+                                    dnnTab.ParentId = parentTab.TabID;
+                                    dnnTab.Level = parentTab.Level + 1;
+                                }
+                            }
+
+                            apiResponse.CustomObject.Redirect = true;
+                            apiResponse.CustomObject.Url = DotNetNuke.Common.Globals.NavigateURL(page.Id);
+                        }
+
                         if (!string.IsNullOrWhiteSpace(page.Position) && !string.IsNullOrWhiteSpace(page.PositionMode))
                         {
                             var positionTabID = int.Parse(page.Position);
                             var positionModeInt = int.Parse(page.PositionMode);
 
-                            var relativeTab = tc.GetTab(positionTabID, PortalSettings.PortalId);
+                            var parentTab = tc.GetTab(positionTabID, PortalSettings.PortalId);
 
-                            // var parentTab = GetParentTab(relativeTab, (PagePositionMode)positionModeInt);
-
-                            if (relativeTab != null)
+                            if (parentTab != null)
                             {
-                                switch (page.PositionMode)
+                                switch (positionModeInt)
                                 {
-                                    case "1":
-                                        tc.MoveTabAfter(dnnTab, relativeTab.TabID);
+                                    case (int)DTO.PagePositionMode.After:
+                                        dnnTab.PortalID = parentTab.PortalID;
+                                        dnnTab.ParentId = parentTab.ParentId;
+                                        dnnTab.Level = parentTab.Level;
+                                        tc.UpdateTab(dnnTab);
+                                        tc.MoveTabAfter(dnnTab, parentTab.TabID);
+
+                                        apiResponse.CustomObject.Redirect = true;
+                                        apiResponse.CustomObject.Url = DotNetNuke.Common.Globals.NavigateURL(page.Id);
                                         break;
-                                    case "2":
-                                        tc.MoveTabBefore(dnnTab, relativeTab.TabID);
+                                    case (int)DTO.PagePositionMode.Before:
+                                        dnnTab.PortalID = parentTab.PortalID;
+                                        dnnTab.ParentId = parentTab.ParentId;
+                                        dnnTab.Level = parentTab.Level;
+                                        tc.UpdateTab(dnnTab);
+                                        tc.MoveTabBefore(dnnTab, parentTab.TabID);
+
+                                        apiResponse.CustomObject.Redirect = true;
+                                        apiResponse.CustomObject.Url = DotNetNuke.Common.Globals.NavigateURL(page.Id);
+                                        break;
+                                    case (int)DTO.PagePositionMode.ChildOf:
+                                        tc.UpdateTab(dnnTab);
                                         break;
                                 }
                             }
+                            else
+                            {
+                                tc.UpdateTab(dnnTab);
+                            }
+                        }
+                        else
+                        {
+                            tc.UpdateTab(dnnTab);
                         }
                     }
 
