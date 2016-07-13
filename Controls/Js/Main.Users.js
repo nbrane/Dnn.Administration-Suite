@@ -17,7 +17,7 @@ var nBraneAdminSuiteUsersViewModel = function () {
 	self.Locked = ko.observable(false);
 
 	self.SearchText = ko.observable();
-	self.SearchTextDelayed = ko.pureComputed(self.SearchText).extend({ rateLimit: { method: "notifyWhenChangesStop", timeout: 400 } });
+	self.SearchTextDelayed = ko.computed(self.SearchText).extend({ rateLimit: { method: "notifyWhenChangesStop", timeout: 400 } });
 
 	this.SearchTextDelayed.subscribe(function (newValue) {
 	    self.ParentNode().ToggleLoadingScreen(true);
