@@ -83,6 +83,10 @@ var nBraneAdminSuiteCacheViewModel = function () {
 		$('#nbr-admin-suite-cache').remove();
 	};
 
+	self.Localization = function (keyName) {
+	    return self.ParentNode().Language()[keyName];
+	};
+
 	self.ParentNode = function() {
 		return ko.contextFor(nBraneAdminSuiteNode).$data;
 	};

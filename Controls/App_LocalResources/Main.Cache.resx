@@ -117,31 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Add" xml:space="preserve">
-    <value>Add User</value>
+  <data name="CacheClearHeader" xml:space="preserve">
+    <value>Clear Cache For...</value>
   </data>
-  <data name="DisplayName" xml:space="preserve">
-    <value>Display Name:</value>
+  <data name="CacheClearInstance" xml:space="preserve">
+    <value>All Sites</value>
   </data>
-  <data name="EmailAddress" xml:space="preserve">
-    <value>Email Address:</value>
+  <data name="CacheClearPage" xml:space="preserve">
+    <value>This Page</value>
+  </data>
+  <data name="CacheClearSite" xml:space="preserve">
+    <value>All Pages</value>
+  </data>
+  <data name="CacheItems" xml:space="preserve">
+    <value>Total Cache Items:</value>
+  </data>
+  <data name="CachePageVariations" xml:space="preserve">
+    <value>Page Variations:</value>
+  </data>
+  <data name="CacheSizeLimit" xml:space="preserve">
+    <value>Case Size Limit:</value>
   </data>
   <data name="Header" xml:space="preserve">
-    <value>Create a New User</value>
+    <value>Tools &amp; Cache Management</value>
   </data>
-  <data name="HeaderEdit" xml:space="preserve">
-    <value>Edit User</value>
+  <data name="HostToolsHeader" xml:space="preserve">
+    <value>Host Tools...</value>
   </data>
-  <data name="Password" xml:space="preserve">
-    <value>Password:</value>
+  <data name="InstallExt" xml:space="preserve">
+    <value>Install Extension</value>
   </data>
-  <data name="SearchPlaceholder" xml:space="preserve">
-    <value>Search Users</value>
-  </data>
-  <data name="Update" xml:space="preserve">
-    <value>Update User</value>
-  </data>
-  <data name="UserName" xml:space="preserve">
-    <value>User Name:</value>
+  <data name="RecycleApp" xml:space="preserve">
+    <value>Recycle App</value>
   </data>
 </root>

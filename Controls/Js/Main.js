@@ -200,6 +200,21 @@ ko.bindingHandlers.restext = {
     }
 };
 
+ko.bindingHandlers.resplaceholder = {
+    update: function (element, valueAccessor, allBindingsAccessor, viewModel, context) {
+        var binding = ko.utils.unwrapObservable(valueAccessor());
+
+        if (Object.prototype.toString.call(binding) === '[object String]') {
+            binding = { key: binding, collection: context.$root.Language()['Main'] };
+        }
+
+        var key = binding.key;
+        var item = binding.collection[key];
+
+        ko.applyBindingsToNode(element, { attr: { placeholder: item } });
+    }
+};
+
 var nBraneAdminSuiteNode = null;
 $(document).ready(function () {
     nBraneAdminSuiteNode = document.getElementById('nbr-admin-suite');

@@ -117,31 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Add" xml:space="preserve">
-    <value>Add User</value>
-  </data>
-  <data name="DisplayName" xml:space="preserve">
-    <value>Display Name:</value>
-  </data>
-  <data name="EmailAddress" xml:space="preserve">
-    <value>Email Address:</value>
-  </data>
   <data name="Header" xml:space="preserve">
-    <value>Create a New User</value>
+    <value>Configure</value>
   </data>
-  <data name="HeaderEdit" xml:space="preserve">
-    <value>Edit User</value>
+  <data name="SetVisibility" xml:space="preserve">
+    <value>Control Panel Decides Visibility:</value>
   </data>
-  <data name="Password" xml:space="preserve">
-    <value>Password:</value>
-  </data>
-  <data name="SearchPlaceholder" xml:space="preserve">
-    <value>Search Users</value>
+  <data name="SetVisibilityNote" xml:space="preserve">
+    <value>Note: This setting is for user impersonation. If reverting from users who normally cannot see the control panel is required. This should be turned on. However, there is a slightly performance penality having the control panel always detecting if it should be shown.</value>
   </data>
   <data name="Update" xml:space="preserve">
-    <value>Update User</value>
-  </data>
-  <data name="UserName" xml:space="preserve">
-    <value>User Name:</value>
+    <value>Update</value>
   </data>
 </root>

@@ -230,6 +230,11 @@
 	color: #fff
 }
 
+.nbr-admin-suite .nbr-right-dialog button span {
+    color: #000;
+    font-size:12px;
+}
+
 .nbr-admin-suite h2 {
 	font-weight: 600;
 	font-size: 20px;

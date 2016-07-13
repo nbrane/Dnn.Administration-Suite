@@ -1,31 +1,31 @@
 ﻿<div id="nbr-admin-suite-cache">
 	<div class="nbr-right-dialog">
 		<button style="float:right; padding:0; margin:5px;" data-bind="click: CloseDialog"><i style="padding:5px;" class="fa fa-close"/></button>
-		<h2>Cache Management</h2>
+        <h2 data-bind="restext: {key: 'Header', collection: Localization('Cache') }">Cache Management</h2>
 		<ul>
 			<li>
-				<label>Page Variations:</label>
+                <label data-bind="restext: {key: 'CachePageVariations', collection: Localization('Cache') }">Page Variations:</label>
 				<span data-bind="text: PageOuputCacheVariations"></span>
 			</li>
 			<li>
-				<label>Total Cache Items:</label>
+                <label data-bind="restext: {key: 'CacheItems', collection: Localization('Cache') }">Total Cache Items:</label>
 				<span data-bind="text: TotalCacheItems"></span>
 			</li>
 			<li class="single-line">
-				<label>Cache Size Limit:</label>
+                <label data-bind="restext: {key: 'CacheSizeLimit', collection: Localization('Cache') }">Cache Size Limit:</label>
 				<span data-bind="text: TotalCacheSizeLimit"></span>
 			</li>
 			<li>&nbsp;</li>
 			<li>
-				<label style="display:block;">Clear Cache For...</label>
-				<button data-bind="click: ClearOutputCacheThisPage"><i class="fa fa-file-text"/> This Page</button>
-				<button data-bind="click: ClearOutputCacheAllPages"><i class="fa fa-database"/> All Pages</button>
-				<button data-bind="click: ClearOutputCacheAllSites"><i class="fa fa-fort-awesome"/> All Sites</button>
+                <label style="display:block;" data-bind="restext: {key: 'CacheClearHeader', collection: Localization('Cache') }">Clear Cache For...</label>
+				<button data-bind="click: ClearOutputCacheThisPage"><i class="fa fa-file-text"/> <span data-bind="restext: {key: 'CacheClearPage', collection: Localization('Cache') }">This Page</span></button>
+				<button data-bind="click: ClearOutputCacheAllPages"><i class="fa fa-database"/> <span data-bind="restext: {key: 'CacheClearSite', collection: Localization('Cache') }">All Pages</span></button>
+				<button data-bind="click: ClearOutputCacheAllSites"><i class="fa fa-fort-awesome"/> <span data-bind="restext: {key: 'CacheClearInstance', collection: Localization('Cache') }">All Sites</span></button>
 			</li>
 			<li>
-				<label style="display:block;">Host Tools...</label>
-				<button data-bind="click: RecycleApp"><i class="fa fa-recycle"/> Recycle App</button>
-				<button data-bind="click: InstallExtension"><i class="fa fa-rocket"/> Install Extension</button>
+                <label style="display:block;" data-bind="restext: {key: 'HostToolsHeader', collection: Localization('Cache') }">Host Tools...</label>
+				<button data-bind="click: RecycleApp"><i class="fa fa-recycle"/> <span data-bind="restext: {key: 'RecycleApp', collection: Localization('Cache') }">Recycle App</span></button>
+				<button data-bind="click: InstallExtension"><i class="fa fa-rocket"/> <span data-bind="restext: {key: 'InstallExt', collection: Localization('Cache') }">Install Extension</span></button>
 			</li>
 		</ul>
 	</div>

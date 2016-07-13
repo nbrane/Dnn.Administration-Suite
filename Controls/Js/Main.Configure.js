@@ -47,6 +47,10 @@ var nBraneAdminSuiteConfigureViewModel = function () {
         $('#nbr-admin-suite-configure').remove();
     };
 
+    self.Localization = function (keyName) {
+        return self.ParentNode().Language()[keyName];
+    };
+
     self.ParentNode = function () {
         return ko.contextFor(nBraneAdminSuiteNode).$data;
     };

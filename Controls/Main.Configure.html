@@ -1,16 +1,16 @@
 ﻿<div id="nbr-admin-suite-configure">
     <div class="nbr-right-dialog">
         <button style="float:right; padding:0; margin:5px;" data-bind="click: CloseDialog"><i style="padding:5px;" class="fa fa-close" /></button>
-        <h2>Configuration</h2>
+        <h2 data-bind="restext: {key: 'Header', collection: Localization('Configure') }"></h2>
         <p>&nbsp;</p>
         <ul>
             <li>
-                <label>Control Panel Decides Visibility:</label>
+                <label data-bind="restext: {key: 'SetVisibility', collection: Localization('Configure') }">CP Decides Visibility:</label>
                 <div class="switch">
                     <input type="checkbox" class="switch-checkbox" id="VisibilitySwitch" data-bind="checked: DetermineVisibility">
                     <label class="switch-label" for="VisibilitySwitch"></label>
                 </div>
-                <p class="note" data-bind="visible: DetermineVisibility">Note: This setting is for user impersonation. If reverting from users who normally cannot see the control is required. This needs to be turned on. However, there is a slightly performance penality having the control panel always detecting if it should be shown.</p>
+                <p class="note" data-bind="visible: DetermineVisibility, restext: {key: 'SetVisibilityNote', collection: Localization('Configure') }"></p>
                 <p>&nbsp;</p>
             </li>
             <li style="display:none;">
@@ -36,7 +36,7 @@
                 </ul>
             </li>
             <li data-bind="visible: DetermineVisibility() != InitialDetermineVisibility()">
-                <button data-bind="click: UpdateConfiguration"><i class="fa fa-save" /> Update</button>
+                <button data-bind="click: UpdateConfiguration"><i class="fa fa-save" /> <span data-bind="restext: {key: 'Update', collection: Localization('Configure') }">Update</span></button>
             </li>
         </ul>
     </div>
