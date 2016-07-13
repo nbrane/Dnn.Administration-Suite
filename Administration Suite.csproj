@@ -93,11 +93,6 @@
     <Compile Include="ControlPanel.ascx.designer.cs">
       <DependentUpon>ControlPanel.ascx.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\App_LocalResources\Main.Modules.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Main.Modules.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
