@@ -54,9 +54,9 @@
 				<select data-bind="options:Containers, optionsText: 'Name', optionsValue: 'Value', value: ModuleContainer"></select>
 			</li>
 		</ul>
-		<button data-bind="click: AddModule, visible: SelectedModule() != null"><i class="fa fa-plus"/> Add Module</button>
-		<button data-bind="click: CopyModule, visible: SelectedModule() == null"><i class="fa fa-copy"/> Copy Module</button>
-		<button data-bind="click: ShareModule, visible: SelectedModule() == null"><i class="fa fa-share"/> Share Module</button>
+		<button data-bind="click: AddModule, visible: SelectedModule() != null"><i class="fa fa-plus"/> <span data-bind="restext: {key: 'AddModule', collection: Localization('Modules') }">Add Module</span></button>
+		<button data-bind="click: CopyModule, visible: SelectedModule() == null"><i class="fa fa-copy"/> <span data-bind="restext: {key: 'CopyModule', collection: Localization('Modules') }">Copy Module</span></button>
+		<button data-bind="click: ShareModule, visible: SelectedModule() == null"><i class="fa fa-share"/> <span data-bind="restext: {key: 'ShareModule', collection: Localization('Modules') }">Share Module</span></button>
 		<button style="float:right;" data-bind="click: CloseDialog"><i class="fa fa-close"/> <span>Cancel</span></button>
 	</div>
 </div>
