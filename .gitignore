@@ -35,6 +35,11 @@
 .builds
 *.dotCover
 *.ldf
+*.dll
+[Pp]ackages
+[Bb]in
+.vs
+install
 
 # git merge artifacts
 *.orig
