@@ -93,21 +93,6 @@
     <Compile Include="ControlPanel.ascx.designer.cs">
       <DependentUpon>ControlPanel.ascx.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\App_LocalResources\Main.Cache.Designer.cs">
-      <DependentUpon>Main.Cache.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Controls\App_LocalResources\Main.Configure.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Main.Configure.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\App_LocalResources\Main.Users.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Main.Users.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -143,30 +128,30 @@
     <Content Include="Controls\Main.Pages.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Controls\App_LocalResources\Main.Cache.resx">
+    <None Include="Controls\App_LocalResources\Main.Cache.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Main.Cache.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\App_LocalResources\Main.Modules.resx">
+    </None>
+    <None Include="Controls\App_LocalResources\Main.Modules.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Main.Modules.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\App_LocalResources\Main.Configure.resx">
+    </None>
+    <None Include="Controls\App_LocalResources\Main.Configure.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Main.Configure.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\App_LocalResources\Main.Pages.resx">
+    </None>
+    <None Include="Controls\App_LocalResources\Main.Pages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Main.Pages.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\App_LocalResources\Main.resx">
+    </None>
+    <None Include="Controls\App_LocalResources\Main.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Main.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\App_LocalResources\Main.Users.resx">
+    </None>
+    <None Include="Controls\App_LocalResources\Main.Users.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Main.Users.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
