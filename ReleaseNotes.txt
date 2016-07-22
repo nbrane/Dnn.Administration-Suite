@@ -7,7 +7,7 @@
 	<h3>Changelog:</h3>
 
 	<ul>
-		<li>v0.1.3 - tbd: downgraded to .net40 from .net45 for full dnn7.4.0 support, fix page reordering issues, fix issue with composite files, added French (France) translation by Gilles Le Pigocher, added user search feature.</li>
+		<li>v0.1.3 - 7/22/2016: downgraded to .net40 from .net45 for full dnn7.4.0 support, fix page reordering issues, fix issue with composite files, added French (France) translation by Gilles Le Pigocher, added user search feature, remove actions restricted for site administrators and host users.</li>
 		<li>v0.1.2 - 7/08/2016: Eighth Prototype. added revert from impersonated user action. added go back action when navigating to child pages. added configuration panel. added new admin/host icons contributed www.moorecreative.com. added core localization calls to default admin/host pages. general bug fixes and usability improvements.</li>
 		<li>v0.1.1 - 6/30/2016: Seventh Prototype. added German (Germany), German (Switzerland), Dutch (Netherlands) and Spanish (Spain) translations. Thanks to @divertogmbh, Ernst Peter Tamminga, and Francisco Perez Andres.</li>
 		<li>v0.1.0 - 6/29/2016: Sixth Prototype. added basic localization support which was presented at dnn-connect 2016, added link to current page settings, added page-secure flag (ssl), allow modules/pages/users lists to scroll when very long</li>
