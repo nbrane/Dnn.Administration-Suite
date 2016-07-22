@@ -32,12 +32,6 @@ namespace nBrane.Modules.AdministrationSuite.Components
         [AllowAnonymous]
         public HttpResponseMessage LoadJS(string Name)
         {
-            if (Name.ToLower() == "main" && UserInfo.UserID == -1 && Common.IsUserImpersonated() == false)
-            {
-                //cancel out the request if the user isn't impersonated. 
-                return Request.CreateResponse(HttpStatusCode.OK, false);
-            }
-            //1=control, 2=javascript. 
             var controlName = string.Empty;
 
             switch (Name.ToLower())
