@@ -16,7 +16,7 @@
 	padding: 0 4px 0 4px;
 }
 
-.nbr-admin-suite .nbr-upper-control-panel li, .nbr-admin-suite ul.actions li {
+.nbr-admin-suite ul.actions li {
 	display: inline;
 }
 
@@ -286,7 +286,7 @@
 	width:auto;
 }
 
-.nbr-upper-control-panel li {width: 20px; height: 25px; overflow: hidden;display:inline-block !important;white-space: nowrap;font-family:'Montserrat';}
+.nbr-upper-control-panel li {width: 20px; height: 25px; overflow: hidden;display:inline-block;white-space: nowrap;font-family:'Montserrat';}
 .nbr-upper-control-panel li i {font-size:20px;}
 
 .nbr-admin-suite .page-with-children {

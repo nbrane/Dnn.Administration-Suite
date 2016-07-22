@@ -20,13 +20,13 @@
                 <label style="display:block;" data-bind="restext: {key: 'CacheClearHeader', collection: Localization('Cache') }">Clear Cache For...</label>
 				<button data-bind="click: ClearOutputCacheThisPage"><i class="fa fa-file-text"/> <span data-bind="restext: {key: 'CacheClearPage', collection: Localization('Cache') }">This Page</span></button>
 				<button data-bind="click: ClearOutputCacheAllPages"><i class="fa fa-database"/> <span data-bind="restext: {key: 'CacheClearSite', collection: Localization('Cache') }">All Pages</span></button>
-				<button data-bind="click: ClearOutputCacheAllSites"><i class="fa fa-fort-awesome"/> <span data-bind="restext: {key: 'CacheClearInstance', collection: Localization('Cache') }">All Sites</span></button>
+				<button data-bind="visible: controlPanelSecurity.Host, click: ClearOutputCacheAllSites"><i class="fa fa-fort-awesome"/> <span data-bind="restext: {key: 'CacheClearInstance', collection: Localization('Cache') }">All Sites</span></button>
 			</li>
-			<li>
+            <li data-bind="visible: controlPanelSecurity.Host">
                 <label style="display:block;" data-bind="restext: {key: 'HostToolsHeader', collection: Localization('Cache') }">Host Tools...</label>
-				<button data-bind="click: RecycleApp"><i class="fa fa-recycle"/> <span data-bind="restext: {key: 'RecycleApp', collection: Localization('Cache') }">Recycle App</span></button>
-				<button data-bind="click: InstallExtension"><i class="fa fa-rocket"/> <span data-bind="restext: {key: 'InstallExt', collection: Localization('Cache') }">Install Extension</span></button>
-			</li>
+                <button data-bind="click: RecycleApp"><i class="fa fa-recycle" /> <span data-bind="restext: {key: 'RecycleApp', collection: Localization('Cache') }">Recycle App</span></button>
+                <button data-bind="click: InstallExtension"><i class="fa fa-rocket" /> <span data-bind="restext: {key: 'InstallExt', collection: Localization('Cache') }">Install Extension</span></button>
+            </li>
 		</ul>
 	</div>
 </div>
