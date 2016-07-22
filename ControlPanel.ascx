@@ -24,6 +24,7 @@
 	   var controlPanelPortalId = <%= PortalSettings.Current.PortalId %>;
 	   var controlPanelTabId = <%= PortalSettings.Current.ActiveTab.TabID %>;
 	   var controlPanelPanes = <%= PortalSettings.Current.ActiveTab.Panes.ToJson() %>;
+	   var controlPanelSecurity = {'Host': <%= PortalSettings.UserInfo.IsSuperUser.ToString().ToLower() %>, 'Admin': <%= PortalSettings.UserInfo.IsInRole(PortalSettings.AdministratorRoleName).ToString().ToLower() %> };
 	</script>
 
 <% if (IsPageAdmin() || IsModuleAdmin()) { %>
@@ -31,9 +32,9 @@
         <li data-action="Modules"><i class="fa fa-image"></i> <span data-bind="restext: 'Modules'"></span></li>
         <li data-action="Pages" data-subaction="all"><i class="fa fa-copy"></i> <span data-bind="restext: 'Pages'"></span></li>
         <li data-action="Pages" data-subaction="settings"><i class="fa fa-file-o"></i> <span data-bind="restext: 'PageSettings'"></span></li>
-        <li data-action="Users"><i class="fa fa-users"></i><span data-bind="restext: 'Users'"></span></li>
-        <li data-action="Pages" data-subaction="admin"><i class="fa fa-cog"></i><span data-bind="restext: 'Site'"></span></li>
-        <li data-action="Pages" data-subaction="host"><i class="fa fa-fort-awesome"></i><span data-bind="restext: 'Host'"></span></li>
+        <li data-bind="visible: controlPanelSecurity.Admin" data-action="Users"><i class="fa fa-users"></i><span data-bind="restext: 'Users'"></span></li>
+        <li data-bind="visible: controlPanelSecurity.Admin" data-action="Pages" data-subaction="admin"><i class="fa fa-cog"></i><span data-bind="    restext: 'Site'"></span></li>
+        <li data-bind="visible: controlPanelSecurity.Host" data-action="Pages" data-subaction="host"><i class="fa fa-fort-awesome"></i><span data-bind="    restext: 'Host'"></span></li>
     </ul>
 <% } %>
 
