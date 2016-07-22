@@ -1,11 +1,8 @@
-﻿using DotNetNuke.Common.Utilities;
-using Microsoft.ApplicationBlocks.Data;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using DotNetNuke.Common.Utilities;
+using DotNetNuke.Data;
 
 namespace nBrane.Modules.AdministrationSuite.Components
 {
@@ -13,12 +10,12 @@ namespace nBrane.Modules.AdministrationSuite.Components
     {
         private static IDataReader SearchForUsersDataReader(int portalId, string filterTerm, int pageNumber, int pageSize)
         {
-            return SqlHelper.ExecuteReader(Config.GetConnectionString(), "nBrane_AdminSuite_SearchForUsers", portalId, filterTerm, pageNumber, pageSize);
+            return DataProvider.Instance().ExecuteReader("nBrane_AdminSuite_SearchForUsers", portalId, filterTerm, pageNumber, pageSize);
         }
 
         private static IDataReader GetExtensionUsageDataReader(int portalId)
         {
-            return SqlHelper.ExecuteReader(Config.GetConnectionString(), "nBrane_AdminSuite_GetExtensionUsage", portalId);
+            return DataProvider.Instance().ExecuteReader("nBrane_AdminSuite_GetExtensionUsage", portalId);
         }
 
         public static List<SearchUserInfo> SearchForUsers(int portalId, string filterTerm, int pageNumber, int pageSize)
