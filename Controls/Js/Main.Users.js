@@ -61,7 +61,7 @@ var nBraneAdminSuiteUsersViewModel = function () {
 
 	self.ShowUserDetailsDialog = function(user){
 		self.SelectedUser(user);
-		
+		self.ParentNode().ToggleLoadingScreen(true);
 		var userObject = {};
 		userObject.Id = self.SelectedUser().Value;
 		
@@ -77,6 +77,7 @@ var nBraneAdminSuiteUsersViewModel = function () {
 					self.Approved(serverData.CustomObject.Authorized);
 					self.Locked(serverData.CustomObject.Locked);
 					self.LastLogin(serverData.CustomObject.LastLogin);
+					self.ParentNode().ToggleLoadingScreen(false);
 					$('.nbr-dialog').fadeIn();
 				}
 				else{
