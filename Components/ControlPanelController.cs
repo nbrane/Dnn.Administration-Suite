@@ -77,7 +77,7 @@ namespace nBrane.Modules.AdministrationSuite.Components
                     }
                     
                     var response = new HttpResponseMessage(HttpStatusCode.OK);
-                    response.Content = new StringContent(fileContents, System.Text.Encoding.UTF8, "text/plain");
+                    response.Content = new StringContent(fileContents, System.Text.Encoding.UTF8, "application/javascript");
 
                     return response;
                 }
