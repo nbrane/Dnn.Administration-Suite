@@ -264,6 +264,10 @@
 	margin-top:20px;
 }
 
+.nbr-admin-suite .nbr-dialog p button {
+	margin-top:5px;
+}
+
 .nbr-admin-suite .nbr-dialog h2 {
 	font-size: 30px;
 	font-family:'Montserrat';

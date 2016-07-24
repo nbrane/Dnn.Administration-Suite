@@ -39,7 +39,14 @@
 				<input data-bind="value: Password" />
 			</li>
 		</ul>
-		<button data-bind="click: AddUser"><i class="fa fa-save"/> <span data-bind="visible: SelectedUser() === null, restext: {key: 'Add', collection: Localization('Users') }">Add User</span><span data-bind="visible: SelectedUser() !== null, restext: {key: 'Update', collection: Localization('Users') }">Update User</span></button> <button data-bind="click: CloseDialog"><i class="fa fa-close"/> <span data-bind="restext: {key: 'Cancel', collection: Localization('Main') }">Cancel</span></button>
+		<button data-bind="click: AddUser"><i class="fa fa-save"/> <span data-bind="visible: SelectedUser() === null, restext: {key: 'Add', collection: Localization('Users') }">Add User</span><span data-bind="visible: SelectedUser() !== null, restext: {key: 'Update', collection: Localization('Users') }">Update User</span></button> <button style="float:right;" data-bind="click: CloseDialog"><i class="fa fa-close" /> <span data-bind="restext: {key: 'Cancel', collection: Localization('Main') }">Cancel</span></button>
+        <p data-bind="visible: SelectedUser() !== null">
+            <label>Additional Actions:</label>
+            <button data-bind="click: ViewUser"><i class="fa fa-search" /> <span>View</span></button>
+            <button data-bind="click: ManageUser"><i class="fa fa-cog" /> <span>Manage</span></button>
+            <button data-bind="click: UnlockUser, visible: Locked"><i class="fa fa-unlock-alt" /> <span>Unlock</span></button>
+            <button data-bind="click: SendPasswordReset"><i class="fa fa-envelope" /> <span>Send Password Reset Link</span></button>
+        </p>
 	</div>
 </div>
 

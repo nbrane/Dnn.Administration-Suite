@@ -197,7 +197,143 @@ namespace nBrane.Modules.AdministrationSuite.Components
 
             return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
         }
-        
+
+        [HttpPost]
+        [DnnPageEditor]
+        public HttpResponseMessage ViewUser(DTO.UserDetails user)
+        {
+            var apiResponse = new DTO.ApiResponse<string>();
+            try
+            {
+                var userController = new DotNetNuke.Entities.Users.UserController();
+
+                var dnnUser = DotNetNuke.Entities.Users.UserController.GetUserById(PortalSettings.PortalId, user.Id);
+                if (dnnUser != null)
+                {
+                    apiResponse.CustomObject = DotNetNuke.Common.Globals.UserProfileURL(dnnUser.UserID);
+                    apiResponse.Success = true;
+                }
+
+            }
+            catch (Exception err)
+            {
+                apiResponse.Success = false;
+                apiResponse.Message = err.Message;
+
+                Exceptions.LogException(err);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
+        }
+
+        [HttpPost]
+        [DnnPageEditor]
+        public HttpResponseMessage ManageUser(DTO.UserDetails user)
+        {
+            var apiResponse = new DTO.ApiResponse<string>();
+            try
+            {
+                var userController = new DotNetNuke.Entities.Users.UserController();
+
+                var dnnUser = DotNetNuke.Entities.Users.UserController.GetUserById(PortalSettings.PortalId, user.Id);
+                if (dnnUser != null)
+                {
+                    var objModules = new DotNetNuke.Entities.Modules.ModuleController();
+                    var objModule = objModules.GetModuleByDefinition(PortalSettings.PortalId, "User Accounts");
+                    if (objModule != null)
+                    {
+                        apiResponse.CustomObject = DotNetNuke.Common.Globals.NavigateURL(objModule.TabID, false, PortalSettings, "Edit", new string[] { "UserId=" + dnnUser.UserID.ToString(), "mid=" + objModule.ModuleID.ToString() });
+                        apiResponse.Success = true;
+                    }
+                }
+
+            }
+            catch (Exception err)
+            {
+                apiResponse.Success = false;
+                apiResponse.Message = err.Message;
+
+                Exceptions.LogException(err);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
+        }
+
+        [HttpPost]
+        [DnnPageEditor]
+        public HttpResponseMessage UnlockUser(DTO.UserDetails user)
+        {
+            var apiResponse = new DTO.ApiResponse<bool>();
+            try
+            {
+                var userController = new DotNetNuke.Entities.Users.UserController();
+
+                var dnnUser = DotNetNuke.Entities.Users.UserController.GetUserById(PortalSettings.PortalId, user.Id);
+                if (dnnUser != null)
+                {
+                    DotNetNuke.Entities.Users.UserController.UnLockUser(dnnUser);
+                    DotNetNuke.Common.Utilities.DataCache.RemoveCache("MembershipUser_" + dnnUser.Username);
+                    DotNetNuke.Common.Utilities.DataCache.ClearUserCache(PortalSettings.PortalId, dnnUser.Username);
+
+                    apiResponse.Success = true;
+                }
+
+            }
+            catch (Exception err)
+            {
+                apiResponse.Success = false;
+                apiResponse.Message = err.Message;
+
+                Exceptions.LogException(err);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
+        }
+
+        [HttpPost]
+        [DnnPageEditor]
+        public HttpResponseMessage SendPasswordReset(DTO.UserDetails user)
+        {
+            var apiResponse = new DTO.ApiResponse<bool>();
+            try
+            {
+                var userController = new DotNetNuke.Entities.Users.UserController();
+
+                var dnnUser = DotNetNuke.Entities.Users.UserController.GetUserById(PortalSettings.PortalId, user.Id);
+                if (dnnUser != null)
+                {
+                    DotNetNuke.Entities.Users.UserController.ResetPasswordToken(dnnUser, DotNetNuke.Entities.Host.Host.AdminMembershipResetLinkValidity);
+
+                    bool canSend = DotNetNuke.Services.Mail.Mail.SendMail(dnnUser, DotNetNuke.Services.Mail.MessageType.PasswordReminder, PortalSettings) == string.Empty;
+                    var message = String.Empty;
+
+                    if (canSend)
+                    {
+                        apiResponse.Success = true;
+
+                       // message = Localization.GetString("PasswordSent", LocalResourceFile);
+                       // LogSuccess();
+                    }
+                    else
+                    {
+                        apiResponse.Success = false;
+                        //message = Localization.GetString("OptionUnavailable", LocalResourceFile);
+                        //moduleMessageType = ModuleMessage.ModuleMessageType.RedError;
+                        //LogFailure(message);
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                apiResponse.Success = false;
+                apiResponse.Message = err.Message;
+
+                Exceptions.LogException(err);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, apiResponse);
+        }
+
         [HttpGet]
         [DnnPageEditor]
         public HttpResponseMessage LoadUserDetails(int Id)

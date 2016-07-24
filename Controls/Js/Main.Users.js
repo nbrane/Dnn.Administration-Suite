@@ -148,6 +148,45 @@ var nBraneAdminSuiteUsersViewModel = function () {
 			
 		}
 	};
+
+	self.ViewUser = function () {
+	    self.RedirectRequest("ViewUser");
+	};
+
+	self.ManageUser = function () {
+	    self.RedirectRequest("ManageUser");
+	};
+
+	self.UnlockUser = function () {
+	    self.RedirectRequest("UnlockUser");
+	};
+
+	self.SendPasswordReset = function () {
+	    self.RedirectRequest("SendPasswordReset");
+	};
+
+	self.RedirectRequest = function (mode) {
+	    self.ParentNode().ToggleLoadingScreen(true);
+	    self.CloseSubMenu();
+
+	    var userObject = {};
+	    userObject.Id = self.Id();
+
+	    self.ParentNode().ServerCallback('Users', mode, JSON.stringify(userObject), function (serverData) {
+	        if (serverData.Success) {
+	            if (serverData.CustomObject) {
+	                location.href = serverData.CustomObject;
+	            }
+	            else {
+	                location.reload();
+	            }
+	        }
+	        else {
+	            self.ParentNode().ToggleConfirmScreen('Sorry, We ran into a problem.', 'Please try again');
+	        }
+	    }, null, null, 'POST');
+	};
+
 	
 	self.SetDefaultAction = function(data, event){
 		var listItem = event.target;
