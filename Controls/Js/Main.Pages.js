@@ -162,6 +162,9 @@ var nBraneAdminSuitePagesViewModel = function () {
 				self.ThemeList(serverData.CustomObject.Themes);
 				self.ContainerList(serverData.CustomObject.Containers);
 
+				self.PagePosition(1);
+				self.PagePositionTarget(controlPanelTabId);
+
 				self.ParentNode().ToggleLoadingScreen(false);
 				$('.nbr-dialog').fadeIn();
 				self.FocusOn(true);
